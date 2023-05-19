@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <Head>
-        <title>Color Energy React App</title>
+        <title>すかいらーくの予約|予約確認ページ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Layout>

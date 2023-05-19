@@ -20,6 +20,7 @@ const TopPage = () => {
   const [selectedOption, setSelectedOption] = useState("選択してください");
   const [isCheckedBox, setCheckBox] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const startDate = new Date();
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const option = e.target.value;
@@ -70,8 +71,8 @@ const TopPage = () => {
                       onChange={handleTimeChange}
                     />
                   ) : (
-                    <p className="bg-white border border-[#8E8E8E] rounded md:max-w-[328px] md:w-full w-[175px] p-1.5">
-                      選択してください
+                    <p className="text-[15px] md:max-w-[350px] md:w-full w-[175px] text-right">
+                      日付を指定すると時間を 選択することができます
                     </p>
                   )}
                 </div>

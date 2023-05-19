@@ -1,9 +1,8 @@
+import "react-calendar/dist/Calendar.css";
+
 import React, { useState } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DateCalendar } from "@mui/x-date-pickers";
-import { Box } from "@mui/material";
-import { ja } from "date-fns/locale";
+import Calendar from "react-calendar";
+import { format } from "date-fns";
 
 type CalendarProps = {
   children?: any;
@@ -11,31 +10,29 @@ type CalendarProps = {
 };
 
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
-  const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const [selectDate, setSelectDate] = useState<Date | null>(new Date());
 
-  function dateChangeHandler(date: Date | null) {
+  const dateChangeHandler = (date: Date | null) => {
     setSelectDate(date);
     onChange(date);
-  }
+  };
+
+  const formatDay = (locale: any, selectDate: Date) => {
+    return format(selectDate, "d");
+  };
 
   return (
     <div className="mt-10">
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
-          <DateCalendar
-            sx={{
-              border: "1px solid red",
-              width: "w-1/2",
-            }}
-            onChange={dateChangeHandler}
-            monthsPerRow={4}
-          />
-        </Box>
-      </LocalizationProvider>
+      <Calendar
+        showDoubleView
+        onClickDay={dateChangeHandler}
+        locale="ja-JP"
+        formatDay={formatDay}
+        nextLabel="翌月＞"
+        prevLabel="＜先月"
+        next2Label={null}
+        prev2Label={null}
+      />
     </div>
   );
 };
