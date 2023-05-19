@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/_app.tsx",
+    "src/pages/index.tsx",
+    "src/components/UserInformation.tsx",
+    "src/components/ReservationForm.js",
+    "src/components/functional/OptionSelection.tsx",
+    "src/components/functional/SelectInput.js",
+    "src/pages/reservation/completed.js",
+    "src/pages/reservation/notes.js",
+    "src/components/functional/__tests__/CalendarDisplay.tsx",
+    "src/components/page/Footer.page.tsx"
+  ],
+  "exclude": ["node_modules"]
+}

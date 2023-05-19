@@ -1,0 +1,24 @@
+div.react-calendar--doubleView {
+  width: 100%;
+  border: none;
+}
+
+div.react-calendar .react-calendar__month-view {
+  border: 1px solid #c2c2c2;
+  margin: 0;
+  margin: 0 32px;
+}
+
+div.react-calendar .react-calendar__navigation__label__divider {
+  display: none;
+}
+
+div.react-calendar .react-calendar__navigation button {
+  display: flex;
+  justify-content: space-around;
+}
+
+div.react-calendar .react-calendar__tile {
+  height: 60px;
+  padding: 0;
+}
