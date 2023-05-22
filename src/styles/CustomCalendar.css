@@ -56,6 +56,20 @@ button.react-calendar__navigation__prev-button {
   color: #949494;
 }
 
+button.react-calendar__month-view__days__day--neighboringMonth abbr {
+  display: none;
+}
+
+button.react-calendar__tile--active {
+  background: #04512a;
+  color: #fff;
+}
+
+button.react-calendar__tile--active:enabled:hover,
+button.react-calendar__tile--active:enabled:focus {
+  background: #04512a;
+}
+
 @media only screen and (max-width: 768px) {
   div.react-calendar {
     width: 100%;

@@ -2,7 +2,6 @@ import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format } from "date-fns";
-import { isValue } from "react-calendar/dist/cjs/shared/propTypes";
 
 type CalendarProps = {
   children?: any;
@@ -57,6 +56,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         showDoubleView={!isMobile}
         onClickDay={dateChangeHandler}
         locale="ja-JP"
+        showFixedNumberOfWeeks={false}
         formatDay={formatDay}
         value={selectDate}
         nextLabel="翌月＞"

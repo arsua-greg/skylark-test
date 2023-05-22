@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Button from "../ui/Button";
 import Steps from "../ui/Steps";
+import Link from "next/dist/client/link";
 
 export default function ReservationForm() {
   function submitHandler(e: any) {
@@ -13,14 +14,14 @@ export default function ReservationForm() {
       <Steps />
       <form
         onSubmit={submitHandler}
-        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5"
+        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 pb-24"
       >
         <p className="font-bold text-lg">ご来店者情報</p>
         <div className="md:flex md:items-center md:mb-[3px] mt-5">
           <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] mb-3 md:mb-0">
             <label className="block leading-[19px] md:p-5" htmlFor="name">
               お名前
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 pl-[6px] ml-4">
+              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
                 必須
               </span>
             </label>
@@ -41,7 +42,7 @@ export default function ReservationForm() {
               htmlFor="phonenumber"
             >
               電話番号（半角数字）
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 pl-[6px] ml-4">
+              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
                 必須
               </span>
             </label>
@@ -62,7 +63,7 @@ export default function ReservationForm() {
           <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] md:py-9 mb-3 md:mb-0">
             <label className="block md:p-5 leading-[19px]" htmlFor="email">
               メールアドレス（半角英数字）
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 pl-[6px] ml-4">
+              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
                 必須
               </span>
             </label>
@@ -115,7 +116,30 @@ export default function ReservationForm() {
             ※予約成立後のキャンセルはキャンセル料が発生する場合があるほか、ご利用を制限させていただく場合がございます。
           </p>
         </div>
-        <Button text="同意して次に進む" />
+        <div className="mt-16">
+          <p className="text-center md:mb-5 mb-9">
+            <Link
+              className="text-[#04512A] underline underline-offset-4"
+              href={"/privacy"}
+            >
+              利用規約
+            </Link>
+            、キャンセル規定及び
+            <br className="md:hidden" />
+            <Link
+              className="text-[#04512A] underline underline-offset-4"
+              href={"/"}
+            >
+              プライバシーポリシーに
+            </Link>
+          </p>
+          <Button text="同意して次に進む" />
+        </div>
+        <div className=" mt-14">
+          <p className="text-center md:text-base text-sm">
+            このページはSSL暗号モードで表示されています。
+          </p>
+        </div>
       </form>
     </Fragment>
   );
