@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Button from "../ui/Button";
+import Steps from "../ui/Steps";
 
 export default function ReservationForm() {
   function submitHandler(e: any) {
@@ -9,8 +10,13 @@ export default function ReservationForm() {
 
   return (
     <Fragment>
-      <form onSubmit={submitHandler}>
-        <div className="md:flex md:items-center md:mb-[3px]">
+      <Steps />
+      <form
+        onSubmit={submitHandler}
+        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5"
+      >
+        <p className="font-bold text-lg">ご来店者情報</p>
+        <div className="md:flex md:items-center md:mb-[3px] mt-5">
           <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] mb-3 md:mb-0">
             <label className="block leading-[19px] md:p-5" htmlFor="name">
               お名前
@@ -95,6 +101,20 @@ export default function ReservationForm() {
           <br className="md:hidden" />
           また、内容によってはご要望に添えない場合がございます。
         </p>
+        <div className="mt-6 md:mt-12">
+          <p className="mt-5 font-bold text-lg">注意事項</p>
+          <p className="md:text-sm text-[13px] mt-3">
+            ※ご登録いただいた情報（お名前・電話番号を含む）は、予約申し込みのために店舗に送られます。店舗が保有する個人情報の取り扱いについては、各店舗に直接お問い合わせください。
+          </p>
+        </div>
+        <div className="mt-6">
+          <p className="text-lg font-bold">キャンセル規定</p>
+          <p className="md:text-sm text-[13px] mt-3">
+            ※予約時間を15分過ぎてもお集まりいただけない場合キャンセル扱いとさせていただきます。
+            <br />
+            ※予約成立後のキャンセルはキャンセル料が発生する場合があるほか、ご利用を制限させていただく場合がございます。
+          </p>
+        </div>
         <Button text="同意して次に進む" />
       </form>
     </Fragment>

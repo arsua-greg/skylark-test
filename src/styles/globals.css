@@ -26,3 +26,7 @@ body {
     margin: 0;
   }
 }
+
+abbr:where([title]) {
+  text-decoration: none;
+}
