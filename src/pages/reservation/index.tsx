@@ -1,4 +1,4 @@
-import ReservationForm from "@/components/page/ReservationForm";
+import ReservationForm from "@/components/page/Reservation/ReservationForm";
 import { Fragment } from "react";
 
 const ReservationPage = () => {

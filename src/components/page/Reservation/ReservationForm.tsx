@@ -1,7 +1,8 @@
 import { Fragment } from "react";
-import Button from "../ui/Button";
-import Steps from "../ui/Steps";
+import Button from "../../ui/Button";
+import Steps from "../../ui/Steps";
 import Link from "next/dist/client/link";
+import ReservationDetails from "./ReservationDetails";
 
 export default function ReservationForm() {
   function submitHandler(e: any) {
@@ -16,7 +17,8 @@ export default function ReservationForm() {
         onSubmit={submitHandler}
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 pb-24"
       >
-        <p className="font-bold text-lg">ご来店者情報</p>
+        <ReservationDetails />
+        <p className="font-bold text-lg mt-6">ご来店者情報</p>
         <div className="md:flex md:items-center md:mb-[3px] mt-5">
           <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] mb-3 md:mb-0">
             <label className="block leading-[19px] md:p-5" htmlFor="name">

@@ -2,7 +2,7 @@ import React from "react";
 
 function PrivacyPolicyPage() {
   return (
-    <div className="mx-auto max-w-[1120px] px-5">
+    <div className="mx-auto max-w-[1120px] px-5 mt-16 pb-72">
       <h1 className="text-3xl font-bold text-center">サイト利用規約</h1>
       <p className="md:text-base text-[13px] mt-5">
         このサイトは、株式会社すかいらーくホールディングス（以下「当社」と総称します）または、その代行者が運営しております。このサイトをご利用される前に、以下のご利用規約をお読みいただき、これらに同意された場合のみご利用くださいますよう、お願いいたします。尚、このサイトのご利用規約を変更することがございます。その際にはこの文書を改訂して掲載いたしますので、最新の内容をご確認いただき、ご利用くださいますよう、お願いいたします。
