@@ -1,9 +1,10 @@
 import Link from "next/dist/client/link";
 import Image from "next/image";
+import styles from "../../../styles/ReservationForm.module.css";
 
 const ReservationDetails = () => {
   return (
-    <div className="md:flex border-b-2 gap-14 pb-14">
+    <div className="md:flex border-b-2 gap-14 pb-12">
       <div className="md:w-1/2 w-full flex justify-between">
         <div className="w-1/2">
           <p className="font-bold">ご予約内容</p>
@@ -38,13 +39,14 @@ const ReservationDetails = () => {
         </div>
         <div className="md:flex w-full gap-6">
           <div className="md:w-1/2 flex">
-            <Image
-              src="/assets/product_image.png"
-              width={64}
-              height={71}
-              alt=""
-              className=" mr-6"
-            />
+            <div className={`${styles.img} mr-6`}>
+              <Image
+                src="/assets/product_image.png"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                alt=""
+              />
+            </div>
             <p className="font-bold text-base">
               【記念日のお祝いに】 アニバーサリーケーキ ＋330円(税込)
             </p>
