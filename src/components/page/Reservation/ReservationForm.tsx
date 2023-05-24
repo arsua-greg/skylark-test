@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Button from "../../ui/Button";
 import Steps from "../../ui/Steps";
 import Link from "next/dist/client/link";
@@ -6,9 +6,38 @@ import ReservationDetails from "./ReservationDetails";
 import TextArea from "@/components/ui/input/TextArea";
 
 export default function ReservationForm() {
+  const [name, setName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [email, setEmail] = useState('')
+  
+  const [validateError, setValidateError] = useState({
+    name: false,
+    phoneNumber: false,
+    email: false
+  })
+
   const submitHandler = (e: any) => {
     e.preventDefault();
+
+    if (name.trim() === '' || phoneNumber.trim() === '' || email.trim() === '') {
+      setValidateError({
+        name: name.trim() === '',
+        phoneNumber:  phoneNumber.trim() === '',
+        email:  email.trim() === ''
+      })
+      return;
+    }
+
+    setValidateError({
+      name: false,
+      phoneNumber: false,
+      email: false
+    })
+    
+    // Form submission logic
+    console.log('Form submitted successfully!');
   };
+
 
   return (
     <Fragment>
@@ -18,6 +47,12 @@ export default function ReservationForm() {
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 pb-24"
       >
         <ReservationDetails />
+        <div className={`border py-3 mt-7 md:mt-10 bg-[#F71B1B1A] ${validateError.name || validateError.phoneNumber || validateError.email ? 'block' : "hidden" }`}>
+          <h5 className="text-center font-semibold text-[#F71B1BB2] mb-2">入力を完了させてください</h5>
+          <div className="flex justify-center">
+          <p className="text-left font-normal text-[13px]">次へ進むには下記の入力内容を確認し、<br className="sm:hidden"></br>修正してください。</p>
+          </div>
+        </div>
         <p className="font-bold text-lg mt-6">ご来店者情報</p>
         <div className="md:flex mt-5 mb-[3px]">
           <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
@@ -36,8 +71,10 @@ export default function ReservationForm() {
               placeholder="予約　太郎"
               minLength={3}
               maxLength={50}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-            <p className="text-[13px] text-[#F71B1B] leading-tight pt-1 hidden">
+            <p className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${validateError.name ? 'block' : 'hidden'} `}>
               ！ お名前を正しく入力してください
             </p>
           </div>
@@ -62,8 +99,10 @@ export default function ReservationForm() {
               placeholder="1234567890"
               minLength={8}
               maxLength={15}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <p className="text-[13px] text-[#F71B1B] leading-tight pt-1 hidden">
+            <p className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${validateError.phoneNumber ? 'block' : 'hidden'} `}>
               ！ お名前を正しく入力してください
             </p>
             <span className="text-[11px] block mt-1">
@@ -91,8 +130,10 @@ export default function ReservationForm() {
               placeholder="abc@xxx.co.jp"
               minLength={5}
               maxLength={150}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <p className="text-[13px] text-[#F71B1B] leading-tight pt- hidden">
+            <p className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${validateError.email ? 'block' : 'hidden'} `}>
               ！ お名前を正しく入力してください
             </p>
             <span className="text-[11px] text-[#F71B1B] block mt-2">
