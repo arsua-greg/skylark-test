@@ -1,6 +1,8 @@
+import Button from "./Button";
+
 const ConfirmEmailModal = () => {
   return (
-    <div>
+    <div className="bg-white">
       <label htmlFor="my-modal-3" className="btn">
         open modal
       </label>
@@ -14,13 +16,14 @@ const ConfirmEmailModal = () => {
             ✕
           </label>
           <h3 className="text-lg font-bold">
-            Congratulations random Internet user!
+            下記メールアドレスに認証メールを送信します。
           </h3>
           <p className="py-4">
             You've been selected for a chance to get one year of subscription to
             use Wikipedia for free!
           </p>
         </div>
+        <Button text="認証メールを送信する" />
       </div>
     </div>
   );

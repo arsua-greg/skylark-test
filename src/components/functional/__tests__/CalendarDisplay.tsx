@@ -1,7 +1,7 @@
 import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import { format } from "date-fns";
+import { format, isSunday } from "date-fns";
 
 type CalendarProps = {
   children?: any;
@@ -23,6 +23,14 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     };
   }, []);
 
+  //custom class for sunday on calendar
+  const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    if (view === "month" && isSunday(date)) {
+      return "sunday-tile";
+    }
+    return null;
+  };
+
   const dateChangeHandler = (date: Date | null) => {
     setSelectDate(date);
     onChange(date);
@@ -40,6 +48,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
           locale="ja-JP"
           formatDay={formatDay}
           value={selectDate}
+          tileClassName={tileClassName}
           nextLabel="翌月＞"
           prevLabel="＜先月"
           next2Label={null}
@@ -59,6 +68,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         showFixedNumberOfWeeks={false}
         formatDay={formatDay}
         value={selectDate}
+        tileClassName={tileClassName}
         nextLabel="翌月＞"
         prevLabel="＜先月"
         next2Label={null}

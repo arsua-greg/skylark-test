@@ -3,12 +3,12 @@ import Button from "../../ui/Button";
 import Steps from "../../ui/Steps";
 import Link from "next/dist/client/link";
 import ReservationDetails from "./ReservationDetails";
+import TextArea from "@/components/ui/input/TextArea";
 
 export default function ReservationForm() {
-  function submitHandler(e: any) {
+  const submitHandler = (e: any) => {
     e.preventDefault();
-    console.log("test");
-  }
+  };
 
   return (
     <Fragment>
@@ -19,28 +19,33 @@ export default function ReservationForm() {
       >
         <ReservationDetails />
         <p className="font-bold text-lg mt-6">ご来店者情報</p>
-        <div className="md:flex md:items-center md:mb-[3px] mt-5">
-          <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] mb-3 md:mb-0">
-            <label className="block leading-[19px] md:p-5" htmlFor="name">
+        <div className="md:flex mt-5 mb-[3px]">
+          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
+            <label className="block leading-[19px] md:px-5" htmlFor="name">
               お名前
               <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
                 必須
               </span>
             </label>
           </div>
-          <div className="md:w-8/12">
+          <div className="md:w-8/12 py-2">
             <input
               className="input input-md input-bordered bg-white border-[#757575] w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded"
               type="text"
               name="name"
               placeholder="予約　太郎"
+              minLength={3}
+              maxLength={50}
             />
+            <p className="text-[13px] text-[#F71B1B] leading-tight pt-1 hidden">
+              ！ お名前を正しく入力してください
+            </p>
           </div>
         </div>
-        <div className="md:flex md:items-center md:mb-[3px] md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] mb-3 md:mb-0">
+        <div className="md:flex md:mb-[3px] md:mt-0 mt-[23px]">
+          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
             <label
-              className="block md:p-5 md:pt-6 md:pb-[26px] leading-[19px] h-full"
+              className="block md:px-5 leading-[19px] w-full"
               htmlFor="phonenumber"
             >
               電話番号（半角数字）
@@ -49,35 +54,48 @@ export default function ReservationForm() {
               </span>
             </label>
           </div>
-          <div className="md:w-8/12">
+          <div className="md:w-8/12 py-2">
             <input
               className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
               type="tel"
               name="phone_number"
               placeholder="1234567890"
+              minLength={8}
+              maxLength={15}
             />
+            <p className="text-[13px] text-[#F71B1B] leading-tight pt-1 hidden">
+              ！ お名前を正しく入力してください
+            </p>
             <span className="text-[11px] block mt-1">
               ※お店から連絡を差し上げることもございますので、携帯電話・スマートフォンなど連絡の取りやすい番号を入力してください。
             </span>
           </div>
         </div>
-        <div className="md:flex md:items-center md:mb-[3px] md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] md:bg-[#EDEDED] md:py-9 mb-3 md:mb-0">
-            <label className="block md:p-5 leading-[19px]" htmlFor="email">
+        <div className="md:flex md:mt-0 mt-[23px]">
+          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center md:bg-[#EDEDED]">
+            <label
+              className="block md:px-5 leading-[19px] w-full"
+              htmlFor="email"
+            >
               メールアドレス（半角英数字）
               <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
                 必須
               </span>
             </label>
           </div>
-          <div className="md:w-8/12">
+          <div className="md:w-8/12 py-3">
             <input
               className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
               type="email"
               name="email"
               placeholder="abc@xxx.co.jp"
+              minLength={5}
+              maxLength={150}
             />
-            <span className="text-[11px] text-error block mt-2">
+            <p className="text-[13px] text-[#F71B1B] leading-tight pt- hidden">
+              ！ お名前を正しく入力してください
+            </p>
+            <span className="text-[11px] text-[#F71B1B] block mt-2">
               ※ご予約内容をお送りしますので、必ず連絡が取れるメールアドレスをご入力ください。
             </span>
             <span className="text-[11px] block">
@@ -92,12 +110,7 @@ export default function ReservationForm() {
               必須
             </span>
           </label>
-          <textarea
-            className="textarea rounded md:max-w-[711px] w-full max-h-[133px] h-full bg-white border border-[#757575]"
-            name="request"
-            id=""
-            rows={7}
-          ></textarea>
+          <TextArea rows={7} name="request" />
         </div>
         <p className="text-xs md:text-sm">
           ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。

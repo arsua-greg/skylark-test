@@ -4,7 +4,7 @@ import styles from "../../../styles/ReservationForm.module.css";
 
 const ReservationDetails = () => {
   return (
-    <div className="md:flex border-b-2 gap-14 pb-12">
+    <div className="md:flex border-b-2 gap-14 md:pb-12 pb-7">
       <div className="md:w-1/2 w-full flex justify-between">
         <div className="w-1/2">
           <p className="font-bold">ご予約内容</p>
