@@ -2,7 +2,28 @@ import Link from "next/dist/client/link";
 import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
 
-const ReservationDetails = () => {
+type ReservationDetailProps = {
+  selectedTime: string;
+  counterValue: string;
+  selectedDate: string;
+};
+
+const ReservationDetails: React.FC<ReservationDetailProps> = ({
+  selectedTime,
+  counterValue,
+  selectedDate,
+}) => {
+  const formattedDate = () => {
+    const dateObj = new Date(selectedDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][
+      dateObj.getDay()
+    ];
+    return `${year}年${month}月${day}日(${dayOfWeek})`;
+  };
+
   return (
     <div className="md:flex border-b-2 gap-14 md:pb-12 pb-7">
       <div className="md:w-1/2 w-full flex justify-between">
@@ -19,9 +40,9 @@ const ReservationDetails = () => {
           >
             変更する
           </Link>
-          <p className="text-base mt-4">2023年03月17日(金)</p>
-          <p className="text-base mt-1">11:00</p>
-          <p className="text-base mt-1">3名</p>
+          <p className="text-base mt-4">{formattedDate()}</p>
+          <p className="text-base mt-1">{selectedTime}</p>
+          <p className="text-base mt-1">{`${counterValue} 名`}</p>
         </div>
       </div>
       <div className="md:w-1/2 w-full flex justify-between flex-wrap md:mt-0 mt-9">

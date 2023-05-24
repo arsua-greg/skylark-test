@@ -1,7 +1,7 @@
 import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import { format, isSunday } from "date-fns";
+import { format, isSunday, isSaturday } from "date-fns";
 
 type CalendarProps = {
   children?: any;
@@ -27,6 +27,9 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
+    }
+    if (view === "month" && isSaturday(date)) {
+      return "saturday-tile";
     }
     return null;
   };

@@ -1,6 +1,8 @@
 import { Fragment, useState, useEffect } from "react";
-import AdvancedOptions from "./AdvancedOptions";
 import ProductItem from "./ProductItem";
+import NekeroboModal from "../../ui/NekeroboModal";
+import SelectInput from "../../ui/input/SelectInput";
+import TextArea from "../../ui/input/TextArea";
 
 type CheckboxProps = {
   onChangeCheckbox?: (e: any) => void;
@@ -9,14 +11,104 @@ type CheckboxProps = {
   isCheckedBox: boolean;
 };
 
-const ProductList: React.FC<CheckboxProps> = (props) => {
+const deliveryOptions = [
+  { value: "1個", label: "1個" },
+  { value: "2個", label: "2個" },
+  { value: "3個", label: "3個" },
+  { value: "4個", label: "4個" },
+];
+
+const offerOptions = [
+  { value: "15分後", label: "15分後" },
+  { value: "30分後", label: "30分後" },
+  { value: "45分後", label: "45分後" },
+  { value: "60分後", label: "60分後" },
+  { value: "その他", label: "その他" },
+];
+
+const offerTimeOptions = [
+  { value: "ネコロボ", label: "ネコロボ" },
+  { value: "従業員", label: "従業員" },
+];
+
+const ProductList = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [deliveryMethod, setDeliveryMethod] = useState("");
+  const [offerTime, setOfferTime] = useState("");
+  const [offerTiming, setOfferTiming] = useState("");
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
   }, [props.isCheckedBox]);
 
-  const advancedOptions = isChecked ? <AdvancedOptions /> : null;
+  const deliveryMethodsHandler = (e: any) => {
+    setDeliveryMethod(e.target.value);
+  };
+
+  const offerTimeHandler = (e: any) => {
+    setOfferTime(e.target.value);
+  };
+
+  const offerTimingHandler = (e: any) => {
+    setOfferTiming(e.target.value);
+  };
+
+  const advancedOptions = isChecked ? (
+    <div className="lg:px-0 px-5">
+      <p className="md:text-lg text-sm">
+        このオプションは以下の詳細設定が可能です。
+      </p>
+      <div className="md:flex mt-4">
+        <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:mr-3 md:mb-0 mb-4">
+          <p className="text-lg">提供方法</p>
+          <SelectInput
+            options={deliveryOptions}
+            value={deliveryMethod}
+            onChange={deliveryMethodsHandler}
+          />
+        </div>
+        <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:ml-3">
+          <p className="text-lg">提供時間</p>
+          <SelectInput
+            options={offerTimeOptions}
+            value={offerTime}
+            onChange={offerTimeHandler}
+          />
+        </div>
+      </div>
+      <div className="md:flex mt-4">
+        <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:mr-3 md:mb-0 mb-4">
+          <p className="text-lg">提供タイミング</p>
+          <SelectInput
+            options={offerOptions}
+            value={offerTiming}
+            onChange={offerTimingHandler}
+          />
+        </div>
+        <div className="md:w-1/2 flex items-center md:p-5 justify-between md:ml-3 md:pl-0">
+          <div className="md:leading-[18px] leading-[18px] text-[13px] md:text-xs">
+            ※ネコロボについての詳細は
+            <label
+              htmlFor="my-modal-4"
+              className="text-[#008EFF] bg-white hover:bg-white px-0 border-none text-[13px] underline hover:cursor-pointer"
+            >
+              こちら
+            </label>
+            <NekeroboModal />
+            <br />
+            ※提供タイミングはコース注文からの経過時間での設定となります。
+          </div>
+        </div>
+      </div>
+      <p className="text-[13px] md:text-xs md:mt-5 mt-0 mb-3">
+        ※「その他」を選択、またはご要望などがある場合には下記のご要望欄に詳細を記載してください。（最大200文字）
+      </p>
+      <TextArea
+        placeholder="オプションに関するご要望は、こちらに記載してください。"
+        rows={10}
+      />
+    </div>
+  ) : null;
 
   return (
     <Fragment>

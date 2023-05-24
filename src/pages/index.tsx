@@ -1,8 +1,9 @@
+import styles from "../styles/ReservationForm.module.css";
+
 import React, { Fragment, useState } from "react";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import SelectInput from "@/components/ui/input/SelectInput";
-import Counter from "@/components/ui/input/Counter";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import { useRouter } from "next/dist/client/router";
@@ -17,22 +18,32 @@ const timeOptions = [
 ];
 
 const TopPage = () => {
+  const [count, setCount] = useState(2);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("選択してください");
+  const [selectedTime, setSelectedTime] = useState("選択してください");
   const [isCheckedBox, setCheckBox] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
   const router = useRouter();
 
+  const handleDecrement = (e: any) => {
+    e.preventDefault();
+    setCount((prevCount) => prevCount - 1);
+  };
+
+  const handleIncrement = (e: any) => {
+    e.preventDefault();
+    setCount((prevCount) => prevCount + 1);
+  };
+
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const option = e.target.value;
-    setSelectedOption(option);
-    updateButtonState(option, isCheckedBox);
+    updateButtonState(e.target.value, isCheckedBox);
+    setSelectedTime(e.target.value);
   };
 
   const setCheckboxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
-    updateButtonState(selectedOption, newCheckboxState);
+    updateButtonState(selectedTime, newCheckboxState);
   };
 
   const updateButtonState = (option: string, checked: boolean) => {
@@ -49,7 +60,15 @@ const TopPage = () => {
 
   const submitFormHandler = (e: any) => {
     e.preventDefault();
-    router.push("/reservation");
+
+    router.push({
+      pathname: "/reservation",
+      query: {
+        counterValue: count.toString(),
+        selectedTime: selectedTime,
+        selectedDate: selectDate?.toString(),
+      },
+    });
   };
 
   return (
@@ -62,13 +81,36 @@ const TopPage = () => {
                 しゃぶ葉 渋谷駅前店
               </Link>
               <div className="md:flex md:mt-12 mt-6">
-                <Counter />
+                <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
+                  <div className="w-1/2">
+                    <p className="font-xl">人数</p>
+                  </div>
+                  <div
+                    className={`${styles.psuedo} text-center relative flex items-center`}
+                  >
+                    <button
+                      className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
+                      onClick={handleDecrement}
+                      disabled={count <= 1}
+                    >
+                      <p className="text-white text-xl leading-none">-</p>
+                    </button>
+                    <p className="bg-transparent text-center text-lg w-[94px] appearance-none outline-none">{`${count} 名`}</p>
+                    <button
+                      className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
+                      onClick={handleIncrement}
+                      disabled={count >= 16}
+                    >
+                      <p className="text-white text-xl leading-none">+</p>
+                    </button>
+                  </div>
+                </div>
                 <div className="md:flex hidden items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:ml-3 mt-5 md:mt-0">
                   <p className="font-xl">時間</p>
                   {selectDate ? (
                     <SelectInput
                       options={timeOptions}
-                      value={selectedOption}
+                      value={selectedTime}
                       onChange={handleTimeChange}
                     />
                   ) : (
@@ -90,7 +132,7 @@ const TopPage = () => {
               {selectDate ? (
                 <SelectInput
                   options={timeOptions}
-                  value={selectedOption}
+                  value={selectedTime}
                   onChange={handleTimeChange}
                 />
               ) : (
@@ -105,7 +147,7 @@ const TopPage = () => {
           </div>
           <ProductList
             setIsCheckBox={setCheckboxValue}
-            selectedOption={selectedOption}
+            selectedOption={selectedTime}
             isCheckedBox={isCheckedBox}
           />
         </div>

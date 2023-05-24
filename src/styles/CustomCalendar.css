@@ -79,6 +79,10 @@ button.sunday-tile {
   background-color: #ffeeee;
 }
 
+button.saturday-tile {
+  background-color: #eef3ff;
+}
+
 div.react-calendar__month-view__weekdays__weekday {
   font-weight: 400;
 }
