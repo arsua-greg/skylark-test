@@ -94,6 +94,7 @@ const ReservationPage = () => {
           selectedOfferTime={selectedOfferTime}
           selectedOfferTiming={selectedOfferTiming}
         />
+
         <div
           className={`border py-3 mt-7 md:mt-10 bg-[#F71B1B1A] ${
             validateError.name ||
@@ -134,6 +135,7 @@ const ReservationPage = () => {
               placeholder="予約　太郎"
               minLength={3}
               maxLength={50}
+              onChange={(e) => setName(e.target.value)}
             />
             <p
               className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
@@ -164,6 +166,7 @@ const ReservationPage = () => {
               placeholder="1234567890"
               minLength={8}
               maxLength={15}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <p
               className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
@@ -197,6 +200,7 @@ const ReservationPage = () => {
               placeholder="abc@xxx.co.jp"
               minLength={5}
               maxLength={150}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <p
               className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
