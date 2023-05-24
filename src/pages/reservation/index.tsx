@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import Button from "../../components/ui/Button";
 import Steps from "../../components/ui/Steps";
 import Link from "next/dist/client/link";
@@ -11,9 +11,14 @@ const ReservationPage = () => {
   const selectedTime = router.query.selectedTime?.toString() || "";
   const counterValue = router.query.counterValue?.toString() || "";
   const selectedDate = router.query.selectedDate?.toString() || "";
+  const selectedQuantity = router.query.selectedQuantity?.toString() || "";
+  const selectedOfferTime = router.query.selectedOfferTime?.toString() || "";
+  const selectedOfferTiming =
+    router.query.selectedOfferTiming?.toString() || "";
 
   const submitHandler = (e: any) => {
     e.preventDefault();
+    console.log("test");
   };
 
   return (
@@ -27,6 +32,9 @@ const ReservationPage = () => {
           selectedTime={selectedTime}
           counterValue={counterValue}
           selectedDate={selectedDate}
+          selectedQuantity={selectedQuantity}
+          selectedOfferTime={selectedOfferTime}
+          selectedOfferTiming={selectedOfferTiming}
         />
         <p className="font-bold text-lg mt-6">ご来店者情報</p>
         <div className="md:flex mt-5 mb-[3px]">
@@ -146,6 +154,8 @@ const ReservationPage = () => {
             <Link
               className="text-[#04512A] underline underline-offset-4"
               href={"/privacy"}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               利用規約
             </Link>
@@ -153,7 +163,11 @@ const ReservationPage = () => {
             <br className="md:hidden" />
             <Link
               className="text-[#04512A] underline underline-offset-4"
-              href={"/"}
+              href={
+                "https://corp.skylark.co.jp/privacy/web_privacy_policy.html"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
             >
               プライバシーポリシーに
             </Link>

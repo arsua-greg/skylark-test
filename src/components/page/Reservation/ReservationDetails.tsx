@@ -6,12 +6,18 @@ type ReservationDetailProps = {
   selectedTime: string;
   counterValue: string;
   selectedDate: string;
+  selectedQuantity: string;
+  selectedOfferTime: string;
+  selectedOfferTiming: string;
 };
 
 const ReservationDetails: React.FC<ReservationDetailProps> = ({
   selectedTime,
   counterValue,
   selectedDate,
+  selectedQuantity,
+  selectedOfferTime,
+  selectedOfferTiming,
 }) => {
   const formattedDate = () => {
     const dateObj = new Date(selectedDate);
@@ -79,9 +85,9 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
               <p className="text-base">提供タイミング</p>
             </div>
             <div className="text-right">
-              <p className="text-base">1個</p>
-              <p className="text-base">ネコロボ</p>
-              <p className="text-base">その他</p>
+              <p className="text-base">{selectedQuantity}</p>
+              <p className="text-base">{selectedOfferTime}</p>
+              <p className="text-base">{selectedOfferTiming}</p>
             </div>
           </div>
         </div>

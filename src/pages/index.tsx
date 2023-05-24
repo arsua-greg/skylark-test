@@ -21,6 +21,9 @@ const TopPage = () => {
   const [count, setCount] = useState(2);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [selectedTime, setSelectedTime] = useState("選択してください");
+  const [selectedQuantity, setSelectedQuantity] = useState("");
+  const [selectedOfferTime, setSelectedOfferTime] = useState("");
+  const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
   const [isCheckedBox, setCheckBox] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
   const router = useRouter();
@@ -58,15 +61,30 @@ const TopPage = () => {
     setSelectDate(date);
   };
 
+  const handleSelectedQuantityChange = (quantity: string) => {
+    setSelectedQuantity(quantity);
+  };
+
+  const handleSelectedOfferChange = (offer: string) => {
+    setSelectedOfferTime(offer);
+  };
+
+  const handleOfferTiming = (offertiming: string) => {
+    setSelectedOfferTiming(offertiming);
+  };
+
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
     router.push({
       pathname: "/reservation",
       query: {
-        counterValue: count.toString(),
+        counterValue: count,
         selectedTime: selectedTime,
         selectedDate: selectDate?.toString(),
+        selectedQuantity: selectedQuantity,
+        selectedOfferTime: selectedOfferTime,
+        selectedOfferTiming: selectedOfferTiming,
       },
     });
   };
@@ -147,7 +165,9 @@ const TopPage = () => {
           </div>
           <ProductList
             setIsCheckBox={setCheckboxValue}
-            selectedOption={selectedTime}
+            onSelectedQuantityChange={handleSelectedQuantityChange}
+            onSelectedOfferChange={handleSelectedOfferChange}
+            onSelectedOfferTiming={handleOfferTiming}
             isCheckedBox={isCheckedBox}
           />
         </div>

@@ -5,13 +5,15 @@ import SelectInput from "../../ui/input/SelectInput";
 import TextArea from "../../ui/input/TextArea";
 
 type CheckboxProps = {
-  onChangeCheckbox?: (e: any) => void;
+  onChangeCheckbox?: React.ChangeEventHandler<HTMLInputElement>;
   setIsCheckBox: any;
-  selectedOption: string;
   isCheckedBox: boolean;
+  onSelectedQuantityChange: (quantity: string) => void;
+  onSelectedOfferChange: (offer: string) => void;
+  onSelectedOfferTiming: (offertiming: string) => void;
 };
 
-const deliveryOptions = [
+const quantityOptions = [
   { value: "1個", label: "1個" },
   { value: "2個", label: "2個" },
   { value: "3個", label: "3個" },
@@ -33,24 +35,30 @@ const offerTimeOptions = [
 
 const ProductList = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [deliveryMethod, setDeliveryMethod] = useState("");
-  const [offerTime, setOfferTime] = useState("");
-  const [offerTiming, setOfferTiming] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState("");
+  const [selectedOfferTime, setSelectedOfferTime] = useState("");
+  const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
   }, [props.isCheckedBox]);
 
-  const deliveryMethodsHandler = (e: any) => {
-    setDeliveryMethod(e.target.value);
+  const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const quantity = e.target.value;
+    setSelectedQuantity(quantity);
+    props.onSelectedQuantityChange(quantity);
   };
 
-  const offerTimeHandler = (e: any) => {
-    setOfferTime(e.target.value);
+  const offerTimeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const offer = e.target.value;
+    setSelectedOfferTime(offer);
+    props.onSelectedOfferChange(offer);
   };
 
-  const offerTimingHandler = (e: any) => {
-    setOfferTiming(e.target.value);
+  const offerTimingHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const offertiming = e.target.value;
+    setSelectedOfferTiming(offertiming);
+    props.onSelectedOfferTiming(offertiming);
   };
 
   const advancedOptions = isChecked ? (
@@ -60,18 +68,18 @@ const ProductList = (props: CheckboxProps) => {
       </p>
       <div className="md:flex mt-4">
         <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:mr-3 md:mb-0 mb-4">
-          <p className="text-lg">提供方法</p>
+          <p className="text-lg">個数</p>
           <SelectInput
-            options={deliveryOptions}
-            value={deliveryMethod}
-            onChange={deliveryMethodsHandler}
+            options={quantityOptions}
+            value={selectedQuantity}
+            onChange={quantityMethodsHandler}
           />
         </div>
         <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:ml-3">
-          <p className="text-lg">提供時間</p>
+          <p className="text-lg">提供方法</p>
           <SelectInput
             options={offerTimeOptions}
-            value={offerTime}
+            value={selectedOfferTime}
             onChange={offerTimeHandler}
           />
         </div>
@@ -81,7 +89,7 @@ const ProductList = (props: CheckboxProps) => {
           <p className="text-lg">提供タイミング</p>
           <SelectInput
             options={offerOptions}
-            value={offerTiming}
+            value={selectedOfferTiming}
             onChange={offerTimingHandler}
           />
         </div>
