@@ -146,6 +146,53 @@ const CompletePage = () => {
                             </ul>
                         </div>
                     </div>
+                    <div className="mt-7 md:mt-1 md:p-5">
+                        <ul>
+                            <li className="mb-5 md:mb-10">
+                                <h5 className="text-[18px] font-bold mb-2">ご注意</h5>
+                                <ul className="pl-2">
+                                    <li>
+                                        <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">※予約完了メールが届かなかった場合は、お手数ですが直接店舗にお問い合わせください。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">※変更・キャンセル期限は2023年4月8日00時00分です。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">※予約完了後に内容に変更があった場合には、お早めに店舗までご連絡ください。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">※予約完了後にご連絡なくキャンセルされた場合は、キャンセル料が発生する可能性があります。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">※ご連絡なしでのキャンセルや度重なるキャンセルなどがあった場合には、ご利用を停止させていただくことがございます。</p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className="mb-5 md:mb-10">
+                                <h5 className="text-[18px] font-bold mb-2">予約キャンセル・お問い合わせ</h5>
+                                <ul className="pl-2">
+                                    <li className="mb-5">
+                                        <p className="text-[14px] leading-[19px]">お申込みいただいたご予約のキャンセル、お問い合わせはお電話にて各店舗ごとに承っております。下記の番号にお問い合わせください。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[14px] leading-[19px]"><a href="tel:01-1234-6789" className="c text-[#0085FF] underline">01-1234-6789</a>（予約キャンセル・お問い合わせ）</p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h5 className="text-[18px] font-bold mb-2">よくある質問</h5>
+                                <ul className="pl-2">
+                                    <li className="mb-5">
+                                        <p className="text-[14px] leading-[19px]">予約サイトに関する質問は下記のページをご参照ください。</p>
+                                    </li>
+                                    <li>
+                                        <p className="text-[14px] leading-[19px]"><a href="https://reservation.skylark.co.jp/faq/" target="_blank" className="c text-[#0085FF] underline">https://reservation.skylark.co.jp/faq/</a></p>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <p className="text-[14px] text-center mb-10 mt-16 md:mt-10">このページはSSL暗号モードで表示されています</p>
                 </div>
             </div>
         </div>
