@@ -3,12 +3,12 @@ import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
 
 type ReservationDetailProps = {
-  selectedTime: string;
-  counterValue: string;
+  selectedTime?: string;
+  counterValue?: string;
   selectedDate: string;
-  selectedQuantity: string;
-  selectedOfferTime: string;
-  selectedOfferTiming: string;
+  selectedQuantity?: string;
+  selectedOfferTime?: string;
+  selectedOfferTiming?: string;
 };
 
 const ReservationDetails: React.FC<ReservationDetailProps> = ({
