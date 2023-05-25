@@ -3,11 +3,11 @@
   content: " ";
   position: absolute;
   top: 0;
-  right: -17px;
+  right: -16.6px;
   width: 0;
   height: 100%;
-  border-top: 23px solid transparent;
-  border-bottom: 23px solid transparent;
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
   border-left: 17px solid #d9d9d9;
   z-index: 2;
   transition: border-color 0.2s ease;
@@ -16,7 +16,7 @@
 .steps::before {
   right: auto;
   left: 0;
-  border-left: 17px solid #fff;
+  border-left: 16px solid #fff;
   z-index: 0;
 }
 
@@ -27,4 +27,25 @@
 
 .steps:first-child::after {
   border-left: 17px solid #04512a;
+}
+
+@media only screen and (max-width: 768px) {
+  .steps::after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: -16.5px;
+    width: 0;
+    height: 100%;
+    border-top: 23px solid transparent;
+    border-bottom: 23px solid transparent;
+    border-left: 17px solid #d9d9d9;
+    z-index: 2;
+    transition: border-color 0.2s ease;
+  }
+
+  .steps::before {
+    border-top: 23px solid transparent;
+    border-bottom: 23px solid transparent;
+  }
 }

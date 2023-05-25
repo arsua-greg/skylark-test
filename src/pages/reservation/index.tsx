@@ -1,4 +1,4 @@
-import { Fragment, useState, ChangeEvent, KeyboardEvent, useRef } from "react";
+import { useState, ChangeEvent, KeyboardEvent, useRef } from "react";
 import Button from "../../components/ui/Button";
 import Steps from "../../components/ui/Steps";
 import Link from "next/dist/client/link";
@@ -80,11 +80,11 @@ const ReservationPage = () => {
   };
 
   return (
-    <Fragment>
+    <div className="mt-16">
       <Steps />
       <form
         onSubmit={submitHandler}
-        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 pb-24"
+        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
       >
         <ReservationDetails
           selectedTime={selectedTime}
@@ -175,7 +175,7 @@ const ReservationPage = () => {
             >
               ！ 電話番号を正しく入力してください
             </p>
-            <span className="text-[11px] block mt-1">
+            <span className="text-[13px] block mt-1">
               ※お店から連絡を差し上げることもございますので、携帯電話・スマートフォンなど連絡の取りやすい番号を入力してください。
             </span>
           </div>
@@ -209,10 +209,10 @@ const ReservationPage = () => {
             >
               ！ メールアドレスを正しく入力してください
             </p>
-            <span className="text-[11px] text-[#F71B1B] block mt-2">
+            <span className="text-[13px] text-[#F71B1B] block mt-2">
               ※ご予約内容をお送りしますので、必ず連絡が取れるメールアドレスをご入力ください。
             </span>
-            <span className="text-[11px] block">
+            <span className="text-[13px] block">
               ※ドメイン指定受信を設定されている場合は@skylark.co.jpを受信するように設定してください。
             </span>
           </div>
@@ -221,7 +221,7 @@ const ReservationPage = () => {
           <label className="block font-bold text-lg mb-4" htmlFor="request">
             ご要望<span className="text-sm font-normal">（500文字）</span>{" "}
             <span className="text-xs text-white bg-[#ABABAB] font-bold rounded p-1 pl-[6px] ml-2">
-              必須
+              任意
             </span>
           </label>
           <textarea
@@ -241,7 +241,7 @@ const ReservationPage = () => {
             ！ ご要望は500文字以内で入力してください
           </p>
         </div>
-        <p className="text-xs md:text-sm mt-2">
+        <p className="text-[13px] md:text-sm mt-2">
           ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。
           <br className="md:hidden" />
           また、内容によってはご要望に添えない場合がございます。
@@ -260,7 +260,7 @@ const ReservationPage = () => {
             ※予約成立後のキャンセルはキャンセル料が発生する場合があるほか、ご利用を制限させていただく場合がございます。
           </p>
         </div>
-        <div className="mt-16">
+        <div className="md:mt-16 mt-4">
           <p className="text-center md:mb-5 mb-9">
             <Link
               className="text-[#04512A] underline underline-offset-4"
@@ -291,7 +291,7 @@ const ReservationPage = () => {
           </p>
         </div>
       </form>
-    </Fragment>
+    </div>
   );
 };
 
