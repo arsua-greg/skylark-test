@@ -91,7 +91,7 @@ const TopPage = () => {
 
   return (
     <Fragment>
-      <form onSubmit={submitFormHandler}>
+      <form onSubmit={submitFormHandler} className=" md:pb-44 pb-8">
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
             <div className="md:px-0 lg:px-0 px-5">

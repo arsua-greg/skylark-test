@@ -31,9 +31,9 @@ export default function Footer() {
         <Image
           src="/assets/logo_skylark_gloup.png"
           alt=""
-          width={228}
+          width={200}
           height={38}
-          className="md:w-full w-[115px]"
+          className="w-[115px] md:w-[200px]"
         />
       </div>
       <p className="text-xs md:text-base">
