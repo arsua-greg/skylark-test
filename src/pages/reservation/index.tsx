@@ -18,6 +18,7 @@ const ReservationPage = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [emailValid, setEmailValid] = useState(false)
 
   const [value, setValue] = useState("");
   const [validateError, setValidateError] = useState({
@@ -46,6 +47,12 @@ const ReservationPage = () => {
       return;
     }
 
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if(!emailRegex.test(name)){
+      setEmailValid(true)
+      return
+    }
+
     setValidateError({
       name: false,
       phoneNumber: false,
@@ -58,7 +65,7 @@ const ReservationPage = () => {
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = event.target.value;
-    inputValue = inputValue.slice(0, 200);
+    inputValue = inputValue.slice(0, 500);
 
     inputValue = sanitizeInput(inputValue);
 
@@ -135,7 +142,11 @@ const ReservationPage = () => {
               placeholder="予約　太郎"
               minLength={3}
               maxLength={50}
-              onChange={(e) => setName(e.target.value)}
+              value={name}
+              onChange={(e) => {
+                const regex = /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                regex.test(e.target.value) ? setName(e.target.value) : ''
+              }}
             />
             <p
               className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
@@ -166,7 +177,20 @@ const ReservationPage = () => {
               placeholder="1234567890"
               minLength={8}
               maxLength={15}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={phoneNumber}
+              onChange={(e) => {
+                let value = e.target.value;
+                // Remove hyphens
+                value = value.replace(/-/g, '');
+                // Convert double-byte numbers to single-byte
+                value = value.replace(/[０-９]/g, (match) => {
+                  const code = match.charCodeAt(0) - 0xfee0;
+                  return String.fromCharCode(code);
+                });
+                // Restrict input to numbers 0-9
+                value = value.replace(/[^0-9]/g, '');
+                setPhoneNumber(value)
+              }}
             />
             <p
               className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
@@ -195,16 +219,16 @@ const ReservationPage = () => {
           <div className="md:w-8/12 py-3">
             <input
               className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
-              type="email"
               name="email"
               placeholder="abc@xxx.co.jp"
               minLength={5}
               maxLength={150}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <p
-              className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
-                validateError.email ? "block" : "hidden"
+              className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${emailValid} ${
+                validateError.email || emailValid ? "block" : "hidden"
               } `}
             >
               ！ メールアドレスを正しく入力してください
