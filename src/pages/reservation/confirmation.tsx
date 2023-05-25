@@ -18,7 +18,7 @@ const ConfirmPage = () => {
       <Steps />
       <form
         onSubmit={formSubmitHandler}
-        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
+        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-16 pb-6"
       >
         <ReservationDetails selectedDate={selectedDate} />
         <div className="flex justify-between items-center mt-6">
@@ -77,11 +77,14 @@ const ConfirmPage = () => {
         </div>
         <label
           htmlFor="my-modal-4"
-          className="btn flex mx-auto rounded-md bg-[#04512A] border-none text-white text-xl sm:max-w-[612px] max-w-[280px] w-full font-normal"
+          className="btn flex mx-auto rounded-md bg-[#04512A] border-none text-white text-xl sm:max-w-[612px] max-w-[280px] w-full font-normal md:py-5 h-auto"
         >
-          認証メールを送信する
+          この内容で確定する
         </label>
         <ConfirmEmailModal />
+        <p className="mt-10 md:mt-16 text-center">
+          このページはSSL暗号モードで表示されています。
+        </p>
       </form>
     </div>
   );
