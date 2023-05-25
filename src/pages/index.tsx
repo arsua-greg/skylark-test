@@ -171,7 +171,11 @@ const TopPage = () => {
             isCheckedBox={isCheckedBox}
           />
         </div>
-        <Button text="入力・確認画面に進む" disabled={isButtonDisabled} />
+        <Button
+          text="入力・確認画面に進む"
+          disabled={isButtonDisabled}
+          className="text-xl"
+        />
       </form>
     </Fragment>
   );

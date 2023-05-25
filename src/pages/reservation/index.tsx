@@ -18,7 +18,7 @@ const ReservationPage = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [emailValid, setEmailValid] = useState(false)
+  const [emailValid, setEmailValid] = useState(false);
 
   const [value, setValue] = useState("");
   const [validateError, setValidateError] = useState({
@@ -48,9 +48,9 @@ const ReservationPage = () => {
     }
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if(!emailRegex.test(name)){
-      setEmailValid(true)
-      return
+    if (!emailRegex.test(name)) {
+      setEmailValid(true);
+      return;
     }
 
     setValidateError({
@@ -144,8 +144,9 @@ const ReservationPage = () => {
               maxLength={50}
               value={name}
               onChange={(e) => {
-                const regex = /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
-                regex.test(e.target.value) ? setName(e.target.value) : ''
+                const regex =
+                  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                regex.test(e.target.value) ? setName(e.target.value) : "";
               }}
             />
             <p
@@ -181,15 +182,15 @@ const ReservationPage = () => {
               onChange={(e) => {
                 let value = e.target.value;
                 // Remove hyphens
-                value = value.replace(/-/g, '');
+                value = value.replace(/-/g, "");
                 // Convert double-byte numbers to single-byte
                 value = value.replace(/[０-９]/g, (match) => {
                   const code = match.charCodeAt(0) - 0xfee0;
                   return String.fromCharCode(code);
                 });
                 // Restrict input to numbers 0-9
-                value = value.replace(/[^0-9]/g, '');
-                setPhoneNumber(value)
+                value = value.replace(/[^0-9]/g, "");
+                setPhoneNumber(value);
               }}
             />
             <p
@@ -307,7 +308,7 @@ const ReservationPage = () => {
               プライバシーポリシーに
             </Link>
           </p>
-          <Button text="同意して次に進む" />
+          <Button text="同意して次に進む" className="text-xl" />
         </div>
         <div className=" mt-14">
           <p className="text-center md:text-base text-sm">
