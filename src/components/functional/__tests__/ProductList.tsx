@@ -62,7 +62,7 @@ const ProductList = (props: CheckboxProps) => {
   };
 
   const advancedOptions = isChecked ? (
-    <div className="lg:px-0 px-5">
+    <div id="advanced_options" className="lg:px-0 px-5">
       <p className="md:text-lg text-sm">
         このオプションは以下の詳細設定が可能です。
       </p>

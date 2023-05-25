@@ -65,7 +65,7 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
           <div className="flex mt-5"></div>
         </div>
         <div className="md:flex w-full gap-6">
-          <div className="md:w-1/2 flex">
+          <div className="md:w-7/12 w-9/12 flex">
             <div className={`${styles.img} mr-6`}>
               <Image
                 src="/assets/product_image.png"
