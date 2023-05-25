@@ -127,4 +127,7 @@ button.react-calendar__month-view__days__day--neighboringMonth .day-cell {
   div.react-calendar .react-calendar__tile {
     height: 50px;
   }
+  div.react-calendar .react-calendar__tile {
+    padding-top: 5px;
+  }
 }
