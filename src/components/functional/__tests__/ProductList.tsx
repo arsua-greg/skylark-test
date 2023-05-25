@@ -20,7 +20,7 @@ const quantityOptions = [
   { value: "4個", label: "4個" },
 ];
 
-const offerOptions = [
+const offerTimeOptions = [
   { value: "15分後", label: "15分後" },
   { value: "30分後", label: "30分後" },
   { value: "45分後", label: "45分後" },
@@ -28,16 +28,22 @@ const offerOptions = [
   { value: "その他", label: "その他" },
 ];
 
-const offerTimeOptions = [
+const offerTimingOptions = [
   { value: "ネコロボ", label: "ネコロボ" },
   { value: "従業員", label: "従業員" },
 ];
 
 const ProductList = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [selectedQuantity, setSelectedQuantity] = useState("");
-  const [selectedOfferTime, setSelectedOfferTime] = useState("");
-  const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState(
+    quantityOptions[0].value
+  );
+  const [selectedOfferTime, setSelectedOfferTime] = useState(
+    offerTimeOptions[0].value
+  );
+  const [selectedOfferTiming, setSelectedOfferTiming] = useState(
+    offerTimingOptions[0].value
+  );
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
@@ -88,7 +94,7 @@ const ProductList = (props: CheckboxProps) => {
         <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:mr-3 md:mb-0 mb-4">
           <p className="text-lg">提供タイミング</p>
           <SelectInput
-            options={offerOptions}
+            options={offerTimingOptions}
             value={selectedOfferTiming}
             onChange={offerTimingHandler}
           />
