@@ -11,7 +11,6 @@ type CalendarProps = {
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(new Date());
-  const currentDate = new Date();
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,24 +52,30 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 1);
+  maxDate.setMonth(maxDate.getMonth() + 2);
 
   const CustomDayCell = ({ date, view }: { date: Date; view: string }) => {
     const isDisabled = isDateDisabled(date);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const selectedMonth = date.getMonth();
 
     if (isDisabled) {
       return null;
     }
 
     const renderSymbols = () => {
-      // if (date.getDate() % 1 === 0) {
-      //   return <span className="text-[#008EFF] block mt-2 font-bold">△</span>;
-      // }
-
-      if (date.getDate() % 2 === 0) {
-        return <span className="text-[#008EFF] block mt-2"></span>;
+      if (
+        view === "month" &&
+        (selectedMonth === currentMonth || selectedMonth === currentMonth + 1)
+      ) {
+        if (date.getDate() % 2 === 0) {
+          return <span className="text-[#008EFF] block mt-2">△</span>;
+        }
+        if (date.getDate() % 2 !== 0) {
+          return <span className="text-[#008EFF] block mt-2">◎</span>;
+        }
       }
-
       return null;
     };
 
@@ -84,19 +89,19 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   return (
     <div className="mt-10">
       <Calendar
-        showDoubleView={!isMobile}
-        onClickDay={dateChangeHandler}
         locale="ja-JP"
-        showFixedNumberOfWeeks={false}
-        formatDay={formatDay}
-        value={selectDate}
-        tileClassName={tileClassName}
         nextLabel="翌月＞"
         prevLabel="＜先月"
+        className={`md:text-lg text-base`}
+        showDoubleView={!isMobile}
+        onClickDay={dateChangeHandler}
+        tileClassName={tileClassName}
+        showFixedNumberOfWeeks={false}
+        formatDay={formatDay}
+        tileDisabled={({ date }) => isDateDisabled(date)}
         next2Label={null}
         prev2Label={null}
-        className={`md:text-lg text-base`}
-        tileDisabled={({ date }) => isDateDisabled(date)}
+        value={selectDate}
         tileContent={CustomDayCell}
         maxDate={maxDate}
         minDate={minDate}
@@ -106,3 +111,4 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 };
 
 export default CalendarDisplay;
+``;

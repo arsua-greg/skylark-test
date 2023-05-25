@@ -33,7 +33,7 @@ export default function Footer() {
           alt=""
           width={200}
           height={38}
-          className="w-[115px] md:w-[200px]"
+          className="md:w-auto w-[115px]"
         />
       </div>
       <p className="text-xs md:text-base">
