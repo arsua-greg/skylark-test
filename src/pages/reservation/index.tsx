@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, KeyboardEvent, useRef } from "react";
+import { useState, ChangeEvent, KeyboardEvent, useRef, useEffect } from "react";
 import Button from "../../components/ui/Button";
 import Steps from "../../components/ui/Steps";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import styles from "../../styles/ReservationForm.module.css";
 
 const ReservationPage = () => {
   const router = useRouter();
+  const targetSectionRef = useRef<HTMLDivElement>(null);
   const selectedTime = router.query.selectedTime?.toString() || "";
   const counterValue = router.query.counterValue?.toString() || "";
   const selectedDate = router.query.selectedDate?.toString() || "";
@@ -28,6 +29,24 @@ const ReservationPage = () => {
     phoneNumber: false,
     email: false,
   });
+
+  //scroll into details & comments section
+  useEffect(() => {
+    const scrollTo = router.query.scrollTo;
+    if (scrollTo === "details" && targetSectionRef.current) {
+      targetSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+    if (scrollTo === "comments" && targetSectionRef.current) {
+      targetSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [router.query.scrollTo]);
+  //end
 
   const errorRef = useRef<any>(null);
   const submitHandler = (e: any) => {
@@ -188,161 +207,165 @@ const ReservationPage = () => {
             </p>
           </div>
         </div>
-        <p ref={errorRef} className="font-bold text-lg mt-6" id="#details">
-          ご来店者情報
-        </p>
-        <div className="md:flex mt-5 mb-[3px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
-            <label className="block leading-[19px] md:px-5" htmlFor="name">
-              お名前
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
-                必須
+
+        <div id="details" ref={targetSectionRef} className="mt-6">
+          <p ref={errorRef} className="font-bold text-lg">
+            ご来店者情報
+          </p>
+          <div className="md:flex mt-5 mb-[3px]">
+            <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
+              <label className="block leading-[19px] md:px-5" htmlFor="name">
+                お名前
+                <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
+                  必須
+                </span>
+              </label>
+            </div>
+            <div className="md:w-8/12 py-2">
+              <input
+                className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${
+                  validateError.name ? "border-[#F71B1B]" : "border-[#757575]"
+                }`}
+                type="text"
+                name="name"
+                placeholder="予約　太郎"
+                minLength={3}
+                maxLength={50}
+                value={name}
+                onChange={(e) => {
+                  const regex =
+                    /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                  console.log(e.target.value.length);
+                  if (regex.test(e.target.value)) {
+                    setName(e.target.value);
+                  } else {
+                    setName(e.target.value.slice(0, -1));
+                  }
+                }}
+              />
+              <p
+                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
+                  validateError.name ? "block" : "hidden"
+                } `}
+              >
+                ！ お名前を正しく入力してください
+              </p>
+            </div>
+          </div>
+          <div className="md:flex md:mb-[3px] md:mt-0 mt-[23px]">
+            <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
+              <label
+                className="block md:px-5 leading-[19px] w-full"
+                htmlFor="phonenumber"
+              >
+                電話番号（半角数字）
+                <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
+                  必須
+                </span>
+              </label>
+            </div>
+            <div className="md:w-8/12 py-2">
+              <input
+                className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
+                  validateError.phoneNumber
+                    ? "border-[#F71B1B]"
+                    : "border-[#757575]"
+                }`}
+                type="tel"
+                name="phone_number"
+                placeholder="1234567890"
+                minLength={8}
+                maxLength={15}
+                value={phoneNumber}
+                onChange={(e) => {
+                  let value = e.target.value;
+                  // Remove hyphens
+                  value = value.replace(/-/g, "");
+                  // Convert double-byte numbers to single-byte
+                  value = value.replace(/[０-９]/g, (match) => {
+                    const code = match.charCodeAt(0) - 0xfee0;
+                    return String.fromCharCode(code);
+                  });
+                  // Restrict input to numbers 0-9
+                  value = value.replace(/[^0-9]/g, "");
+                  setPhoneNumber(value);
+                }}
+              />
+              <p
+                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
+                  validateError.phoneNumber ? "block" : "hidden"
+                } `}
+              >
+                ！ 電話番号を正しく入力してください
+              </p>
+              <span className="text-[13px] block mt-1">
+                ※お店から連絡を差し上げることもございますので、携帯電話・スマートフォンなど連絡の取りやすい番号を入力してください。
+              </span>
+            </div>
+          </div>
+          <div className="md:flex md:mt-0 mt-[23px]">
+            <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center md:bg-[#EDEDED]">
+              <label
+                className="block md:px-5 leading-[19px] w-full"
+                htmlFor="email"
+              >
+                メールアドレス（半角英数字）
+                <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
+                  必須
+                </span>
+              </label>
+            </div>
+            <div className="md:w-8/12 py-3">
+              <input
+                className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
+                  validateError.email ? "border-[#F71B1B]" : "border-[#757575]"
+                }`}
+                name="email"
+                placeholder="abc@xxx.co.jp"
+                minLength={5}
+                maxLength={150}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <p
+                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${emailValid} ${
+                  validateError.email || emailValid ? "block" : "hidden"
+                } `}
+              >
+                ！ メールアドレスを正しく入力してください
+              </p>
+              <span className="text-[13px] text-[#F71B1B] block mt-2">
+                ※ご予約内容をお送りしますので、必ず連絡が取れるメールアドレスをご入力ください。
+              </span>
+              <span className="text-[13px] block">
+                ※ドメイン指定受信を設定されている場合は@skylark.co.jpを受信するように設定してください。
+              </span>
+            </div>
+          </div>
+          <div id="#comments" ref={targetSectionRef} className="mt-6">
+            <label className="block font-bold text-lg mb-4" htmlFor="request">
+              ご要望<span className="text-sm font-normal">（500文字）</span>{" "}
+              <span className="text-xs text-white bg-[#ABABAB] font-bold rounded p-1 pl-[6px] ml-2">
+                任意
               </span>
             </label>
+            <textarea
+              className="bg-white rounded border border-[#757575] p-3 max-w-[634px] w-full h-full text-sm"
+              placeholder=""
+              name={name}
+              rows={7}
+              value={value}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+            ></textarea>
           </div>
-          <div className="md:w-8/12 py-2">
-            <input
-              className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${
-                validateError.name ? "border-[#F71B1B]" : "border-[#757575]"
-              }`}
-              type="text"
-              name="name"
-              placeholder="予約　太郎"
-              minLength={3}
-              maxLength={50}
-              value={name}
-              onChange={(e) => {
-                const regex =
-                  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
-                console.log(e.target.value.length);
-                if (regex.test(e.target.value)) {
-                  setName(e.target.value);
-                } else {
-                  setName(e.target.value.slice(0, -1));
-                }
-              }}
-            />
-            <p
-              className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
-                validateError.name ? "block" : "hidden"
-              } `}
-            >
-              ！ お名前を正しく入力してください
-            </p>
-          </div>
+          <p className="text-[13px] md:text-sm mt-2">
+            ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。
+            <br className="md:hidden" />
+            また、内容によってはご要望に添えない場合がございます。
+          </p>
         </div>
-        <div className="md:flex md:mb-[3px] md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 md:bg-[#EDEDED] flex items-center">
-            <label
-              className="block md:px-5 leading-[19px] w-full"
-              htmlFor="phonenumber"
-            >
-              電話番号（半角数字）
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
-                必須
-              </span>
-            </label>
-          </div>
-          <div className="md:w-8/12 py-2">
-            <input
-              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
-                validateError.phoneNumber
-                  ? "border-[#F71B1B]"
-                  : "border-[#757575]"
-              }`}
-              type="tel"
-              name="phone_number"
-              placeholder="1234567890"
-              minLength={8}
-              maxLength={15}
-              value={phoneNumber}
-              onChange={(e) => {
-                let value = e.target.value;
-                // Remove hyphens
-                value = value.replace(/-/g, "");
-                // Convert double-byte numbers to single-byte
-                value = value.replace(/[０-９]/g, (match) => {
-                  const code = match.charCodeAt(0) - 0xfee0;
-                  return String.fromCharCode(code);
-                });
-                // Restrict input to numbers 0-9
-                value = value.replace(/[^0-9]/g, "");
-                setPhoneNumber(value);
-              }}
-            />
-            <p
-              className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
-                validateError.phoneNumber ? "block" : "hidden"
-              } `}
-            >
-              ！ 電話番号を正しく入力してください
-            </p>
-            <span className="text-[13px] block mt-1">
-              ※お店から連絡を差し上げることもございますので、携帯電話・スマートフォンなど連絡の取りやすい番号を入力してください。
-            </span>
-          </div>
-        </div>
-        <div className="md:flex md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center md:bg-[#EDEDED]">
-            <label
-              className="block md:px-5 leading-[19px] w-full"
-              htmlFor="email"
-            >
-              メールアドレス（半角英数字）
-              <span className="text-xs text-white bg-[#FE4D4D] font-bold rounded p-1 ml-4 leading-none inline-block">
-                必須
-              </span>
-            </label>
-          </div>
-          <div className="md:w-8/12 py-3">
-            <input
-              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
-                validateError.email ? "border-[#F71B1B]" : "border-[#757575]"
-              }`}
-              name="email"
-              placeholder="abc@xxx.co.jp"
-              minLength={5}
-              maxLength={150}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <p
-              className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${emailValid} ${
-                validateError.email || emailValid ? "block" : "hidden"
-              } `}
-            >
-              ！ メールアドレスを正しく入力してください
-            </p>
-            <span className="text-[13px] text-[#F71B1B] block mt-2">
-              ※ご予約内容をお送りしますので、必ず連絡が取れるメールアドレスをご入力ください。
-            </span>
-            <span className="text-[13px] block">
-              ※ドメイン指定受信を設定されている場合は@skylark.co.jpを受信するように設定してください。
-            </span>
-          </div>
-        </div>
-        <div className="mt-6" id="#comments">
-          <label className="block font-bold text-lg mb-4" htmlFor="request">
-            ご要望<span className="text-sm font-normal">（500文字）</span>{" "}
-            <span className="text-xs text-white bg-[#ABABAB] font-bold rounded p-1 pl-[6px] ml-2">
-              任意
-            </span>
-          </label>
-          <textarea
-            className="bg-white rounded border border-[#757575] p-3 max-w-[634px] w-full h-full text-sm"
-            placeholder=""
-            name={name}
-            rows={7}
-            value={value}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          ></textarea>
-        </div>
-        <p className="text-[13px] md:text-sm mt-2">
-          ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。
-          <br className="md:hidden" />
-          また、内容によってはご要望に添えない場合がございます。
-        </p>
+
         <div className="mt-6 md:mt-12">
           <p className="mt-5 font-bold text-lg">注意事項</p>
           <p className="md:text-sm text-[13px] mt-3">

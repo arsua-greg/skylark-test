@@ -2,32 +2,26 @@ import React from "react";
 import Steps from "@/components/ui/Steps";
 import ConfirmEmailModal from "@/components/ui/ConfirmEmailModal";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const scrollToSection = () => {
-  const section = document.getElementById("comments");
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
 const ConfirmPage = () => {
+  const router = useRouter();
+
+  const handleDetail = () => {
+    router.push("/reservation?scrollTo=details");
+  };
+
+  const handleComments = () => {
+    router.push("/reservation?scrollTo=comments");
+  };
+
   const formSubmitHandler = (e: any) => {
     e.preventDefault();
   };
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (router.asPath.includes("#comments")) {
-      scrollToSection();
-    }
-  }, [router.asPath]);
-
   return (
     <div className="mt-16">
-      <Steps />
+      <Steps active={1} />
       <form
         onSubmit={formSubmitHandler}
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-16 pb-6"
@@ -95,13 +89,12 @@ const ConfirmPage = () => {
         </div>
         <div className="flex justify-between items-center mt-6">
           <p className="font-bold text-lg">ご来店者情報</p>
-          <Link
-            href={"/reservation" + "/#details"}
-            passHref={true}
+          <button
             className="underline underline-offset-4 text-[#04512A]"
+            onClick={handleDetail}
           >
             変更する
-          </Link>
+          </button>
         </div>
         <div className="md:py-10 pt-4 pb-8">
           <div className="">
@@ -125,12 +118,12 @@ const ConfirmPage = () => {
         </div>
         <div className="flex justify-between items-center">
           <p className="block font-bold text-lg">ご要望</p>
-          <Link
-            href="/reservation/#comments"
+          <button
             className="underline underline-offset-4 text-[#04512A]"
+            onClick={handleComments}
           >
             変更する
-          </Link>
+          </button>
         </div>
         <p className="mt-5 md:ml-6 md:text-base text-sm">
           アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
