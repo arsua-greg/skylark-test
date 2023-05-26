@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../styles/HorizontalScrollMenu.module.css";
 
 interface StepProps{
-  active: number
+  active?: number
 }
 
 const Steps: React.FC<StepProps> = ({active}) => {
