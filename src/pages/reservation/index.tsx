@@ -25,7 +25,6 @@ const ReservationPage = () => {
     name: false,
     phoneNumber: false,
     email: false,
-    value: false,
   });
 
   const errorRef = useRef<any>(null);
@@ -34,14 +33,12 @@ const ReservationPage = () => {
     if (
       name.trim() === "" ||
       phoneNumber.trim() === "" ||
-      email.trim() === "" ||
-      value.trim() === ""
+      email.trim() === ""
     ) {
       setValidateError({
         name: name.trim() === "",
         phoneNumber: phoneNumber.trim() === "",
         email: email.trim() === "",
-        value: value.trim() === "",
       });
       errorRef.current.scrollIntoView({ behavior: "smooth" });
       return;
@@ -57,7 +54,6 @@ const ReservationPage = () => {
       name: false,
       phoneNumber: false,
       email: false,
-      value: false,
     });
 
     console.log("Form submitted successfully!");
@@ -88,7 +84,7 @@ const ReservationPage = () => {
 
   return (
     <div className="mt-16">
-      <Steps />
+      <Steps active={1}/>
       <form
         onSubmit={submitHandler}
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
@@ -166,8 +162,7 @@ const ReservationPage = () => {
           className={`border py-3 mt-7 md:mt-10 bg-[#F71B1B1A] ${
             validateError.name ||
             validateError.phoneNumber ||
-            validateError.email ||
-            validateError.value
+            validateError.email
               ? "block"
               : "hidden"
           }`}
@@ -196,7 +191,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className="input input-md input-bordered bg-white border-[#757575] w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${validateError.name ? "border-[#F71B1B]" : "border-[#757575]"}`}
               type="text"
               name="name"
               placeholder="予約　太郎"
@@ -204,9 +199,13 @@ const ReservationPage = () => {
               maxLength={50}
               value={name}
               onChange={(e) => {
-                const regex =
-                  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
-                regex.test(e.target.value) ? setName(e.target.value) : "";
+                const regex =  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                console.log(e.target.value.length)
+                if (regex.test(e.target.value)) {
+                  setName(e.target.value);
+                }else {
+                  setName(e.target.value.slice(0, -1));
+                }
               }}
             />
             <p
@@ -232,7 +231,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.phoneNumber ? "border-[#F71B1B]" : "border-[#757575]"}`}
               type="tel"
               name="phone_number"
               placeholder="1234567890"
@@ -279,7 +278,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-3">
             <input
-              className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.email ? "border-[#F71B1B]" : "border-[#757575]"}`}
               name="email"
               placeholder="abc@xxx.co.jp"
               minLength={5}
@@ -318,13 +317,6 @@ const ReservationPage = () => {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
           ></textarea>
-          <p
-            className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
-              validateError.value
-            } ${validateError.value ? "block" : "hidden"} `}
-          >
-            ！ ご要望は500文字以内で入力してください
-          </p>
         </div>
         <p className="text-[13px] md:text-sm mt-2">
           ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。
