@@ -3,7 +3,7 @@ import { Fragment } from "react";
 interface ButtonProps {
   text: string;
   disabled?: boolean;
-  className: string;
+  className?: string;
 }
 
 export default function Button({ text, disabled, className }: ButtonProps) {
