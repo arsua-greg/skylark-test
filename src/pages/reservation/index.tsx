@@ -84,7 +84,7 @@ const ReservationPage = () => {
 
   return (
     <div className="mt-16">
-      <Steps />
+      <Steps active={1}/>
       <form
         onSubmit={submitHandler}
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
@@ -102,8 +102,7 @@ const ReservationPage = () => {
           className={`border py-3 mt-7 md:mt-10 bg-[#F71B1B1A] ${
             validateError.name ||
             validateError.phoneNumber ||
-            validateError.email ||
-            validateError.value
+            validateError.email
               ? "block"
               : "hidden"
           }`}
