@@ -25,7 +25,6 @@ const ReservationPage = () => {
     name: false,
     phoneNumber: false,
     email: false,
-    value: false,
   });
 
   const errorRef = useRef<any>(null);
@@ -34,14 +33,12 @@ const ReservationPage = () => {
     if (
       name.trim() === "" ||
       phoneNumber.trim() === "" ||
-      email.trim() === "" ||
-      value.trim() === ""
+      email.trim() === ""
     ) {
       setValidateError({
         name: name.trim() === "",
         phoneNumber: phoneNumber.trim() === "",
         email: email.trim() === "",
-        value: value.trim() === "",
       });
       errorRef.current.scrollIntoView({ behavior: "smooth" });
       return;
@@ -57,7 +54,6 @@ const ReservationPage = () => {
       name: false,
       phoneNumber: false,
       email: false,
-      value: false,
     });
 
     console.log("Form submitted successfully!");
@@ -258,13 +254,6 @@ const ReservationPage = () => {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
           ></textarea>
-          <p
-            className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
-              validateError.value
-            } ${validateError.value ? "block" : "hidden"} `}
-          >
-            ！ ご要望は500文字以内で入力してください
-          </p>
         </div>
         <p className="text-[13px] md:text-sm mt-2">
           ※メールでの返信を希望される場合であっても店舗によっては電話連絡となることをご了承ください。
