@@ -163,13 +163,15 @@ const TopPage = () => {
               席のみのご予約となります。コースの選択については店舗にご来店後、各テーブルにてお伝えください。
             </p>
           </div>
-          <ProductList
-            setIsCheckBox={setCheckboxValue}
-            onSelectedQuantityChange={handleSelectedQuantityChange}
-            onSelectedOfferChange={handleSelectedOfferChange}
-            onSelectedOfferTiming={handleOfferTiming}
-            isCheckedBox={isCheckedBox}
-          />
+          <div id="advanced">
+            <ProductList
+              setIsCheckBox={setCheckboxValue}
+              onSelectedQuantityChange={handleSelectedQuantityChange}
+              onSelectedOfferChange={handleSelectedOfferChange}
+              onSelectedOfferTiming={handleOfferTiming}
+              isCheckedBox={isCheckedBox}
+            />
+          </div>
         </div>
         <Button
           text="入力・確認画面に進む"

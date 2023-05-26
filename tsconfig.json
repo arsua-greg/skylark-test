@@ -30,7 +30,7 @@
     "src/components/functional/SelectInput.js",
     "src/pages/reservation/completed.js",
     "src/pages/reservation/notes.js",
-    "src/components/functional/__tests__/CalendarDisplay.tsx",
+    "src/components/functional/__tests__/CalendarDisplay.jsx",
     "src/components/page/Footer.page.tsx"
   ],
   "exclude": ["node_modules"]

@@ -26,6 +26,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const [today, setToday] = useState(new Date());
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -90,7 +91,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     return (
       <div className="day-cell">
         <div className="symbols">{renderSymbols()}</div>
-        {/* Render the Next button as disabled if necessary */}
         {nextButtonDisabled && <button disabled>Next</button>}
       </div>
     );
@@ -102,6 +102,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         locale="ja-JP"
         nextLabel="翌月＞"
         prevLabel="＜先月"
+        view="month"
         className={`md:text-lg text-base`}
         showDoubleView={!isMobile}
         onClickDay={dateChangeHandler}
@@ -115,6 +116,14 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         tileContent={CustomDayCell}
         maxDate={maxDate}
         minDate={minDate}
+        activeStartDate={today}
+        onActiveStartDateChange={({ action, activeStartDate }) => {
+          if (action === "next" || action == "prev") {
+            if (activeStartDate !== null) {
+              setToday(new Date(activeStartDate));
+            }
+          }
+        }}
       />
     </div>
   );

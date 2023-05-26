@@ -1,9 +1,9 @@
 import Image from "next/image";
 import ProductModal from "@/components/ui/ProductModal";
 
-interface ProductItemProps {
+type ProductItemProps = {
   onChangeCheckbox: (e: any) => void;
-}
+};
 
 export default function ProductItem({ onChangeCheckbox }: ProductItemProps) {
   return (
