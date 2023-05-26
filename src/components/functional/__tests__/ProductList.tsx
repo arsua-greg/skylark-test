@@ -1,8 +1,13 @@
-import { Fragment, useState, useEffect } from "react";
+import {
+  Fragment,
+  useState,
+  useEffect,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import ProductItem from "./ProductItem";
 import NekeroboModal from "../../ui/NekeroboModal";
 import SelectInput from "../../ui/input/SelectInput";
-import TextArea from "../../ui/input/TextArea";
 
 type CheckboxProps = {
   onChangeCheckbox?: React.ChangeEventHandler<HTMLInputElement>;
@@ -44,6 +49,7 @@ const ProductList = (props: CheckboxProps) => {
   const [selectedOfferTiming, setSelectedOfferTiming] = useState(
     offerTimingOptions[0].value
   );
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
@@ -67,6 +73,29 @@ const ProductList = (props: CheckboxProps) => {
     props.onSelectedOfferTiming(offertiming);
   };
 
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    let inputValue = event.target.value;
+    inputValue = inputValue.slice(0, 200);
+
+    inputValue = sanitizeInput(inputValue);
+
+    const lineBreaks = (inputValue.match(/\n/g) || []).length;
+    if (lineBreaks > 10) return;
+
+    setValue(inputValue);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    const lineBreaks =
+      (event.target as HTMLTextAreaElement).value.match(/\n/g)?.length || 0;
+    if (lineBreaks >= 10 && event.key !== "Backspace") event.preventDefault();
+  };
+
+  const sanitizeInput = (input: string): string => {
+    const restrictedChars = /[><"/;:{}=-]/g;
+    return input.replace(restrictedChars, "");
+  };
+
   const advancedOptions = isChecked ? (
     <div id="advanced_options" className="lg:px-0 px-5">
       <p className="md:text-lg text-sm">
@@ -84,7 +113,7 @@ const ProductList = (props: CheckboxProps) => {
         <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:ml-3">
           <p className="text-lg">提供方法</p>
           <SelectInput
-            options={offerTimeOptions}
+            options={offerTimingOptions}
             value={selectedOfferTime}
             onChange={offerTimeHandler}
           />
@@ -94,7 +123,7 @@ const ProductList = (props: CheckboxProps) => {
         <div className="md:w-1/2 flex items-center md:bg-[#EDEDED] md:p-5 justify-between md:mr-3 md:mb-0 mb-4">
           <p className="text-lg">提供タイミング</p>
           <SelectInput
-            options={offerTimingOptions}
+            options={offerTimeOptions}
             value={selectedOfferTiming}
             onChange={offerTimingHandler}
           />
@@ -117,10 +146,14 @@ const ProductList = (props: CheckboxProps) => {
       <p className="text-[13px] md:text-xs md:mt-5 mt-0 mb-3">
         ※「その他」を選択、またはご要望などがある場合には下記のご要望欄に詳細を記載してください。（最大200文字）
       </p>
-      <TextArea
+      <textarea
+        className="bg-white rounded border border-[#757575] p-3 max-w-[634px] w-full h-full text-sm"
         placeholder="オプションに関するご要望は、こちらに記載してください。"
         rows={10}
-      />
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        value={value}
+      ></textarea>
     </div>
   ) : null;
 

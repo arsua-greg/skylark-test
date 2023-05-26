@@ -1,6 +1,7 @@
 import Link from "next/dist/client/link";
 import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
+import { useState } from "react";
 
 type ReservationDetailProps = {
   selectedTime?: string;
@@ -30,6 +31,8 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
     <div className="md:flex border-b-2 gap-14 md:pb-12 pb-7">
       <div className="md:w-1/2 w-full flex justify-between">
@@ -58,7 +61,7 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
         <div className="w-1/2 text-right">
           <Link
             className="text-[#04512A] underline underline-offset-4"
-            href={"/"}
+            href={"/#advanced"}
           >
             変更する
           </Link>
