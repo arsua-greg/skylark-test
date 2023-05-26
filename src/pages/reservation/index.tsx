@@ -132,7 +132,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className="input input-md input-bordered bg-white border-[#757575] w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${validateError.name ? "border-[#F71B1B]" : "border-[#757575]"}`}
               type="text"
               name="name"
               placeholder="予約　太郎"
@@ -168,7 +168,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.phoneNumber ? "border-[#F71B1B]" : "border-[#757575]"}`}
               type="tel"
               name="phone_number"
               placeholder="1234567890"
@@ -215,7 +215,7 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-3">
             <input
-              className="input input-md bg-white border-[#757575] w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded"
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.email ? "border-[#F71B1B]" : "border-[#757575]"}`}
               name="email"
               placeholder="abc@xxx.co.jp"
               minLength={5}
