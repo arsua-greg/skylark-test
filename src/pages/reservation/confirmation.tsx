@@ -103,38 +103,38 @@ const ConfirmPage = () => {
             変更する
           </Link>
         </div>
-        <div className="mt-5 mb-[3px] justify-between">
-          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
-            <p className="leading-[19px] ">お名前</p>
-            <p>予約　太郎</p>
+        <div className="md:py-10 pt-4 pb-8">
+          <div className="">
+            <div className="flex items-center md:justify-normal justify-between md:px-5 w-full">
+              <p className="leading-[19px] md:w-2/6">お名前</p>
+              <p>予約　太郎</p>
+            </div>
+          </div>
+          <div className="md:flex md:mt-7 mt-3">
+            <div className="md:mb-0 flex items-center md:justify-normal justify-between md:px-5 w-full">
+              <p className="leading-[19px] md:w-2/6">電話番号</p>
+              <p>08012345678</p>
+            </div>
+          </div>
+          <div className="md:flex md:mt-7 mt-3">
+            <div className="md:mb-0 flex items-center md:justify-normal justify-between md:px-5 w-full">
+              <p className="leading-[19px] md:w-2/6">メールアドレス</p>
+              <p>skylark@skylark.co.jp</p>
+            </div>
           </div>
         </div>
-        <div className="md:flex md:mb-[3px] md:mt-0 mt-3">
-          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
-            <p className="leading-[19px] w-full">電話番号</p>
-            <p>08012345678</p>
-          </div>
+        <div className="flex justify-between items-center">
+          <p className="block font-bold text-lg">ご要望</p>
+          <Link
+            href="/reservation/#comments"
+            className="underline underline-offset-4 text-[#04512A]"
+          >
+            変更する
+          </Link>
         </div>
-        <div className="md:flex md:mt-0 mt-3">
-          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
-            <p className="leading-[19px] w-full">メールアドレス</p>
-            <p>skylark@skylark.co.jp</p>
-          </div>
-        </div>
-        <div className="mt-6">
-          <div className="flex justify-between items-center">
-            <p className="block font-bold text-lg">ご要望</p>
-            <Link
-              href="/reservation/#comments"
-              className="underline underline-offset-4 text-[#04512A]"
-            >
-              変更する
-            </Link>
-          </div>
-          <p className="mt-5 md:ml-6 md:text-base text-sm">
-            アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
-          </p>
-        </div>
+        <p className="mt-5 md:ml-6 md:text-base text-sm">
+          アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
+        </p>
         <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none justify-center md:mb-12 mb-8 md:mt-20 mt-9">
           <p className="md:text-base text-sm text-center">
             メールアドレスの入力間違い防止の為、次の画面でメールアドレス認証を行います。
