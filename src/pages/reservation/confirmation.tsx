@@ -1,12 +1,29 @@
+import React from "react";
 import Steps from "@/components/ui/Steps";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import ConfirmEmailModal from "@/components/ui/ConfirmEmailModal";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+const scrollToSection = () => {
+  const section = document.getElementById("comments");
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 const ConfirmPage = () => {
   const formSubmitHandler = (e: any) => {
     e.preventDefault();
   };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.asPath.includes("#comments")) {
+      scrollToSection();
+    }
+  }, [router.asPath]);
 
   return (
     <div className="mt-16">
@@ -26,7 +43,7 @@ const ConfirmPage = () => {
             <div className="w-1/2 text-right">
               <Link
                 className="text-[#04512A] underline underline-offset-4"
-                href={"/"}
+                href={"/#advanced"}
               >
                 変更する
               </Link>
@@ -79,35 +96,28 @@ const ConfirmPage = () => {
         <div className="flex justify-between items-center mt-6">
           <p className="font-bold text-lg">ご来店者情報</p>
           <Link
-            href={"/"}
+            href={"/reservation" + "/#details"}
+            passHref={true}
             className="underline underline-offset-4 text-[#04512A]"
           >
             変更する
           </Link>
         </div>
-        <div className="md:flex mt-5 mb-[3px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center">
-            <p className="block leading-[19px] md:px-5">お名前</p>
-          </div>
-          <div className="md:w-8/12 py-2">
+        <div className="mt-5 mb-[3px] justify-between">
+          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
+            <p className="leading-[19px] ">お名前</p>
             <p>予約　太郎</p>
           </div>
         </div>
-        <div className="md:flex md:mb-[3px] md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center">
-            <p className="block md:px-5 leading-[19px] w-full">電話番号</p>
-          </div>
-          <div className="md:w-8/12 py-2">
+        <div className="md:flex md:mb-[3px] md:mt-0 mt-3">
+          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
+            <p className="leading-[19px] w-full">電話番号</p>
             <p>08012345678</p>
           </div>
         </div>
-        <div className="md:flex md:mt-0 mt-[23px]">
-          <div className="md:w-2/6 md:mr-[25px] mb-3 md:mb-0 flex items-center">
-            <p className="block md:px-5 leading-[19px] w-full">
-              メールアドレス
-            </p>
-          </div>
-          <div className="md:w-8/12 py-3">
+        <div className="md:flex md:mt-0 mt-3">
+          <div className="md:mb-0 flex items-center justify-between md:px-5 w-full">
+            <p className="leading-[19px] w-full">メールアドレス</p>
             <p>skylark@skylark.co.jp</p>
           </div>
         </div>
@@ -115,18 +125,18 @@ const ConfirmPage = () => {
           <div className="flex justify-between items-center">
             <p className="block font-bold text-lg">ご要望</p>
             <Link
-              href={"/"}
+              href="/reservation/#comments"
               className="underline underline-offset-4 text-[#04512A]"
             >
               変更する
             </Link>
           </div>
-          <p className="mt-5 ml-6">
+          <p className="mt-5 md:ml-6 md:text-base text-sm">
             アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
           </p>
         </div>
-        <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none justify-center mb-12 mt-20">
-          <p className="text-base text-center">
+        <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none justify-center md:mb-12 mb-8 md:mt-20 mt-9">
+          <p className="md:text-base text-sm text-center">
             メールアドレスの入力間違い防止の為、次の画面でメールアドレス認証を行います。
           </p>
         </div>
@@ -137,7 +147,7 @@ const ConfirmPage = () => {
           この内容で確定する
         </label>
         <ConfirmEmailModal />
-        <p className="mt-10 md:mt-16 text-center">
+        <p className="mt-10 md:mt-16 text-center md:text-base text-sm">
           このページはSSL暗号モードで表示されています。
         </p>
       </form>

@@ -62,13 +62,14 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
           <Link
             className="text-[#04512A] underline underline-offset-4"
             href={"/#advanced"}
+            onClick={() => setIsChecked(!isChecked)}
           >
             変更する
           </Link>
           <div className="flex mt-5"></div>
         </div>
         <div className="md:flex w-full gap-6">
-          <div className="md:w-7/12 w-9/12 flex">
+          <div className="md:w-7/12 w-full flex">
             <div className={`${styles.img} mr-6`}>
               <Image
                 src="/assets/product_image.png"
@@ -78,7 +79,9 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
               />
             </div>
             <p className="font-bold text-base">
-              【記念日のお祝いに】 アニバーサリーケーキ ＋330円(税込)
+              【記念日のお祝いに】
+              <br className="block md:hidden" />
+              アニバーサリーケーキ ＋330円(税込)
             </p>
           </div>
           <div className="md:w-1/2 flex justify-between md:mt-0 mt-6">
