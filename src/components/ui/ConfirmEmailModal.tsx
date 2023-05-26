@@ -13,22 +13,24 @@ const ConfirmEmailModal = () => {
           >
             ✕
           </label>
-          <div className="md:max-w-[485px] mx-auto">
-            <div className="mb-7 text-center">
-              <p className="md:mb-10 mb-7 md:text-base text-sm">
-                下記メールアドレスに認証メールを送信します。
-              </p>
-              <p className="md:text-xl">skylark@skylark.co.jp</p>
+          <div className="md:max-w-[486px] mx-auto">
+            <div className="md:px-3">
+              <div className="mb-7 text-center">
+                <p className="md:mb-10 mb-7 md:text-base text-sm">
+                  下記メールアドレスに認証メールを送信します。
+                </p>
+                <p className="md:text-xl">skylark@skylark.co.jp</p>
+              </div>
+              <Button
+                text="認証メールを送信する"
+                className="md:py-5 h-auto md:text-xl text-lg"
+              />
             </div>
-            <Button
-              text="認証メールを送信する"
-              className="md:py-5 h-auto md:text-xl text-lg"
-            />
             <p className="text-[13px] md:text-sm md:mt-12 mt-8 md:leading-[25px]">
               ※まだ予約は完了しておりません。
-              <br className="hidden md:visible" />
+              <br className="md:block hidden" />
               認証メール受信後の申し込み処理が行われなかった場合、ご登録いただいた
-              <br className="hidden md:visible" />
+              <br className="md:block hidden" />
               内容は無効となりますのでご注意ください。
             </p>
           </div>
