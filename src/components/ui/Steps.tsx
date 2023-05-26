@@ -1,23 +1,33 @@
+import React from "react";
 import styles from "../../styles/HorizontalScrollMenu.module.css";
 
-export default function Steps() {
+interface StepProps{
+  active: number
+}
+
+const Steps: React.FC<StepProps> = ({active}) => {
   return (
-    <div className="mt-5 flex items-center text-center md:max-w-[1120px] mx-auto">
+    <div className="mt-5 flex items-center text-center md:max-w-[1120px] mx-auto overflow-hidden">
       <div
-        className={`w-1/3 bg-[#04512A] text-white md:text-lg text-[13px] py-3 leading-[22px] mr-[0.3rem] relative ${styles.steps}`}
+        className={`w-1/3 bg-[#D9D9D9] py-3  relative ${active === 1 ? 'isActive' : ''} stepArrow`}
       >
-        入力・確認
+        {active === 1 ? <div className="stepArrow01"></div> : ''}
+        <p className="md:text-lg text-[13px] leading-[22px] relative z-20">入力・確認</p>
       </div>
       <div
-        className={`w-1/3 bg-[#D9D9D9] md:text-lg text-[13px] py-3 leading-[22px] mr-1 relative ${styles.steps}`}
+        className={`w-1/3 bg-[#D9D9D9] py-3 relative ${active === 2 ? 'isActive' : ''} stepArrow`}
       >
-        認証メール
+        {active === 2 ? <div className="stepArrow02"></div> : ''}
+        <p className="md:text-lg text-[13px] leading-[22px] relative z-20">認証メール</p>
       </div>
       <div
-        className={`w-1/3 bg-[#D9D9D9] md:text-lg text-[13px] py-3 leading-[22px] relative ${styles.steps}`}
+        className={`w-1/3 bg-[#D9D9D9] py-3 relative ${active === 3 ? 'isActive' : ''}`}
       >
-        完了
+        {active === 3 ? <div className="stepArrow03"></div> : ''}
+        <p className="md:text-lg text-[13px] leading-[22px] relative z-20">完了</p>
       </div>
     </div>
   );
 }
+
+export default Steps;
