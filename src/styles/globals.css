@@ -30,3 +30,82 @@ body {
 abbr:where([title]) {
   text-decoration: none;
 }
+
+/* Steps arrow css properties */
+.stepArrow::after{
+  content: "";
+  display: block;
+  width: 42px;
+  height: 42px;
+  background-color: #D9D9D9;
+  border-top: 4px solid #fff;
+  border-right: 4px solid #fff;
+  position: absolute;
+  top: 4px;
+  right: -18px;
+  z-index: 10;
+  transform: rotate(45deg);
+}
+.isActive.stepArrow::after{
+  background-color: #04512A;
+}
+.isActive{
+  background-color: #04512A;
+  color: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+  .stepArrow::after{
+    width: 37px;
+    height: 37px;
+    border-top: 3px solid #fff;
+    border-right: 3px solid #fff;
+    top: 5px;
+    right: -5px;
+  }
+  
+  .stepArrow01::after{
+    content: "";
+    display: block;
+    height: 100%;
+    width: 25px;
+    background-color: #D9D9D9;
+    position: absolute;
+    top: 0;
+    right: -10px;
+    z-index: 5;
+  }
+  .stepArrow02::before{
+    content: "";
+    display: block;
+    height: 100%;
+    width: 25px;
+    background-color: #04512A;
+    position: absolute;
+    top: 0;
+    left: -13px;
+    z-index: 5;
+  }
+  .stepArrow02::after{
+    content: "";
+    display: block;
+    height: 100%;
+    width: 25px;
+    background-color: #D9D9D9;
+    position: absolute;
+    top: 0;
+    right: -10px;
+    z-index: 5;
+  }
+  .stepArrow03::before{
+    content: "";
+    display: block;
+    height: 100%;
+    width: 25px;
+    background-color: #04512A;
+    position: absolute;
+    top: 0;
+    left: -13px;
+    z-index: 5;
+  }
+}

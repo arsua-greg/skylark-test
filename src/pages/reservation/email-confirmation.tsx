@@ -3,11 +3,11 @@ import Steps from "@/components/ui/Steps";
 const EmailConfirmationPage = () => {
     return(
         <div>
-            <Steps />
+            <Steps active={2} />
             <div className="md:max-w-[1150px] mx-auto">
                 <div className="px-4">
                     <p className="text-center text-[14px] md:text-[16px] leading-[16.94px] md:leading-[25px] my-7 md:my-10">まだ予約は確定しておりません。<br/>認証メールを確認し、予約を確定させてください。</p>
-                    <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none">
+                    <div className="alert border border-[#aca284] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none">
                         <div className="w-full">
                             <div className="text-center w-full py-3">
                                 <h5 className="font-bold mb-5">skylark@skylark.co.jp</h5>

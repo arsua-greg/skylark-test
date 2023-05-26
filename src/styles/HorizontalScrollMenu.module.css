@@ -1,4 +1,4 @@
-.steps::before,
+/* .steps::before,
 .steps::after {
   content: " ";
   position: absolute;
@@ -48,4 +48,4 @@
     border-top: 23px solid transparent;
     border-bottom: 23px solid transparent;
   }
-}
+} */
