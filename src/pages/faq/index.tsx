@@ -5,7 +5,7 @@ const FaqPage = () => {
   const breadCrumbSp = "<戻る";
 
   return (
-    <div>
+    <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6">
       <Link href="/" className="text-[#04512A] text-lg mb-5 block">
         <p className="md:hidden block">{breadCrumbSp}</p>
         <p className="text-xl md:block hidden text-black">

@@ -1,9 +1,11 @@
 import { useState, ChangeEvent, KeyboardEvent, useRef } from "react";
 import Button from "../../components/ui/Button";
 import Steps from "../../components/ui/Steps";
-import Link from "next/dist/client/link";
+import Link from "next/link";
+import Image from "next/image";
 import ReservationDetails from "../../components/page/Reservation/ReservationDetails";
 import { useRouter } from "next/router";
+import styles from "../../styles/ReservationForm.module.css";
 
 const ReservationPage = () => {
   const router = useRouter();
@@ -84,7 +86,7 @@ const ReservationPage = () => {
 
   return (
     <div className="mt-16">
-      <Steps active={1}/>
+      <Steps active={1} />
       <form
         onSubmit={submitHandler}
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
@@ -130,15 +132,24 @@ const ReservationPage = () => {
               >
                 変更する
               </Link>
-              <div className="flex mt-5"></div>
             </div>
-            <div className="w-full">
-              <p className="text-base -indent-2">
-                【記念日のお祝いに】
-                <br className="md:hidden" />
-                アニバーサリーケーキ ＋330円(税込)
-              </p>
-              <div className="flex justify-between md:mt-3 mt-4">
+            <div className="md:flex w-full gap-6 md:mt-3 mt-4">
+              <div className="md:w-7/12 w-9/12 flex">
+                <div className={`${styles.img} mr-6`}>
+                  <Image
+                    src="/assets/product_image.png"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    alt=""
+                  />
+                </div>
+                <p className="font-bold text-base">
+                  【記念日のお祝いに】
+                  <br className="block md:hidden" />
+                  アニバーサリーケーキ ＋330円(税込)
+                </p>
+              </div>
+              <div className="md:w-1/2 flex justify-between md:mt-0 mt-5">
                 <div className="text-left">
                   <p className="text-sm">個数</p>
                   <p className="text-sm md:mt-[11px] mt-2">提供方法</p>
@@ -191,7 +202,9 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${validateError.name ? "border-[#F71B1B]" : "border-[#757575]"}`}
+              className={`input input-md input-bordered bg-white w-full sm:max-w-[510px] text-base leading-[19px] max-h-10 rounded ${
+                validateError.name ? "border-[#F71B1B]" : "border-[#757575]"
+              }`}
               type="text"
               name="name"
               placeholder="予約　太郎"
@@ -199,11 +212,12 @@ const ReservationPage = () => {
               maxLength={50}
               value={name}
               onChange={(e) => {
-                const regex =  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
-                console.log(e.target.value.length)
+                const regex =
+                  /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                console.log(e.target.value.length);
                 if (regex.test(e.target.value)) {
                   setName(e.target.value);
-                }else {
+                } else {
                   setName(e.target.value.slice(0, -1));
                 }
               }}
@@ -231,7 +245,11 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-2">
             <input
-              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.phoneNumber ? "border-[#F71B1B]" : "border-[#757575]"}`}
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
+                validateError.phoneNumber
+                  ? "border-[#F71B1B]"
+                  : "border-[#757575]"
+              }`}
               type="tel"
               name="phone_number"
               placeholder="1234567890"
@@ -278,7 +296,9 @@ const ReservationPage = () => {
           </div>
           <div className="md:w-8/12 py-3">
             <input
-              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${validateError.email ? "border-[#F71B1B]" : "border-[#757575]"}`}
+              className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
+                validateError.email ? "border-[#F71B1B]" : "border-[#757575]"
+              }`}
               name="email"
               placeholder="abc@xxx.co.jp"
               minLength={5}
