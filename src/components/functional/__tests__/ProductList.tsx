@@ -6,7 +6,7 @@ import {
   KeyboardEvent,
 } from "react";
 import ProductItem from "./ProductItem";
-import NekeroboModal from "../../ui/NekeroboModal";
+import NekeroboModal from "../../ui/modal/NekeroboModal";
 import SelectInput from "../../ui/input/SelectInput";
 
 type CheckboxProps = {
