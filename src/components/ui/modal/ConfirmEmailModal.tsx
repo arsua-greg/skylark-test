@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "../Button";
 import { Fragment } from "react";
 
 const ConfirmEmailModal = () => {
