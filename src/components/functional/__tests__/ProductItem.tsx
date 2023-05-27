@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ProductModal from "@/components/ui/ProductModal";
+import ProductModal from "@/components/ui/modal/ProductModal";
 
 type ProductItemProps = {
   onChangeCheckbox: (e: any) => void;

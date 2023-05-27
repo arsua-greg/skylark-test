@@ -1,6 +1,6 @@
 import React from "react";
 import Steps from "@/components/ui/Steps";
-import ConfirmEmailModal from "@/components/ui/ConfirmEmailModal";
+import ConfirmEmailModal from "@/components/ui/modal/ConfirmEmailModal";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,7 @@ const ConfirmPage = () => {
   };
 
   return (
-    <div className="mt-16">
+    <div className="md:mt-16">
       <Steps active={1} />
       <form
         onSubmit={formSubmitHandler}

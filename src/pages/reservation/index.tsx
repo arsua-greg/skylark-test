@@ -104,7 +104,7 @@ const ReservationPage = () => {
   };
 
   return (
-    <div className="mt-16">
+    <div className="md:mt-16">
       <Steps active={1} />
       <form
         onSubmit={submitHandler}
