@@ -43,8 +43,12 @@ button.react-calendar__month-view__days__day--weekend {
 }
 
 button.react-calendar__tile--now {
-  background-color: #04512a;
+  background-color: #04512a !important;
   color: #fff;
+}
+
+button.react-calendar__tile--now .day-cell .symbols span {
+  color: #fff !important;
 }
 
 button.react-calendar__navigation__next-button,
@@ -66,7 +70,7 @@ button.react-calendar__month-view__days__day--neighboringMonth abbr {
 }
 
 button.react-calendar__tile--active {
-  background: #04512a;
+  background: #04512a !important;
   color: #fff;
 }
 
