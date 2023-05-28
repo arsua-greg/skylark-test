@@ -66,7 +66,6 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
           >
             変更する
           </Link>
-          <div className="flex mt-5"></div>
         </div>
         <div className="md:flex w-full gap-6">
           <div className="md:w-7/12 w-full flex">
