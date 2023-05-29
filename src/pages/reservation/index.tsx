@@ -10,19 +10,17 @@ import styles from "../../styles/ReservationForm.module.css";
 const ReservationPage = () => {
   const router = useRouter();
   const targetSectionRef = useRef<HTMLDivElement>(null);
-  const selectedTime = router.query.selectedTime?.toString() || "";
-  const counterValue = router.query.counterValue?.toString() || "";
-  const selectedDate = router.query.selectedDate?.toString() || "";
-  const selectedQuantity = router.query.selectedQuantity?.toString() || "";
-  const selectedOfferTime = router.query.selectedOfferTime?.toString() || "";
-  const selectedOfferTiming =
-    router.query.selectedOfferTiming?.toString() || "";
-
+  // const selectedTime = router.query.selectedTime?.toString() || "";
+  // const counterValue = router.query.counterValue?.toString() || "";
+  // const selectedDate = router.query.selectedDate?.toString() || "";
+  // const selectedQuantity = router.query.selectedQuantity?.toString() || "";
+  // const selectedOfferTime = router.query.selectedOfferTime?.toString() || "";
+  // const selectedOfferTiming =
+  //   router.query.selectedOfferTiming?.toString() || "";
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(false);
-
   const [value, setValue] = useState("");
   const [validateError, setValidateError] = useState({
     name: false,
@@ -235,7 +233,6 @@ const ReservationPage = () => {
                 onChange={(e) => {
                   const regex =
                     /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
-                  console.log(e.target.value.length);
                   if (regex.test(e.target.value)) {
                     setName(e.target.value);
                   } else {
