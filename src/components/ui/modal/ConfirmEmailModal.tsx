@@ -1,7 +1,14 @@
+import { useRouter } from "next/router";
 import Button from "../Button";
 import { Fragment } from "react";
 
 const ConfirmEmailModal = () => {
+  const router = useRouter();
+  const handleEmailConfirm = (e: any) => {
+    e.preventDefault();
+    router.push("/reservation/email-loading");
+  };
+
   return (
     <Fragment>
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
@@ -24,6 +31,7 @@ const ConfirmEmailModal = () => {
               <Button
                 text="認証メールを送信する"
                 className="md:py-5 h-auto md:text-xl text-lg"
+                onClick={handleEmailConfirm}
               />
             </div>
             <p className="text-[13px] md:text-sm md:mt-12 mt-8 md:leading-[25px]">

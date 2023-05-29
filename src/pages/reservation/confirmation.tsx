@@ -17,9 +17,6 @@ const ConfirmPage = () => {
 
   const formSubmitHandler = (e: any) => {
     e.preventDefault();
-    router.push({
-      pathname: "/reservation/email-loading",
-    });
   };
 
   return (

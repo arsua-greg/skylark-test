@@ -119,7 +119,7 @@ button.react-calendar__month-view__days__day--neighboringMonth .day-cell {
 }
 
 button.react-calendar__month-view__days__day--neighboringMonth {
-  background: #f0f0f0;
+  background: #f0f0f0 !important;
   pointer-events: none;
 }
 
