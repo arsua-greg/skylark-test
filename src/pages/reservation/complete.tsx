@@ -3,8 +3,8 @@ import Steps from "@/components/ui/Steps";
 
 const CompletePage = () => {
   return (
-    <div>
-      <Steps />
+    <div className="md:mt-16">
+      <Steps active={3} />
       <div className=" md:max-w-[1150px] mx-auto">
         <div className="px-4">
           <div className="mt-5 md:mt-10">
