@@ -6,7 +6,7 @@ const ConfirmEmailModal = () => {
   const router = useRouter();
   const handleEmailConfirm = (e: any) => {
     e.preventDefault();
-    router.push("/reservation/email-loading");
+    router.push("/reservation/email-confirmation");
   };
 
   return (
