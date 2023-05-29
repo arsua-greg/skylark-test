@@ -133,7 +133,7 @@ button.react-calendar__tile--now:enabled:focus {
 }
 
 button.react-calendar__tile:disabled {
-  background-color: #fff;
+  background-color: #f4f4f4;
 }
 
 @media only screen and (max-width: 768px) {
