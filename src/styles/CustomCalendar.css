@@ -128,6 +128,10 @@ button.react-calendar__tile--now:enabled:focus {
   background: #04512a;
 }
 
+.react-calendar__navigation__label {
+  pointer-events: none;
+}
+
 @media only screen and (max-width: 768px) {
   div.react-calendar {
     width: 100%;
