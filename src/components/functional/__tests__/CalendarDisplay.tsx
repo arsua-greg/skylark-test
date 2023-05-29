@@ -14,7 +14,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
-  const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
+  const [numMonthsToShow] = useState<number>(3);
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
   const minDate = new Date();
