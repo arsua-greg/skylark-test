@@ -13,7 +13,7 @@ const ConfirmEmailModal = () => {
     <Fragment>
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <div className="modal bg-[#0000008A] drop-shadow-sm">
-        <div className="modal-box relative max-w-[823px] md:max-h-[500px] mx-auto md:p-14 px-4 py-16 rounded-lg">
+        <div className="modal-box relative max-w-[823px] md:max-h-[500px] mx-auto md:p-14 px-4 md:pt-16 pt-16 md:pb-16 pb-10 rounded-lg">
           <label
             htmlFor="my-modal-4"
             className="btn btn-sm btn-circle absolute right-2 top-2 bg-[#04512A]"
