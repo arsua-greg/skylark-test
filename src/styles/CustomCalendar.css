@@ -14,12 +14,13 @@ div.react-calendar .react-calendar__month-view {
 }
 
 div.react-calendar .react-calendar__navigation__label__divider {
-  display: none;
+  visibility: hidden;
+  width: 20%;
 }
 
 div.react-calendar .react-calendar__navigation button {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   font-weight: 700;
 }
 
@@ -43,8 +44,12 @@ button.react-calendar__month-view__days__day--weekend {
 }
 
 button.react-calendar__tile--now {
-  background-color: #04512a;
+  background-color: #04512a !important;
   color: #fff;
+}
+
+button.react-calendar__tile--now .day-cell .symbols span {
+  color: #fff !important;
 }
 
 button.react-calendar__navigation__next-button,
@@ -66,7 +71,7 @@ button.react-calendar__month-view__days__day--neighboringMonth abbr {
 }
 
 button.react-calendar__tile--active {
-  background: #04512a;
+  background: #04512a !important;
   color: #fff;
 }
 
@@ -114,7 +119,7 @@ button.react-calendar__month-view__days__day--neighboringMonth .day-cell {
 }
 
 button.react-calendar__month-view__days__day--neighboringMonth {
-  background: #f0f0f0;
+  background: #f0f0f0 !important;
   pointer-events: none;
 }
 
