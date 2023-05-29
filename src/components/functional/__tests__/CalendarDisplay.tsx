@@ -17,6 +17,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
+  const minDate = new Date();
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,6 +29,14 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const calculateMaxDate = (): Date => {
+    const newMaxDate = new Date();
+    newMaxDate.setMonth(newMaxDate.getMonth() + (isMobile ? 2 : 1));
+    return newMaxDate;
+  };
+
+  const maxDate = calculateMaxDate();
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -60,10 +69,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     currentDate.setHours(0, 0, 0, 0);
     return date < currentDate;
   };
-
-  const minDate = new Date();
-  const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 1);
 
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
