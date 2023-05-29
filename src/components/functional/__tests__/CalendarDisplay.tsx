@@ -67,25 +67,17 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
-    const selectedMonth = date.getMonth();
 
     if (isDisabled) {
       return null;
     }
 
     const renderSymbols = () => {
-      if (
-        selectedMonth >= currentMonth &&
-        selectedMonth < currentMonth + numMonthsToShow
-      ) {
-        if (date.getDate() % 2 === 0) {
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-        }
-        if (date.getDate() % 2 !== 0) {
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-        }
+      if (date.getDate() % 2 === 0) {
+        return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+      } else {
+        return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
       }
-      return null;
     };
 
     return (
