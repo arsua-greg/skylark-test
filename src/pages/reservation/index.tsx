@@ -6,6 +6,8 @@ import Image from "next/image";
 import ReservationDetails from "../../components/page/Reservation/ReservationDetails";
 import { useRouter } from "next/router";
 import styles from "../../styles/ReservationForm.module.css";
+import { useRecoilState } from "recoil";
+import { reservationFormState } from "@/globalState/globalState";
 
 const ReservationPage = () => {
   const router = useRouter();
@@ -17,6 +19,7 @@ const ReservationPage = () => {
   // const selectedOfferTime = router.query.selectedOfferTime?.toString() || "";
   // const selectedOfferTiming =
   //   router.query.selectedOfferTiming?.toString() || "";
+  const [formData, setFormData] = useRecoilState(reservationFormState);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +30,7 @@ const ReservationPage = () => {
     phoneNumber: false,
     email: false,
   });
+  const root = useRouter();
 
   //scroll into details & comments section
   useEffect(() => {
@@ -64,7 +68,7 @@ const ReservationPage = () => {
     }
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if (!emailRegex.test(name)) {
+    if (!emailRegex.test(email)) {
       setEmailValid(true);
       return;
     }
@@ -75,7 +79,9 @@ const ReservationPage = () => {
       email: false,
     });
 
-    console.log("Form submitted successfully!");
+    router.push({
+      pathname: "/reservation/confirmation",
+    });
   };
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
