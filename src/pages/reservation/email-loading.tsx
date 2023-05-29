@@ -16,7 +16,7 @@ const EmailLoadingPage = () => {
 
   const errorConfirmingEmail = () => {
     return (
-      <>
+      <div className="md:mt-16">
         <Steps active={2} />
         <div className="md:my-20 mt-8 text-center px-5">
           <h1 className="md:text-xl text-sm font-bold text-[#F71B1B]">
@@ -28,7 +28,7 @@ const EmailLoadingPage = () => {
           </p>
           <Button text="予約申し込み" className="text-xl" />
         </div>
-      </>
+      </div>
     );
   };
 
