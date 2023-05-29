@@ -245,6 +245,20 @@ const ReservationPage = () => {
                     setName(e.target.value.slice(0, -1));
                   }
                 }}
+                onBlur={(e) => {
+                  const val = e.target.value
+                  if(val.trim() === ''){
+                    setValidateError((prevState) => ({
+                      ...prevState,
+                      name: true,
+                    }));
+                  }else{
+                    setValidateError((prevState) => ({
+                      ...prevState,
+                      name: false,
+                    }));
+                  }
+                }}
               />
               <p
                 className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
@@ -293,9 +307,25 @@ const ReservationPage = () => {
                   value = value.replace(/[^0-9]/g, "");
                   setPhoneNumber(value);
                 }}
+                onBlur={(e) => {
+                  const length = e.target.value.length
+                  if(length < 8){
+                    // Example usage
+                    setValidateError((prevState) => ({
+                      ...prevState,
+                      phoneNumber: true,
+                    }));
+                  }else{
+                    setValidateError((prevState) => ({
+                      ...prevState,
+                      phoneNumber: false,
+                    }));
+                  }
+                }}
               />
+              
               <p
-                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
+                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${validateError.phoneNumber} ${
                   validateError.phoneNumber ? "block" : "hidden"
                 } `}
               >
@@ -321,7 +351,7 @@ const ReservationPage = () => {
             <div className="md:w-8/12 py-3">
               <input
                 className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
-                  validateError.email ? "border-[#F71B1B]" : "border-[#757575]"
+                  validateError.email || emailValid ? "border-[#F71B1B]" : "border-[#757575]"
                 }`}
                 name="email"
                 placeholder="abc@xxx.co.jp"
@@ -329,6 +359,13 @@ const ReservationPage = () => {
                 maxLength={150}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={(e) => {
+                  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+                  if (!emailRegex.test(email)) {
+                    setEmailValid(true);
+                    return;
+                  }
+                }}
               />
               <p
                 className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${emailValid} ${
