@@ -10,11 +10,13 @@ type CalendarProps = {
 
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [selectDate, setSelectDate] = useState<Date | null>(new Date());
+  const [selectDate, setSelectDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
   const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
+  const [today, setToday] = useState(new Date());
+  const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,7 +28,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const [today, setToday] = useState(new Date());
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -46,6 +47,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
     if (date) {
       setCurrentMonth(date.getMonth());
+      setIsNextButtonDisabled(true);
     }
   };
 
@@ -61,13 +63,11 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + numMonthsToShow - 1);
+  maxDate.setMonth(maxDate.getMonth() + 1);
 
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
     const selectedMonth = date.getMonth();
-    const nextButtonDisabled =
-      currentMonth >= currentMonth + numMonthsToShow - 1;
 
     if (isDisabled) {
       return null;
@@ -91,7 +91,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     return (
       <div className="day-cell">
         <div className="symbols">{renderSymbols()}</div>
-        {nextButtonDisabled && <button disabled>Next</button>}
       </div>
     );
   };
@@ -102,7 +101,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         locale="ja-JP"
         nextLabel="翌月＞"
         prevLabel="＜先月"
-        view="month"
         className={`md:text-lg text-base`}
         showDoubleView={!isMobile}
         onClickDay={dateChangeHandler}
@@ -118,7 +116,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         minDate={minDate}
         activeStartDate={today}
         onActiveStartDateChange={({ action, activeStartDate }) => {
-          if (action === "next" || action == "prev") {
+          if (action === "next" || action === "prev") {
             if (activeStartDate !== null) {
               setToday(new Date(activeStartDate));
             }
