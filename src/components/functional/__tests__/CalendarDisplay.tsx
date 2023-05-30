@@ -64,7 +64,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
     if (date) {
       setCurrentMonth(date.getMonth());
-      setIsNextButtonDisabled(true);
     }
   };
 
@@ -102,7 +101,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const handleActiveStartDateChange = ({ action, activeStartDate }: any) => {
     if (isPCView) {
-      if (action === "next") {
+      if (action === "next" || activeStartDate === null) {
         if (!isNextButtonDisabled) {
           setIsNextButtonDisabled(true);
         }
