@@ -1,10 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-
-export const config = {
-  matcher: ["/", "/index"],
-};
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
+  // Basic Auth example taken from https://github.com/vercel/examples/tree/main/edge-functions/basic-auth-password
   const basicAuth = req.headers.get("authorization");
   const url = req.nextUrl;
 
@@ -12,11 +11,15 @@ export function middleware(req: NextRequest) {
     const authValue = basicAuth.split(" ")[1];
     const [user, pwd] = window.atob(authValue).split(":");
 
-    if (user === "4dmin" && pwd === "testpwd123") {
+    if (user === "username" && pwd === "password") {
       return NextResponse.next();
     }
   }
-  url.pathname = "/api/auth";
+  url.pathname = "/api/basicauth";
 
   return NextResponse.rewrite(url);
 }
+
+export const config = {
+  matcher: "/:path*",
+};
