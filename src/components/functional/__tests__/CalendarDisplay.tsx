@@ -2,6 +2,7 @@ import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format, isSunday, isSaturday } from "date-fns";
+import { useMediaQuery } from "react-responsive";
 
 type CalendarProps = {
   children?: any;
@@ -10,15 +11,23 @@ type CalendarProps = {
 
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [selectDate, setSelectDate] = useState<Date | null>(new Date());
+  const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
+  const [today, setToday] = useState(new Date());
+  const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
+  const [isPCView, setIsPCView] = useState(false);
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
-  const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
+
+  const minDate = new Date();
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 2);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      setIsPCView(window.innerWidth >= 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -26,7 +35,16 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const [today, setToday] = useState(new Date());
+
+  useEffect(() => {
+    const nextButton = document.querySelector(
+      ".react-calendar__navigation__arrow.react-calendar__navigation__next-button"
+    ) as HTMLButtonElement;
+
+    if (nextButton) {
+      nextButton.disabled = isNextButtonDisabled;
+    }
+  }, [isNextButtonDisabled]);
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -46,6 +64,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
     if (date) {
       setCurrentMonth(date.getMonth());
+      setIsNextButtonDisabled(true);
     }
   };
 
@@ -59,41 +78,46 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     return date < currentDate;
   };
 
-  const minDate = new Date();
-  const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + numMonthsToShow - 1);
-
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
-    const selectedMonth = date.getMonth();
-    const nextButtonDisabled =
-      currentMonth >= currentMonth + numMonthsToShow - 1;
 
     if (isDisabled) {
       return null;
     }
 
     const renderSymbols = () => {
-      if (
-        selectedMonth >= currentMonth &&
-        selectedMonth < currentMonth + numMonthsToShow
-      ) {
-        if (date.getDate() % 2 === 0) {
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-        }
-        if (date.getDate() % 2 !== 0) {
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-        }
+      if (date.getDate() % 2 === 0) {
+        return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+      } else {
+        return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
       }
-      return null;
     };
 
     return (
       <div className="day-cell">
         <div className="symbols">{renderSymbols()}</div>
-        {nextButtonDisabled && <button disabled>Next</button>}
       </div>
     );
+  };
+
+  const handleActiveStartDateChange = ({ action, activeStartDate }: any) => {
+    if (isPCView) {
+      if (action === "next") {
+        if (!isNextButtonDisabled) {
+          setIsNextButtonDisabled(true);
+        }
+      } else if (action === "prev") {
+        if (isNextButtonDisabled) {
+          setIsNextButtonDisabled(false);
+        }
+      }
+    }
+
+    if (action === "next" || action === "prev") {
+      if (activeStartDate !== null) {
+        setToday(new Date(activeStartDate));
+      }
+    }
   };
 
   return (
@@ -117,13 +141,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
         maxDate={maxDate}
         minDate={minDate}
         activeStartDate={today}
-        onActiveStartDateChange={({ action, activeStartDate }) => {
-          if (action === "next" || action == "prev") {
-            if (activeStartDate !== null) {
-              setToday(new Date(activeStartDate));
-            }
-          }
-        }}
+        onActiveStartDateChange={handleActiveStartDateChange}
       />
     </div>
   );
