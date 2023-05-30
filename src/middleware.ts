@@ -10,9 +10,9 @@ export function middleware(req: NextRequest) {
 
   if (basicAuth) {
     const authValue = basicAuth.split(" ")[1];
-    const [user, pwd] = window.atob(authValue).split(":");
+    const [user, pwd] = atob(authValue).split(":");
 
-    if (user === "4dmin" && pwd === "testpwd123") {
+    if (user === "skyuser" && pwd === "sky0530") {
       return NextResponse.next();
     }
   }
