@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: "/",
+  matcher: ["/", "/index"],
 };
 
 export function middleware(req: NextRequest) {
@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
 
   if (basicAuth) {
     const authValue = basicAuth.split(" ")[1];
-    const [user, pwd] = window.btoa(authValue).split(":");
+    const [user, pwd] = window.atob(authValue).split(":");
 
     if (user === "4dmin" && pwd === "testpwd123") {
       return NextResponse.next();
