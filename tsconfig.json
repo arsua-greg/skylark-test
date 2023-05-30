@@ -31,7 +31,9 @@
     "src/pages/reservation/completed.js",
     "src/pages/reservation/notes.js",
     "src/components/functional/__tests__/CalendarDisplay.jsx",
-    "src/components/page/Footer.page.tsx"
+    "src/components/page/Footer.page.tsx",
+    "server.js",
+    "src/middlewares/authMiddleware.tsx"
   ],
   "exclude": ["node_modules"]
 }
