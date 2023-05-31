@@ -11,7 +11,6 @@ type CalendarProps = {
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
-  const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
   const [isPCView, setIsPCView] = useState(false);
