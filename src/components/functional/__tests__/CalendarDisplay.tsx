@@ -47,7 +47,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const dateString = date.toISOString().split("T")[0];
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
     }
