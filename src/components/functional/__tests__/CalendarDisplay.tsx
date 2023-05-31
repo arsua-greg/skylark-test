@@ -2,7 +2,6 @@ import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format, isSunday, isSaturday } from "date-fns";
-import { useMediaQuery } from "react-responsive";
 
 type CalendarProps = {
   children?: any;

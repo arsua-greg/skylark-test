@@ -7,6 +7,8 @@ import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import { useRouter } from "next/dist/client/router";
+import { useSetRecoilState } from "recoil";
+import { reservationFormState } from "@/globalState/globalState";
 
 const timeOptions = [
   { value: "選択してください", label: "選択してください" },
@@ -18,15 +20,16 @@ const timeOptions = [
 ];
 
 const TopPage = () => {
-  const [count, setCount] = useState(2);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isCheckedBox, setCheckBox] = useState(false);
+  const router = useRouter();
+  const [count, setCount] = useState(2);
   const [selectedTime, setSelectedTime] = useState("選択してください");
   const [selectedQuantity, setSelectedQuantity] = useState("");
   const [selectedOfferTime, setSelectedOfferTime] = useState("");
   const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
-  const [isCheckedBox, setCheckBox] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
-  const router = useRouter();
+  const setFormDataState = useSetRecoilState(reservationFormState);
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
