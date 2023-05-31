@@ -21,7 +21,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 2);
-  const holidayDates = [new Date(2023, 6, 17)];
+  const holidayDates = [new Date("2023-07-17")];
 
   useEffect(() => {
     const handleResize = () => {
