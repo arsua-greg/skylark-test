@@ -1,7 +1,7 @@
 import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import { format, isSunday, isSaturday } from "date-fns";
+import { format, isSunday, isSaturday, isSameDay } from "date-fns";
 
 type CalendarProps = {
   children?: any;
@@ -18,10 +18,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
-
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 2);
+  const holidayDates = [new Date(2023, 6, 17)];
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,11 +47,15 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    const dateString = date.toISOString().split("T")[0];
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
     }
     if (view === "month" && isSaturday(date)) {
       return "saturday-tile";
+    }
+    if (holidayDates.some((holiday) => isSameDay(date, holiday))) {
+      return "holiday-tile";
     }
     return null;
   };
