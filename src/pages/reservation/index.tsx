@@ -1,25 +1,19 @@
 import { useState, ChangeEvent, KeyboardEvent, useRef, useEffect } from "react";
 import Button from "../../components/ui/Button";
 import Steps from "../../components/ui/Steps";
+import ReservationDetails from "../../components/page/Reservation/ReservationDetails";
 import Link from "next/link";
 import Image from "next/image";
-import ReservationDetails from "../../components/page/Reservation/ReservationDetails";
 import { useRouter } from "next/router";
 import styles from "../../styles/ReservationForm.module.css";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { reservationFormState } from "@/globalState/globalState";
 
 const ReservationPage = () => {
   const router = useRouter();
+  const formData = useRecoilValue(reservationFormState);
+
   const targetSectionRef = useRef<HTMLDivElement>(null);
-  // const selectedTime = router.query.selectedTime?.toString() || "";
-  // const counterValue = router.query.counterValue?.toString() || "";
-  // const selectedDate = router.query.selectedDate?.toString() || "";
-  // const selectedQuantity = router.query.selectedQuantity?.toString() || "";
-  // const selectedOfferTime = router.query.selectedOfferTime?.toString() || "";
-  // const selectedOfferTiming =
-  //   router.query.selectedOfferTiming?.toString() || "";
-  const [formData, setFormData] = useRecoilState(reservationFormState);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +24,6 @@ const ReservationPage = () => {
     phoneNumber: false,
     email: false,
   });
-  const root = useRouter();
 
   //scroll into details & comments section
   useEffect(() => {
@@ -137,8 +130,11 @@ const ReservationPage = () => {
               >
                 変更する
               </Link>
-              <p className="md:text-base text-sm mt-[19px]">
+              {/* <p className="md:text-base text-sm mt-[19px]">
                 2023年03月17日(金)
+              </p> */}
+              <p className="md:text-base text-sm mt-[19px]">
+                {formData.selectedDateValue}
               </p>
               <p className="md:text-base text-sm mt-2">11:00</p>
               <p className="md:text-base text-sm mt-2">3名</p>
@@ -246,13 +242,13 @@ const ReservationPage = () => {
                   }
                 }}
                 onBlur={(e) => {
-                  const val = e.target.value
-                  if(val.trim() === ''){
+                  const val = e.target.value;
+                  if (val.trim() === "" || val.length !== 3) {
                     setValidateError((prevState) => ({
                       ...prevState,
                       name: true,
                     }));
-                  }else{
+                  } else {
                     setValidateError((prevState) => ({
                       ...prevState,
                       name: false,
@@ -308,14 +304,14 @@ const ReservationPage = () => {
                   setPhoneNumber(value);
                 }}
                 onBlur={(e) => {
-                  const length = e.target.value.length
-                  if(length < 8){
+                  const length = e.target.value.length;
+                  if (length < 8) {
                     // Example usage
                     setValidateError((prevState) => ({
                       ...prevState,
                       phoneNumber: true,
                     }));
-                  }else{
+                  } else {
                     setValidateError((prevState) => ({
                       ...prevState,
                       phoneNumber: false,
@@ -323,11 +319,11 @@ const ReservationPage = () => {
                   }
                 }}
               />
-              
+
               <p
-                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${validateError.phoneNumber} ${
-                  validateError.phoneNumber ? "block" : "hidden"
-                } `}
+                className={`text-[13px] text-[#F71B1B] leading-tight pt-1 ${
+                  validateError.phoneNumber
+                } ${validateError.phoneNumber ? "block" : "hidden"} `}
               >
                 ！ 電話番号を正しく入力してください
               </p>
@@ -351,7 +347,9 @@ const ReservationPage = () => {
             <div className="md:w-8/12 py-3">
               <input
                 className={`input input-md bg-white w-full sm:max-w-xs text-base leading-[19px] max-h-10 rounded ${
-                  validateError.email || emailValid ? "border-[#F71B1B]" : "border-[#757575]"
+                  validateError.email || emailValid
+                    ? "border-[#F71B1B]"
+                    : "border-[#757575]"
                 }`}
                 name="email"
                 placeholder="abc@xxx.co.jp"
@@ -360,7 +358,8 @@ const ReservationPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={(e) => {
-                  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+                  const emailRegex =
+                    /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
                   if (!emailRegex.test(email)) {
                     setEmailValid(true);
                     return;
