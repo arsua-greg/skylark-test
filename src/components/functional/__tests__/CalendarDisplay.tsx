@@ -102,21 +102,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const handleActiveStartDateChange = ({ action, activeStartDate }: any) => {
     if (isPCView) {
-      if (action === "next" || activeStartDate === null) {
-        if (!isNextButtonDisabled) {
-          setIsNextButtonDisabled(true);
-        }
-      } else if (action === "prev") {
-        if (isNextButtonDisabled) {
-          setIsNextButtonDisabled(false);
-        }
-      }
+      setIsNextButtonDisabled(action === "next");
     }
-
-    if (action === "next" || action === "prev") {
-      if (activeStartDate !== null) {
-        setToday(new Date(activeStartDate));
-      }
+    if (["next", "prev"].includes(action)) {
+      setToday(new Date(activeStartDate));
     }
   };
 
