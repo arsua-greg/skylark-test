@@ -11,7 +11,6 @@ type CalendarProps = {
 const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
-  const [numMonthsToShow, setNumMonthsToShow] = useState<number>(3);
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
   const [isPCView, setIsPCView] = useState(false);
@@ -21,7 +20,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 2);
-  const holidayDates = [new Date(2023, 6, 17)];
+  const holidayDates = [new Date("2023-07-17")];
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,7 +46,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const dateString = date.toISOString().split("T")[0];
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
     }
@@ -104,21 +102,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
 
   const handleActiveStartDateChange = ({ action, activeStartDate }: any) => {
     if (isPCView) {
-      if (action === "next" || activeStartDate === null) {
-        if (!isNextButtonDisabled) {
-          setIsNextButtonDisabled(true);
-        }
-      } else if (action === "prev") {
-        if (isNextButtonDisabled) {
-          setIsNextButtonDisabled(false);
-        }
-      }
+      setIsNextButtonDisabled(action === "next");
     }
-
-    if (action === "next" || action === "prev") {
-      if (activeStartDate !== null) {
-        setToday(new Date(activeStartDate));
-      }
+    if (["next", "prev"].includes(action)) {
+      setToday(new Date(activeStartDate));
     }
   };
 

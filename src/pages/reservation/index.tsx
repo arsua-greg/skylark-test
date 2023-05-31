@@ -130,12 +130,12 @@ const ReservationPage = () => {
               >
                 変更する
               </Link>
-              {/* <p className="md:text-base text-sm mt-[19px]">
-                2023年03月17日(金)
-              </p> */}
               <p className="md:text-base text-sm mt-[19px]">
-                {formData.selectedDateValue}
+                2023年03月17日(金)
               </p>
+              {/* <p className="md:text-base text-sm mt-[19px]">
+                {formData.selectedDateValue}
+              </p> */}
               <p className="md:text-base text-sm mt-2">11:00</p>
               <p className="md:text-base text-sm mt-2">3名</p>
             </div>
