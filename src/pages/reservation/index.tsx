@@ -80,7 +80,6 @@ const ReservationPage = () => {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = event.target.value;
     inputValue = inputValue.slice(0, 500);
-
     inputValue = sanitizeInput(inputValue);
 
     const lineBreaks = (inputValue.match(/\n/g) || []).length;
@@ -133,9 +132,6 @@ const ReservationPage = () => {
               <p className="md:text-base text-sm mt-[19px]">
                 2023年03月17日(金)
               </p>
-              {/* <p className="md:text-base text-sm mt-[19px]">
-                {formData.selectedDateValue}
-              </p> */}
               <p className="md:text-base text-sm mt-2">11:00</p>
               <p className="md:text-base text-sm mt-2">3名</p>
             </div>

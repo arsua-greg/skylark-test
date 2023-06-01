@@ -16,19 +16,16 @@ import {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <RecoilRoot>
-      <UserProvider>
-        <Head>
-          <title>すかいらーくの予約|予約確認ページ</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </Head>
-        <Layout>
+    <UserProvider>
+      <Head>
+        <title>すかいらーくの予約|予約確認ページ</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <Layout>
+        <RecoilRoot>
           <Component {...pageProps} />
-        </Layout>
-      </UserProvider>
-    </RecoilRoot>
+        </RecoilRoot>
+      </Layout>
+    </UserProvider>
   );
 }

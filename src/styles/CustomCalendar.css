@@ -125,6 +125,18 @@ button.react-calendar__month-view__days__day--neighboringMonth {
 button.react-calendar__tile--now:enabled:hover,
 button.react-calendar__tile--now:enabled:focus {
   background: #04512a;
+  color: #fff;
+}
+
+button.react-calendar__tile:enabled:hover,
+button.react-calendar__tile:enabled:focus {
+  background-color: #04512a;
+  color: #fff;
+}
+
+button.react-calendar__tile:enabled:hover .symbols span,
+button.react-calendar__tile:enabled:focus .symbols span {
+  color: #fff;
 }
 
 .react-calendar__navigation__label {

@@ -19,8 +19,8 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
   );
   const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 2);
-  const holidayDates = [new Date("2023-07-17")];
+  maxDate.setMonth(maxDate.getMonth() + 3);
+  maxDate.setDate(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,6 +43,38 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
       nextButton.disabled = isNextButtonDisabled;
     }
   }, [isNextButtonDisabled]);
+
+  const holidays = [
+    "2023-07-17",
+    "2023-08-11",
+    "2023-09-18",
+    "2023-09-23",
+    "2023-10-09",
+    "2023-11-03",
+    "2023-11-23",
+    "2024-01-01",
+    "2024-01-08",
+    "2024-02-11",
+    "2024-02-12",
+    "2024-02-23",
+    "2024-03-20",
+    "2024-04-29",
+    "2024-05-03",
+    "2024-05-04",
+    "2024-05-05",
+    "2024-05-06",
+    "2024-07-15",
+    "2024-08-11",
+    "2024-08-12",
+    "2024-09-16",
+    "2024-09-22",
+    "2024-09-23",
+    "2024-10-14",
+    "2024-11-03",
+    "2024-11-04",
+    "2024-11-12",
+  ];
+  const holidayDates = holidays.map((holiday) => new Date(holiday));
 
   // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
