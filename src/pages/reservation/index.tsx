@@ -6,12 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/ReservationForm.module.css";
-import { useRecoilValue } from "recoil";
-import { reservationFormState } from "@/globalState/globalState";
 
 const ReservationPage = () => {
   const router = useRouter();
-  const formData = useRecoilValue(reservationFormState);
 
   const targetSectionRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState("");
