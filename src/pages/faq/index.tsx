@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const FaqPage = () => {
   const breadCrumbSp = "<戻る";
+  const router = useRouter();
   const [activeServiceItems, setServiceActiveItems] = useState<number[]>([]);
   const [activeApplicationItems, setApplicationActiveItems] = useState<
     number[]
@@ -31,6 +33,10 @@ const FaqPage = () => {
     } else {
       setApplicationActiveItems([...activeApplicationItems, index]);
     }
+  };
+
+  const handleGoBack = () => {
+    router.back();
   };
 
   const serviceContents = [
@@ -79,11 +85,11 @@ const FaqPage = () => {
   const applicationContents = [
     {
       q: "認証メール、予約完了メールが届きません。",
-      a: "各種メールが届かない場合は、以下の可能性があります。 ・迷惑メールフォルダやゴミ箱など、メール受信フォルダ以外に振り分けられている。 ・メールの受信設定にてパソコンからのメールの拒否やドメイン指定受信設定をしている。 設定の変更⽅法については、ご利⽤のメールサービス、携帯電話の機種などにより異なります。サービス提供元やメーカー等にお問合せください。また、メールが受け取れなかった場合、再送はできませんのでご了承ください。 なお、メールが届かなかった場合、処理が正しく完了していない可能性がございます。お⼿数ですが、直接店舗へお電話にてごお問い合わせいただくか、改めて予約サイトよりお申込みください。",
+      a: "各種メールが届かない場合は、以下の可能性があります。\n・迷惑メールフォルダやゴミ箱など、メール受信フォルダ以外に振り分けられている。\n・メールの受信設定にてパソコンからのメールの拒否やドメイン指定受信設定をしている。\n\n設定の変更方法については、ご利用のメールサービス、携帯電話の機種などにより異なります。サービス提供元やメーカー等にお問合せください。また、メールが受け取れなかった場合、再送はできませんのでご了承ください。\n\nなお、メールが届かなかった場合、処理が正しく完了していない可能性がございます。お手数ですが、直接店舗へお電話にてごお問い合わせいただくか、改めて予約サイトよりお申込みください。",
     },
     {
       q: "メール認証のURLにアクセスするとエラーになります。",
-      a: "URLの読み込みが⼀時的にうまくいかなかった、もしくは、ご利⽤のメールソフトによってはURLが途中で改⾏されてしまう場合があります。URLをコピーし、ブラウザのアドレスバーへ貼り付けて再度アクセスしてください。 また、メール認証⽤URLの有効期限は30分となっております。30分を越えてしまうと無効となりますので、改めて予約サイトよりお申込みください",
+      a: "URLの読み込みが⼀時的にうまくいかなかった、もしくは、ご利⽤のメールソフトによってはURLが途中で改⾏されてしまう場合があります。URLをコピーし、ブラウザのアドレスバーへ貼り付けて再度アクセスしてください。\n\nまた、メール認証⽤URLの有効期限は30分となっております。30分を越えてしまうと無効となりますので、改めて予約サイトよりお申込みください",
     },
     {
       q: "お店へキャンセルの連絡をしましたが、予約キャンセル完了のメールが届きませんでした。予約はキャンセルされていますか？",
@@ -115,7 +121,7 @@ const FaqPage = () => {
     },
     {
       q: "予約申し込み時に登録したメールアドレスを変更できますか？",
-      a: "予約申し込み時に登録されたメールアドレスは変更できません。別のメールアドレスでメールを受信したい場合は、お⼿数ですが現在のお申し込みをキャンセルの上、再度予約申し込みを⾏ってください。",
+      a: "予約申し込み時に登録されたメールアドレスは変更できません。\n別のメールアドレスでメールを受信したい場合は、お⼿数ですが現在のお申し込みをキャンセルの上、再度予約申し込みを⾏ってください。",
     },
     {
       q: "予約をキャンセルしたい場合はどうすればいいですか？",
@@ -123,7 +129,7 @@ const FaqPage = () => {
     },
     {
       q: "予約をキャンセルしてしまったが、元に戻したい。",
-      a: "⼀度キャンセルされた予約は、元に戻すことはできません。 再度予約をご希望の場合は、改めて予約フォームよりお⼿続きをお願いします。また状況によっては、同じ条件で予約できないこともございますのでご了承ください。",
+      a: "⼀度キャンセルされた予約は、元に戻すことはできません。\n再度予約をご希望の場合は、改めて予約フォームよりお⼿続きをお願いします。また状況によっては、同じ条件で予約できないこともございますのでご了承ください。",
     },
     {
       q: "キャンセル料がかかるか確認したい。",
@@ -137,7 +143,11 @@ const FaqPage = () => {
 
   return (
     <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6">
-      <Link href="/" className="text-[#04512A] text-lg mb-5 block">
+      <Link
+        href="/"
+        className="text-[#04512A] text-lg mb-5 block"
+        onClick={handleGoBack}
+      >
         <p className="md:hidden block">{breadCrumbSp}</p>
         <p className="text-xl md:block hidden text-black">
           <span className="text-[#04512A]">来店予約</span>　/　よくある質問
@@ -170,7 +180,7 @@ const FaqPage = () => {
         </h2>
         {serviceContents.map((item, index) => (
           <div
-            className="collapse border-base-300 bg-base-100 border-b pt-7 pb-6 md:px-2 md:pr-4 pr-4 cursor-pointer"
+            className="collapse bg-base-100 border-b border-[#D9D9D9] pt-7 pb-6 md:px-2 md:pr-4 pr-4 cursor-pointer"
             key={index}
             onClick={() => handleServiceAccordionClick(index)}
           >
@@ -188,7 +198,9 @@ const FaqPage = () => {
             </div>
             {activeServiceItems.includes(index) && (
               <div className="collapse-content p-0 pb-0">
-                <p className="pt-3 md:text-base text-[15px]">{item.a}</p>
+                <p className="pt-3 md:text-base text-[15px] whitespace-break-spaces">
+                  {item.a}
+                </p>
               </div>
             )}
           </div>
@@ -200,7 +212,7 @@ const FaqPage = () => {
         </h2>
         {applicationContents.map((item, index) => (
           <div
-            className="collapse border-base-300 bg-base-100 border-b pt-7 pb-6 md:px-2 md:pr-4 pr-4 cursor-pointer"
+            className="collapse bg-base-100 border-b border-[#D9D9D9] pt-7 pb-6 md:px-2 md:pr-4 pr-4 cursor-pointer"
             key={index}
             onClick={() => handleApplicaitonAccordionClick(index)}
           >
@@ -218,7 +230,9 @@ const FaqPage = () => {
             </div>
             {activeApplicationItems.includes(index) && (
               <div className="collapse-content p-0 pb-0">
-                <p className="pt-3 md:text-base text-[15px]">{item.a}</p>
+                <p className="pt-3 md:text-base text-[15px] whitespace-break-spaces">
+                  {item.a}
+                </p>
               </div>
             )}
           </div>

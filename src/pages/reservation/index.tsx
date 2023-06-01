@@ -6,12 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/ReservationForm.module.css";
-import { useRecoilValue } from "recoil";
-import { reservationFormState } from "@/globalState/globalState";
 
 const ReservationPage = () => {
   const router = useRouter();
-  const formData = useRecoilValue(reservationFormState);
 
   const targetSectionRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState("");
@@ -80,7 +77,6 @@ const ReservationPage = () => {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = event.target.value;
     inputValue = inputValue.slice(0, 500);
-
     inputValue = sanitizeInput(inputValue);
 
     const lineBreaks = (inputValue.match(/\n/g) || []).length;
@@ -133,9 +129,6 @@ const ReservationPage = () => {
               <p className="md:text-base text-sm mt-[19px]">
                 2023年03月17日(金)
               </p>
-              {/* <p className="md:text-base text-sm mt-[19px]">
-                {formData.selectedDateValue}
-              </p> */}
               <p className="md:text-base text-sm mt-2">11:00</p>
               <p className="md:text-base text-sm mt-2">3名</p>
             </div>
