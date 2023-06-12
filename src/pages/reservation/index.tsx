@@ -416,7 +416,7 @@ const ReservationPage = () => {
           <p className="text-center md:mb-5 mb-9">
             <Link
               className="text-[#04512A] underline underline-offset-4"
-              href={"/privacy"}
+              href={"/terms"}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -426,13 +426,11 @@ const ReservationPage = () => {
             <br className="md:hidden" />
             <Link
               className="text-[#04512A] underline underline-offset-4"
-              href={
-                "https://corp.skylark.co.jp/privacy/web_privacy_policy.html"
-              }
+              href={"/privacy"}
               target="_blank"
               rel="noopener noreferrer"
             >
-              プライバシーポリシーに
+              プライバシーポリシー
             </Link>
           </p>
           <Button text="同意して次に進む" className="text-xl" />
