@@ -23,7 +23,7 @@ const FaqPage = () => {
     }
   };
 
-  const handleApplicaitonAccordionClick = (index: number) => {
+  const handleApplicationAccordionClick = (index: number) => {
     const isActive = activeApplicationItems.includes(index);
 
     if (isActive) {
@@ -214,7 +214,7 @@ const FaqPage = () => {
           <div
             className="collapse bg-base-100 border-b border-[#D9D9D9] pt-7 pb-6 md:px-2 md:pr-4 pr-4 cursor-pointer"
             key={index}
-            onClick={() => handleApplicaitonAccordionClick(index)}
+            onClick={() => handleApplicationAccordionClick(index)}
           >
             <div className="collapse-title p-0 flex items-center justify-between">
               <p className="md:text-xl text-base font-bold pr-6">{item.q}</p>
