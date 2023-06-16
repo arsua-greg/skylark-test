@@ -33,6 +33,7 @@ export default function Footer() {
           alt=""
           width={200}
           height={38}
+          priority
           className="md:w-auto w-[115px]"
         />
       </div>

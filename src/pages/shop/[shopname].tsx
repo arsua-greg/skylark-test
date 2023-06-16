@@ -1,17 +1,17 @@
-import styles from "../styles/ReservationForm.module.css";
+import styles from "../../styles/ReservationForm.module.css";
 
 import React, { Fragment, useState } from "react";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
 import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import { useRouter } from "next/dist/client/router";
 
-const TopPage = () => {
+const ShopDetailPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const router = useRouter();
+  const { shopname } = router.query;
   const [count, setCount] = useState(2);
   const [selectedTime, setSelectedTime] = useState("選択してください");
   const [selectedQuantity, setSelectedQuantity] = useState("");
@@ -23,23 +23,19 @@ const TopPage = () => {
     e.preventDefault();
     setCount((prevCount) => prevCount - 1);
   };
-
   const handleIncrement = (e: any) => {
     e.preventDefault();
     setCount((prevCount) => prevCount + 1);
   };
-
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateButtonState(e.target.value, isCheckedBox);
     setSelectedTime(e.target.value);
   };
-
   const setCheckboxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
     updateButtonState(selectedTime, newCheckboxState);
   };
-
   const updateButtonState = (option: string, checked: boolean) => {
     if (option !== "選択してください") {
       setIsButtonDisabled(false);
@@ -47,23 +43,18 @@ const TopPage = () => {
       setIsButtonDisabled(true);
     }
   };
-
   const handleDateChange = (date: Date | null) => {
     setSelectDate(date);
   };
-
   const handleSelectedQuantityChange = (quantity: string) => {
     setSelectedQuantity(quantity);
   };
-
   const handleSelectedOfferChange = (offer: string) => {
     setSelectedOfferTime(offer);
   };
-
   const handleOfferTiming = (offertiming: string) => {
     setSelectedOfferTiming(offertiming);
   };
-
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
@@ -86,9 +77,12 @@ const TopPage = () => {
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
             <div className="md:px-0 lg:px-0 px-5">
-              <Link href="shopname" className="font-bold md:text-3xl text-xl">
-                しゃぶ葉 渋谷駅前店
-              </Link>
+              <h1 className="font-bold md:text-3xl text-xl">
+                {Array.isArray(shopname)
+                  ? shopname[0]?.split("=")[1]
+                  : shopname?.split("=")[1]}
+              </h1>
+
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">
@@ -174,8 +168,6 @@ const TopPage = () => {
   );
 };
 
-// export const getStaticProps = {};
-
 const timeOptions = [
   { value: "選択してください", label: "選択してください" },
   { value: "11:00", label: "11:00" },
@@ -185,4 +177,4 @@ const timeOptions = [
   { value: "12:00", label: "12:00" },
 ];
 
-export default TopPage;
+export default ShopDetailPage;
