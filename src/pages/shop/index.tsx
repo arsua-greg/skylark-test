@@ -1,32 +1,15 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+import React from "react";
+import path from "path";
+import fs from "fs";
 
-interface Shop {
-  id: number;
-  shopName: string;
-}
-
-const ShopPage = () => {
-  const [shops, setShops] = useState<Shop[]>([]);
-
-  useEffect(() => {
-    const fetchShops = async () => {
-      try {
-        const response = await fetch("/api/shop");
-        const data = await response.json();
-        setShops(data.shops);
-      } catch (error) {
-        console.error("Error fetching shop data:", error);
-      }
-    };
-    fetchShops();
-  }, []);
-
+export default function ShopPage({ shops }: { shops: any }) {
   return (
-    <div>
-      <h1>List of Shops</h1>
-      <ul>
-        {shops.map((shop) => (
+    <div className="p-5">
+      <h1 className="text-lg font-bold">List of Shops</h1>
+      <ul className="mt-5">
+        {shops.map((shop: { id: number; shopName: string }) => (
           <li key={shop.id}>
             <Link href={`/shop/shopname=${shop.shopName}`}>
               {shop.shopName}
@@ -36,6 +19,14 @@ const ShopPage = () => {
       </ul>
     </div>
   );
-};
+}
 
-export default ShopPage;
+export const getStaticProps: GetStaticProps = async () => {
+  const filePath = path.join(process.cwd(), "data", "shops.json");
+  const data = fs.readFileSync(filePath, "utf-8");
+  const shops = JSON.parse(data);
+
+  return {
+    props: { shops },
+  };
+};
