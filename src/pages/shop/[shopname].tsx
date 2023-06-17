@@ -10,14 +10,14 @@ import { useRouter } from "next/dist/client/router";
 const ShopDetailPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
-  const router = useRouter();
-  const { shopname } = router.query;
   const [count, setCount] = useState(2);
   const [selectedTime, setSelectedTime] = useState("選択してください");
   const [selectedQuantity, setSelectedQuantity] = useState("");
   const [selectedOfferTime, setSelectedOfferTime] = useState("");
   const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
   const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const router = useRouter();
+  const { shopname } = router.query;
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -71,8 +71,6 @@ const ShopDetailPage = () => {
     });
   };
 
-  console.log({ shopname });
-
   return (
     <Fragment>
       <form onSubmit={submitFormHandler} className="md:pb-44 pb-8">
@@ -84,7 +82,6 @@ const ShopDetailPage = () => {
                   ? shopname[0]?.split("=")[1]
                   : shopname?.split("=")[1]}
               </h1>
-
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">
