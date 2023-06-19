@@ -18,3 +18,11 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ error: "Method Not Allowed" });
   }
 };
+
+export async function getAllShops() {
+  const filePath = path.join(process.cwd(), "data", "shops.json");
+  const data = fs.readFileSync(filePath, "utf-8");
+  const shops = JSON.parse(data);
+
+  return shops;
+}

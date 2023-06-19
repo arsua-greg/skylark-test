@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { GetStaticProps } from "next";
 import React from "react";
-import path from "path";
-import fs from "fs";
+
+import { GetStaticProps } from "next";
+import { getAllShops } from "../api/shop";
 
 export default function ShopPage({ shops }: { shops: any }) {
   return (
@@ -22,11 +22,10 @@ export default function ShopPage({ shops }: { shops: any }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const filePath = path.join(process.cwd(), "data", "shops.json");
-  const data = fs.readFileSync(filePath, "utf-8");
-  const shops = JSON.parse(data);
+  const shops = await getAllShops();
 
   return {
-    props: { shops },
+    props: { shops: shops },
+    revalidate: 10,
   };
 };
