@@ -1,32 +1,15 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import React from "react";
 
-interface Shop {
-  id: number;
-  shopName: string;
-}
+import { GetStaticProps } from "next";
+import { getAllShops } from "../api/shop";
 
-const ShopPage = () => {
-  const [shops, setShops] = useState<Shop[]>([]);
-
-  useEffect(() => {
-    const fetchShops = async () => {
-      try {
-        const response = await fetch("/api/shop");
-        const data = await response.json();
-        setShops(data.shops);
-      } catch (error) {
-        console.error("Error fetching shop data:", error);
-      }
-    };
-    fetchShops();
-  }, []);
-
+export default function ShopPage({ shops }: { shops: any }) {
   return (
-    <div>
-      <h1>List of Shops</h1>
-      <ul>
-        {shops.map((shop) => (
+    <div className="p-5">
+      <h1 className="text-lg font-bold">List of Shops</h1>
+      <ul className="mt-5">
+        {shops.map((shop: { id: number; shopName: string }) => (
           <li key={shop.id}>
             <Link href={`/shop/shopname=${shop.shopName}`}>
               {shop.shopName}
@@ -36,6 +19,13 @@ const ShopPage = () => {
       </ul>
     </div>
   );
-};
+}
 
-export default ShopPage;
+export const getStaticProps: GetStaticProps = async () => {
+  const shops = await getAllShops();
+
+  return {
+    props: { shops: shops },
+    revalidate: 10,
+  };
+};

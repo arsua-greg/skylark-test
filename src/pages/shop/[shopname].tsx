@@ -10,14 +10,14 @@ import { useRouter } from "next/dist/client/router";
 const ShopDetailPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
-  const router = useRouter();
-  const { shopname } = router.query;
   const [count, setCount] = useState(2);
   const [selectedTime, setSelectedTime] = useState("選択してください");
   const [selectedQuantity, setSelectedQuantity] = useState("");
   const [selectedOfferTime, setSelectedOfferTime] = useState("");
   const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
   const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const router = useRouter();
+  const { shopname } = router.query;
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -73,16 +73,18 @@ const ShopDetailPage = () => {
 
   return (
     <Fragment>
-      <form onSubmit={submitFormHandler} className=" md:pb-44 pb-8">
+      <form onSubmit={submitFormHandler} className="md:pb-44 pb-8">
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
             <div className="md:px-0 lg:px-0 px-5">
-              <h1 className="font-bold md:text-3xl text-xl">
+              {/* <h1 className="font-bold md:text-3xl text-xl">
                 {Array.isArray(shopname)
                   ? shopname[0]?.split("=")[1]
                   : shopname?.split("=")[1]}
+              </h1> */}
+              <h1 className="font-bold md:text-3xl text-xl">
+                しゃぶ葉 渋谷駅前店
               </h1>
-
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">
