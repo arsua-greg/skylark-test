@@ -4,24 +4,19 @@ import styles from "../../../styles/ReservationForm.module.css";
 import { useState } from "react";
 
 type ReservationDetailProps = {
+  counterValue?: number;
   selectedTime?: string;
-  counterValue?: string;
   selectedDate: string;
   selectedQuantity?: string;
   selectedOfferTime?: string;
   selectedOfferTiming?: string;
+  optionNote?: string;
 };
 
-const ReservationDetails: React.FC<ReservationDetailProps> = ({
-  selectedTime,
-  counterValue,
-  selectedDate,
-  selectedQuantity,
-  selectedOfferTime,
-  selectedOfferTiming,
-}) => {
+const ReservationDetails = (props: ReservationDetailProps) => {
+  const [isChecked, setIsChecked] = useState(false);
   const formattedDate = () => {
-    const dateObj = new Date(selectedDate);
+    const dateObj = new Date(props.selectedDate);
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const day = String(dateObj.getDate()).padStart(2, "0");
@@ -30,8 +25,6 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
     ];
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
-
-  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className="md:flex border-b-2 gap-14 md:pb-12 pb-7">
@@ -50,8 +43,8 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
             変更する
           </Link>
           <p className="text-base mt-4">{formattedDate()}</p>
-          <p className="text-base mt-1">{selectedTime}</p>
-          <p className="text-base mt-1">{`${counterValue} 名`}</p>
+          <p className="text-base mt-1">{props.selectedTime}</p>
+          <p className="text-base mt-1">{`${props.counterValue} 名`}</p>
         </div>
       </div>
       <div className="md:w-1/2 w-full flex justify-between flex-wrap md:mt-0 mt-9">
@@ -67,7 +60,7 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
             変更する
           </Link>
         </div>
-        <div className="md:flex w-full gap-6">
+        <div className="md:flex w-full gap-6 md:mt-3 mt-4">
           <div className="md:w-7/12 w-full flex">
             <div className={`${styles.img} mr-6`}>
               <Image
@@ -90,16 +83,14 @@ const ReservationDetails: React.FC<ReservationDetailProps> = ({
               <p className="text-base">提供タイミング</p>
             </div>
             <div className="text-right">
-              <p className="text-base">{selectedQuantity}</p>
-              <p className="text-base">{selectedOfferTime}</p>
-              <p className="text-base">{selectedOfferTiming}</p>
+              <p className="text-base">{props.selectedQuantity}</p>
+              <p className="text-base">{props.selectedOfferTime}</p>
+              <p className="text-base">{props.selectedOfferTiming}</p>
             </div>
           </div>
         </div>
         <div className="w-full mt-5">
-          <p className="text-base">
-            アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
-          </p>
+          <p className="text-base">{props.optionNote}</p>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ type CheckboxProps = {
   onSelectedQuantityChange: (quantity: string) => void;
   onSelectedOfferChange: (offer: string) => void;
   onSelectedOfferTiming: (offertiming: string) => void;
+  optionNote: (note: string) => void;
 };
 
 const quantityOptions = [
@@ -49,7 +50,7 @@ const ProductList = (props: CheckboxProps) => {
   const [selectedOfferTiming, setSelectedOfferTiming] = useState(
     offerTimingOptions[0].value
   );
-  const [value, setValue] = useState("");
+  const [optionNote, setOptionNote] = useState("");
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
@@ -76,13 +77,12 @@ const ProductList = (props: CheckboxProps) => {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = event.target.value;
     inputValue = inputValue.slice(0, 200);
-
     inputValue = sanitizeInput(inputValue);
-
     const lineBreaks = (inputValue.match(/\n/g) || []).length;
     if (lineBreaks > 10) return;
 
-    setValue(inputValue);
+    setOptionNote(inputValue);
+    props.optionNote(inputValue);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -152,7 +152,7 @@ const ProductList = (props: CheckboxProps) => {
         rows={10}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        value={value}
+        value={optionNote}
       ></textarea>
     </div>
   ) : null;

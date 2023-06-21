@@ -1,13 +1,14 @@
 import { atom } from "recoil";
 
-export const reservationFormState = atom({
-  key: "reservationFormState",
+export const formDataState = atom({
+  key: "formDataState",
   default: {
-    counterValue: "",
-    selectedTimeValue: "",
-    selectedDateValue: "",
+    counterValue: 2,
+    selectedTimeValue: "選択してください",
+    selectedDateValue: null as Date | null,
     selectedQuantityValue: "",
     selectedOfferTime: "",
     selectedOfferTiming: "",
+    optionValue: "",
   },
 });
