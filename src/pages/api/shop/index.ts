@@ -19,10 +19,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export async function getAllShops() {
-  const filePath = path.join(process.cwd(), "data", "shops.json");
-  const data = fs.readFileSync(filePath, "utf-8");
-  const shops = JSON.parse(data);
+// export async function getAllShops() {
+//   const filePath = path.join(process.cwd(), "data", "shops.json");
+//   const data = fs.readFileSync(filePath, "utf-8");
+//   const shops = JSON.parse(data);
 
-  return shops;
-}
+//   return shops;
+// }

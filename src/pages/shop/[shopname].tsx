@@ -6,6 +6,8 @@ import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import { useRouter } from "next/dist/client/router";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { formDataState } from "@/globalState/globalState";
 
 const ShopDetailPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -15,7 +17,8 @@ const ShopDetailPage = () => {
   const [selectedQuantity, setSelectedQuantity] = useState("");
   const [selectedOfferTime, setSelectedOfferTime] = useState("");
   const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
-  const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [optionNote, setOptionNote] = useState("");
   const router = useRouter();
   const { shopname } = router.query;
 
@@ -23,19 +26,24 @@ const ShopDetailPage = () => {
     e.preventDefault();
     setCount((prevCount) => prevCount - 1);
   };
+
   const handleIncrement = (e: any) => {
     e.preventDefault();
     setCount((prevCount) => prevCount + 1);
   };
+
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    updateButtonState(e.target.value, isCheckedBox);
-    setSelectedTime(e.target.value);
+    const selectedValue = e.target.value;
+    setSelectedTime(selectedValue);
+    updateButtonState(selectedValue, isCheckedBox);
   };
+
   const setCheckboxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
     updateButtonState(selectedTime, newCheckboxState);
   };
+
   const updateButtonState = (option: string, checked: boolean) => {
     if (option !== "選択してください") {
       setIsButtonDisabled(false);
@@ -43,31 +51,44 @@ const ShopDetailPage = () => {
       setIsButtonDisabled(true);
     }
   };
+
   const handleDateChange = (date: Date | null) => {
-    setSelectDate(date);
+    setSelectedDate(date);
   };
+
   const handleSelectedQuantityChange = (quantity: string) => {
     setSelectedQuantity(quantity);
   };
+
   const handleSelectedOfferChange = (offer: string) => {
     setSelectedOfferTime(offer);
   };
+
   const handleOfferTiming = (offertiming: string) => {
     setSelectedOfferTiming(offertiming);
   };
+
+  const handleOptionNote = (note: string) => {
+    setOptionNote(note);
+  };
+
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
+    const formData = {
+      counterValue: count,
+      selectedTime: selectedTime,
+      selectedDate: selectedDate?.toString(),
+      selectedQuantity: selectedQuantity,
+      selectedOfferTime: selectedOfferTime,
+      selectedOfferTiming: selectedOfferTiming,
+      optionNote: optionNote,
+    };
+    console.log(formData);
+
     router.push({
       pathname: "/reservation",
-      query: {
-        counterValue: count,
-        selectedTime: selectedTime,
-        selectedDate: selectDate?.toString(),
-        selectedQuantity: selectedQuantity,
-        selectedOfferTime: selectedOfferTime,
-        selectedOfferTiming: selectedOfferTiming,
-      },
+      query: formData,
     });
   };
 
@@ -77,13 +98,10 @@ const ShopDetailPage = () => {
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
             <div className="md:px-0 lg:px-0 px-5">
-              {/* <h1 className="font-bold md:text-3xl text-xl">
+              <h1 className="font-bold md:text-3xl text-xl">
                 {Array.isArray(shopname)
                   ? shopname[0]?.split("=")[1]
                   : shopname?.split("=")[1]}
-              </h1> */}
-              <h1 className="font-bold md:text-3xl text-xl">
-                しゃぶ葉 渋谷駅前店
               </h1>
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
@@ -112,7 +130,7 @@ const ShopDetailPage = () => {
                 </div>
                 <div className="md:flex hidden items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:ml-3 mt-5 md:mt-0">
                   <p className="font-xl">時間</p>
-                  {selectDate ? (
+                  {selectedDate ? (
                     <SelectInput
                       options={timeOptions}
                       value={selectedTime}
@@ -134,7 +152,7 @@ const ShopDetailPage = () => {
             </div>
             <div className="md:hidden flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:px-0 px-5 md:ml-3 mt-5 md:mt-0">
               <p className="font-xl">時間</p>
-              {selectDate ? (
+              {selectedDate ? (
                 <SelectInput
                   options={timeOptions}
                   value={selectedTime}
@@ -157,6 +175,7 @@ const ShopDetailPage = () => {
               onSelectedOfferChange={handleSelectedOfferChange}
               onSelectedOfferTiming={handleOfferTiming}
               isCheckedBox={isCheckedBox}
+              optionNote={handleOptionNote}
             />
           </div>
         </div>
