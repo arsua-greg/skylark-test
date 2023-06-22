@@ -6,8 +6,6 @@ import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import { useRouter } from "next/dist/client/router";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { formDataState } from "@/globalState/globalState";
 
 const ShopDetailPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -20,7 +18,6 @@ const ShopDetailPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [optionNote, setOptionNote] = useState("");
   const router = useRouter();
-  const { shopname } = router.query;
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -99,10 +96,13 @@ const ShopDetailPage = () => {
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
             <div className="md:px-0 lg:px-0 px-5">
               <h1 className="font-bold md:text-3xl text-xl">
+                しゃぶ葉 渋谷駅前店
+              </h1>
+              {/* <h1 className="font-bold md:text-3xl text-xl">
                 {Array.isArray(shopname)
                   ? shopname[0]?.split("=")[1]
                   : shopname?.split("=")[1]}
-              </h1>
+              </h1> */}
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">

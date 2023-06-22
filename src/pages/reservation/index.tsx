@@ -145,7 +145,6 @@ const ReservationPage = () => {
             </p>
           </div>
         </div>
-
         <div id="details" ref={targetSectionRef} className="mt-6">
           <p ref={errorRef} className="font-bold text-lg">
             ご来店者情報
@@ -342,7 +341,6 @@ const ReservationPage = () => {
             また、内容によってはご要望に添えない場合がございます。
           </p>
         </div>
-
         <div className="mt-6 md:mt-12">
           <p className="mt-5 font-bold text-lg">注意事項</p>
           <p className="md:text-sm text-[13px] mt-3">
