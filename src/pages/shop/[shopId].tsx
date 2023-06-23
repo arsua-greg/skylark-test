@@ -1,3 +1,4 @@
+
 import React from "react";
 
 const ShopDetailPage = () => {
@@ -5,3 +6,4 @@ const ShopDetailPage = () => {
 };
 
 export default ShopDetailPage;
+
