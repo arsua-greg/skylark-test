@@ -29,10 +29,6 @@ const HomePage = () => {
         setShopData(data);
         setOffDaysList(data.offDaysList || []);
         console.log(data);
-        console.log(data.bookingBlockList[0].blockDate);
-        console.log(data.bookingBlockList[0].blockTime);
-        console.log(data.bookingBlockList[0].externalTableSlot);
-        console.log(data.bookingBlockList[0].tableSlot);
       })
       .catch((err) => {
         console.log(err);
@@ -111,9 +107,6 @@ const HomePage = () => {
 
   return (
     <Fragment>
-      {/* <ul>
-        {shopData && shopData.map((item, index) => <li key={index}>{item}</li>)}
-      </ul> */}
       <form onSubmit={submitFormHandler} className="md:pb-44 pb-8">
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
