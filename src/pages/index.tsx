@@ -17,23 +17,28 @@ const HomePage = () => {
   const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [optionNote, setOptionNote] = useState("");
-  const [shopData, setShopData] = useState({});
+  const [shopData, setShopData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
   const [offDaysList, setOffDaysList] = useState([]);
 
-  useEffect(() => {
+  const fetchData = async () => {
     fetch("/api/shops")
       .then((res) => res.json())
       .then((data) => {
         setShopData(data);
         setOffDaysList(data.offDaysList || []);
-        console.log(data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [loading]);
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -107,6 +112,28 @@ const HomePage = () => {
 
   return (
     <Fragment>
+      {(function () {
+        if (shopData.length === 0) {
+          fetchData();
+          return <p className="text-center">Loading...</p>;
+        } else {
+          return (
+            <div className="text-center">
+              <p>Advance Booking Time: {shopData.advanceBookingTime}</p>
+              <p>Ticket Timeout: {shopData.ticketTimeout}</p>
+              <p>
+                Booking Block List: {shopData.bookingBlockList[0].blockDate}
+              </p>
+              <p>
+                Booking Block List: {shopData.bookingBlockList[0].blockTime}
+              </p>
+              <p>
+                Booking Block List: {shopData.bookingBlockList[0].tableSlot}
+              </p>
+            </div>
+          );
+        }
+      })()}
       <form onSubmit={submitFormHandler} className="md:pb-44 pb-8">
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
