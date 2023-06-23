@@ -6,9 +6,13 @@ import { format, isSunday, isSaturday, isSameDay } from "date-fns";
 type CalendarProps = {
   children?: any;
   onChange: (date: Date | null) => void;
+  holidayDates?: any;
 };
 
-const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
+const CalendarDisplay: React.FC<CalendarProps> = ({
+  onChange,
+  holidayDates,
+}) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
   const [today, setToday] = useState(new Date());
@@ -44,52 +48,20 @@ const CalendarDisplay: React.FC<CalendarProps> = ({ onChange }) => {
     }
   }, [isNextButtonDisabled]);
 
-  const holidays = [
-    "2023-07-17",
-    "2023-08-11",
-    "2023-09-18",
-    "2023-09-23",
-    "2023-10-09",
-    "2023-11-03",
-    "2023-11-23",
-    "2024-01-01",
-    "2024-01-08",
-    "2024-02-11",
-    "2024-02-12",
-    "2024-02-23",
-    "2024-03-20",
-    "2024-04-29",
-    "2024-05-03",
-    "2024-05-04",
-    "2024-05-05",
-    "2024-05-06",
-    "2024-07-15",
-    "2024-08-11",
-    "2024-08-12",
-    "2024-09-16",
-    "2024-09-22",
-    "2024-09-23",
-    "2024-10-14",
-    "2024-11-03",
-    "2024-11-04",
-    "2024-11-12",
-  ];
-  const holidayDates = holidays.map((holiday) => new Date(holiday));
-
-  // Custom class for Sunday on calendar
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    const dates = holidayDates.map((holiday: Date) => new Date(holiday));
+
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
     }
     if (view === "month" && isSaturday(date)) {
       return "saturday-tile";
     }
-    if (holidayDates.some((holiday) => isSameDay(date, holiday))) {
+    if (dates.some((holiday: Date) => isSameDay(date, holiday))) {
       return "holiday-tile";
     }
     return null;
   };
-  // End custom class
 
   const dateChangeHandler = (date: Date | null) => {
     setSelectDate(date);
