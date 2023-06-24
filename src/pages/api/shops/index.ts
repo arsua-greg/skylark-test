@@ -14,7 +14,7 @@ export default async function handler(
       const userId = generateUserId(req);
       const apiKey = "text/plain";
       const shopData = await fetch(
-        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/199942/setting`,
+        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/610/setting`,
         {
           headers: {
             "X-Interaction-Id": interactionId,
@@ -25,14 +25,12 @@ export default async function handler(
       );
       const shops = await shopData.json();
       res.status(200).json(shops);
+      console.log(shops);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
     res.status(405).json({ error: "Method Not Allowed" });
-  }
-
-  if (req.method === "POST") {
   }
 }

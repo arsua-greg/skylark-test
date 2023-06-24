@@ -18,6 +18,10 @@ import {
   userEmail,
   userNote,
 } from "@/globalState/globalState";
+import {
+  generateInteractionId,
+  generateUserId,
+} from "../../../helper/api-utils";
 
 const ReservationPage = () => {
   const targetSectionRef = useRef<HTMLDivElement>(null);
@@ -107,14 +111,14 @@ const ReservationPage = () => {
       email: false,
     });
 
-    const userInfo = {
-      fullName: name,
-      email: email,
-      phone: phoneNumber,
-      note: value,
-    };
-
     try {
+      const userInfo = {
+        fullName: name,
+        email: email,
+        phone: phoneNumber,
+        note: value,
+      };
+
       const response = await fetch("/api/users", {
         method: "POST",
         headers: {
@@ -124,12 +128,9 @@ const ReservationPage = () => {
       });
 
       if (response.ok) {
-        console.log("success", response.status);
-        router.push({
-          pathname: "/reservation/confirmation",
-        });
+        console.log("Successfully Added Data", response.status);
       } else {
-        console.log("error");
+        console.log("Error", response.status);
       }
     } catch (err) {
       console.log(err);

@@ -102,10 +102,6 @@ const HomePage = () => {
     setBookingDate(date);
   };
 
-  const handleOptionNote = (note: string) => {
-    setOptionNote(note);
-  };
-
   const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const quantity = e.target.value;
     setSelectedQuantity(quantity);
