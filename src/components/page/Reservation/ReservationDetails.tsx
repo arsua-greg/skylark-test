@@ -6,7 +6,7 @@ import { useState } from "react";
 type ReservationDetailProps = {
   numberOfPeople?: number;
   bookingTime?: string;
-  bookingDate: string;
+  bookingDate: any;
   selectedQuantity?: string;
   selectedOfferTime?: string;
   selectedOfferTiming?: string;

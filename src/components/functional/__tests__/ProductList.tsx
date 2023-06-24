@@ -1,10 +1,4 @@
-import {
-  Fragment,
-  useState,
-  useEffect,
-  ChangeEvent,
-  KeyboardEvent,
-} from "react";
+import { Fragment, useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
 import NekeroboModal from "../../ui/modal/NekeroboModal";
 import SelectInput from "../../ui/input/SelectInput";
@@ -22,38 +16,17 @@ type CheckboxProps = {
   offerTimingOptions: any;
   offerTimingValue: any;
   offerTimingHandler: (e: any) => void;
-  optionNote: (note: string) => void;
+  optionNote: string;
+  optionOnChange: (e: any) => void;
+  optionOnKeyDown: (e: any) => void;
 };
 
 const ProductList = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [optionNote, setOptionNote] = useState("");
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
   }, [props.isCheckedBox]);
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    let inputValue = event.target.value;
-    inputValue = inputValue.slice(0, 200);
-    inputValue = sanitizeInput(inputValue);
-    const lineBreaks = (inputValue.match(/\n/g) || []).length;
-    if (lineBreaks > 10) return;
-
-    setOptionNote(inputValue);
-    props.optionNote(inputValue);
-  };
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    const lineBreaks =
-      (event.target as HTMLTextAreaElement).value.match(/\n/g)?.length || 0;
-    if (lineBreaks >= 10 && event.key !== "Backspace") event.preventDefault();
-  };
-
-  const sanitizeInput = (input: string): string => {
-    const restrictedChars = /[><"/;:{}=-]/g;
-    return input.replace(restrictedChars, "");
-  };
 
   const advancedOptions = isChecked ? (
     <div id="advanced_options" className="lg:px-0 px-5">
@@ -109,9 +82,9 @@ const ProductList = (props: CheckboxProps) => {
         className="bg-white rounded border border-[#757575] p-3 max-w-[634px] w-full h-full text-sm"
         placeholder="オプションに関するご要望は、こちらに記載してください。"
         rows={10}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        value={optionNote}
+        onChange={props.optionOnChange}
+        onKeyDown={props.optionOnKeyDown}
+        value={props.optionNote}
       ></textarea>
     </div>
   ) : null;

@@ -3,9 +3,45 @@ import Steps from "@/components/ui/Steps";
 import ConfirmEmailModal from "@/components/ui/modal/ConfirmEmailModal";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import {
+  bookingDateAtom,
+  bookingTimeAtom,
+  countAtom,
+  optionNoteAtom,
+  selectedOfferTimeAtom,
+  selectedOfferTimingAtom,
+  selectedQuantityAtom,
+  userEmail,
+  userName,
+  userNote,
+  userPhoneNumber,
+} from "@/globalState/globalState";
 
 const ConfirmPage = () => {
   const router = useRouter();
+  const numberOfPeople = useRecoilValue(countAtom);
+  const bookingTime = useRecoilValue(bookingTimeAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
+  const selectedQuantity = useRecoilValue(selectedQuantityAtom);
+  const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
+  const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);
+  const optionNote = useRecoilValue(optionNoteAtom);
+  const name = useRecoilValue(userName);
+  const phone = useRecoilValue(userPhoneNumber);
+  const email = useRecoilValue(userEmail);
+  const note = useRecoilValue(userNote);
+
+  const formattedDate = () => {
+    const dateObj = new Date(bookingDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][
+      dateObj.getDay()
+    ];
+    return `${year}年${month}月${day}日(${dayOfWeek})`;
+  };
 
   const handleDetail = () => {
     router.push("/reservation?scrollTo=details");
@@ -42,10 +78,10 @@ const ConfirmPage = () => {
                 変更する
               </Link>
               <p className="md:text-base text-sm mt-[19px]">
-                2023年03月17日(金)
+                {formattedDate()}
               </p>
-              <p className="md:text-base text-sm mt-2">11:00</p>
-              <p className="md:text-base text-sm mt-2">3名</p>
+              <p className="md:text-base text-sm mt-2">{bookingTime}</p>
+              <p className="md:text-base text-sm mt-2">{`${numberOfPeople} 名`}</p>
             </div>
           </div>
           <div className="md:w-1/2 w-full flex justify-between flex-wrap md:mt-0 mt-9">
@@ -74,16 +110,18 @@ const ConfirmPage = () => {
                   <p className="text-sm md:mt-[11px] mt-2">提供タイミング</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm">1個</p>
-                  <p className="text-sm md:mt-[11px] mt-2">ネコロボ</p>
-                  <p className="text-sm md:mt-[11px] mt-2">その他</p>
+                  <p className="text-sm">{selectedQuantity}</p>
+                  <p className="text-sm md:mt-[11px] mt-2">
+                    {selectedOfferTiming}
+                  </p>
+                  <p className="text-sm md:mt-[11px] mt-2">
+                    {selectedOfferTime}
+                  </p>
                 </div>
               </div>
             </div>
             <div className="w-full mt-5">
-              <p className="text-base">
-                アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
-              </p>
+              <p className="text-base">{optionNote}</p>
             </div>
           </div>
         </div>
@@ -100,19 +138,19 @@ const ConfirmPage = () => {
           <div className="">
             <div className="flex items-center md:justify-normal justify-between md:px-5 w-full">
               <p className="leading-[19px] md:w-2/6">お名前</p>
-              <p>予約　太郎</p>
+              <p>{name}</p>
             </div>
           </div>
           <div className="md:flex md:mt-7 mt-3">
             <div className="md:mb-0 flex items-center md:justify-normal justify-between md:px-5 w-full">
               <p className="leading-[19px] md:w-2/6">電話番号</p>
-              <p>08012345678</p>
+              <p>{phone}</p>
             </div>
           </div>
           <div className="md:flex md:mt-7 mt-3">
             <div className="md:mb-0 flex items-center md:justify-normal justify-between md:px-5 w-full">
               <p className="leading-[19px] md:w-2/6">メールアドレス</p>
-              <p>skylark@skylark.co.jp</p>
+              <p>{email}</p>
             </div>
           </div>
         </div>
@@ -125,9 +163,7 @@ const ConfirmPage = () => {
             変更する
           </button>
         </div>
-        <p className="mt-5 md:ml-6 md:text-base text-sm">
-          アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
-        </p>
+        <p className="mt-5 md:ml-6 md:text-base text-sm">{note}</p>
         <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none justify-center md:mb-12 mb-8 md:mt-20 mt-9">
           <p className="md:text-base text-sm text-center">
             メールアドレスの入力間違い防止の為、次の画面でメールアドレス認証を行います。

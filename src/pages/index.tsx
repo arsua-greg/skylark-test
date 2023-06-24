@@ -1,28 +1,50 @@
 import styles from "../styles/ReservationForm.module.css";
 
-import React, { Fragment, useState, useEffect } from "react";
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/dist/client/router";
+import { useRecoilState } from "recoil";
+import {
+  countAtom,
+  bookingTimeAtom,
+  bookingDateAtom,
+  selectedQuantityAtom,
+  selectedOfferTimeAtom,
+  selectedOfferTimingAtom,
+  optionNoteAtom,
+} from "@/globalState/globalState";
+
+import {
+  quantityOptions,
+  offerTimeOptions,
+  offerTimingOptions,
+  timeOptions,
+} from "@/utils/optionSelection";
 
 const HomePage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
-  const [count, setCount] = useState(2);
-  const [bookingTime, setBookingTime] = useState("選択してください");
-  const [bookingDate, setBookingDate] = useState<Date | null>(null);
-  const [selectedQuantity, setSelectedQuantity] = useState(
-    quantityOptions[0].value
+  const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
+  const [bookingTime, setBookingTime] = useRecoilState(bookingTimeAtom);
+  const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
+  const [selectedQuantity, setSelectedQuantity] =
+    useRecoilState(selectedQuantityAtom);
+  const [selectedOfferTime, setSelectedOfferTime] = useRecoilState(
+    selectedOfferTimeAtom
   );
-  const [selectedOfferTime, setSelectedOfferTime] = useState(
-    offerTimeOptions[0].value
+  const [selectedOfferTiming, setSelectedOfferTiming] = useRecoilState(
+    selectedOfferTimingAtom
   );
-  const [selectedOfferTiming, setSelectedOfferTiming] = useState(
-    offerTimingOptions[0].value
-  );
-  const [optionNote, setOptionNote] = useState("");
+  const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
   const [shopData, setShopData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -48,12 +70,12 @@ const HomePage = () => {
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
-    setCount((prevCount) => prevCount - 1);
+    setNumberOfPeople((prevCount) => prevCount - 1);
   };
 
   const handleIncrement = (e: any) => {
     e.preventDefault();
-    setCount((prevCount) => prevCount + 1);
+    setNumberOfPeople((prevCount) => prevCount + 1);
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -80,10 +102,6 @@ const HomePage = () => {
     setBookingDate(date);
   };
 
-  const handleOptionNote = (note: string) => {
-    setOptionNote(note);
-  };
-
   const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const quantity = e.target.value;
     setSelectedQuantity(quantity);
@@ -99,50 +117,37 @@ const HomePage = () => {
     setSelectedOfferTiming(offertiming);
   };
 
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    let inputValue = event.target.value;
+    inputValue = inputValue.slice(0, 200);
+    inputValue = sanitizeInput(inputValue);
+    const lineBreaks = (inputValue.match(/\n/g) || []).length;
+    if (lineBreaks > 10) return;
+
+    setOptionNote(inputValue);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    const lineBreaks =
+      (event.target as HTMLTextAreaElement).value.match(/\n/g)?.length || 0;
+    if (lineBreaks >= 10 && event.key !== "Backspace") event.preventDefault();
+  };
+
+  const sanitizeInput = (input: string): string => {
+    const restrictedChars = /[><"/;:{}=-]/g;
+    return input.replace(restrictedChars, "");
+  };
+
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
-    const formData = {
-      numberOfPeople: count,
-      bookingDate: bookingDate?.toString(),
-      bookingTime: bookingTime,
-      selectedQuantity: selectedQuantity,
-      selectedOfferTime: selectedOfferTime,
-      selectedOfferTiming: selectedOfferTiming,
-      optionNote: optionNote,
-    };
-    console.log(formData);
-
     router.push({
       pathname: "/reservation",
-      query: formData,
     });
   };
 
   return (
     <Fragment>
-      {(function () {
-        if (shopData.length === 0) {
-          fetchData();
-          return <p className="text-center">Loading...</p>;
-        } else {
-          return (
-            <div className="text-center">
-              <p>Advance Booking Time: {shopData.advanceBookingTime}</p>
-              <p>Ticket Timeout: {shopData.ticketTimeout}</p>
-              <p>
-                Booking Block List: {shopData.bookingBlockList[0].blockDate}
-              </p>
-              <p>
-                Booking Block List: {shopData.bookingBlockList[0].blockTime}
-              </p>
-              <p>
-                Booking Block List: {shopData.bookingBlockList[0].tableSlot}
-              </p>
-            </div>
-          );
-        }
-      })()}
       <form onSubmit={submitFormHandler} className="md:pb-44 pb-8">
         <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-0">
           <div className="border-b border-[#D9D9D9] md:pb-10 pb-6">
@@ -166,15 +171,15 @@ const HomePage = () => {
                     <button
                       className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
                       onClick={handleDecrement}
-                      disabled={count <= 1}
+                      disabled={numberOfPeople <= 1}
                     >
                       <p className="text-white text-xl leading-none">-</p>
                     </button>
-                    <p className="bg-transparent text-center text-lg w-[94px] appearance-none outline-none">{`${count} 名`}</p>
+                    <p className="bg-transparent text-center text-lg w-[94px] appearance-none outline-none">{`${numberOfPeople} 名`}</p>
                     <button
                       className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
                       onClick={handleIncrement}
-                      disabled={count >= 16}
+                      disabled={numberOfPeople >= 16}
                     >
                       <p className="text-white text-xl leading-none">+</p>
                     </button>
@@ -235,7 +240,9 @@ const HomePage = () => {
               offerTimingOptions={offerTimingOptions}
               offerTimingValue={selectedOfferTiming}
               offerTimingHandler={offerTimingHandler}
-              optionNote={handleOptionNote}
+              optionNote={optionNote}
+              optionOnChange={handleChange}
+              optionOnKeyDown={handleKeyDown}
               isCheckedBox={isCheckedBox}
             />
           </div>
@@ -251,32 +258,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-const timeOptions = [
-  { value: "選択してください", label: "選択してください" },
-  { value: "11:00", label: "11:00" },
-  { value: "11:15", label: "11:15" },
-  { value: "11:30", label: "11:30" },
-  { value: "11:45", label: "11:45" },
-  { value: "12:00", label: "12:00" },
-];
-
-const quantityOptions = [
-  { value: "1個", label: "1個" },
-  { value: "2個", label: "2個" },
-  { value: "3個", label: "3個" },
-  { value: "4個", label: "4個" },
-];
-
-const offerTimeOptions = [
-  { value: "15分後", label: "15分後" },
-  { value: "30分後", label: "30分後" },
-  { value: "45分後", label: "45分後" },
-  { value: "60分後", label: "60分後" },
-  { value: "その他", label: "その他" },
-];
-
-const offerTimingOptions = [
-  { value: "ネコロボ", label: "ネコロボ" },
-  { value: "従業員", label: "従業員" },
-];
