@@ -4,37 +4,41 @@ import Steps from "../../components/ui/Steps";
 import ReservationDetails from "../../components/page/Reservation/ReservationDetails";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  bookingDateAtom,
+  bookingTimeAtom,
+  countAtom,
+  userName,
+  optionNoteAtom,
+  selectedOfferTimeAtom,
+  selectedOfferTimingAtom,
+  selectedQuantityAtom,
+  userPhoneNumber,
+  userEmail,
+  userNote,
+} from "@/globalState/globalState";
 
 const ReservationPage = () => {
   const targetSectionRef = useRef<HTMLDivElement>(null);
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useRecoilState(userName);
+  const [phoneNumber, setPhoneNumber] = useRecoilState(userPhoneNumber);
+  const [email, setEmail] = useRecoilState(userEmail);
   const [emailValid, setEmailValid] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useRecoilState(userNote);
+  const numberOfPeople = useRecoilValue(countAtom);
+  const bookingTime = useRecoilValue(bookingTimeAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom);
+  const selectedQuantity = useRecoilValue(selectedQuantityAtom);
+  const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
+  const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);
+  const optionNote = useRecoilValue(optionNoteAtom);
   const [validateError, setValidateError] = useState({
     name: false,
     phoneNumber: false,
     email: false,
   });
   const router = useRouter();
-  const {
-    numberOfPeople,
-    bookingTime,
-    bookingDate,
-    selectedQuantity,
-    selectedOfferTime,
-    selectedOfferTiming,
-    optionNote,
-  } = router.query as {
-    numberOfPeople: number | undefined;
-    bookingTime: string | undefined;
-    bookingDate: string;
-    selectedQuantity: string | undefined;
-    selectedOfferTime: string | undefined;
-    selectedOfferTiming: string | undefined;
-    optionNote: string | undefined;
-  };
 
   //scroll into details & comments section
   useEffect(() => {
@@ -55,39 +59,6 @@ const ReservationPage = () => {
   //end
 
   const errorRef = useRef<any>(null);
-  const submitHandler = (e: any) => {
-    e.preventDefault();
-    if (
-      name.trim() === "" ||
-      phoneNumber.trim() === "" ||
-      email.trim() === ""
-    ) {
-      setValidateError({
-        name: name.trim() === "",
-        phoneNumber: phoneNumber.trim() === "",
-        email: email.trim() === "",
-      });
-      errorRef.current.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      setEmailValid(true);
-      return;
-    }
-
-    setValidateError({
-      name: false,
-      phoneNumber: false,
-      email: false,
-    });
-
-    router.push({
-      pathname: "/reservation/confirmation",
-    });
-  };
-
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = event.target.value;
     inputValue = inputValue.slice(0, 500);
@@ -108,6 +79,61 @@ const ReservationPage = () => {
   const sanitizeInput = (input: string): string => {
     const restrictedChars = /[><"/;:{}=-]/g;
     return input.replace(restrictedChars, "");
+  };
+
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    if (
+      name.trim() === "" ||
+      phoneNumber.trim() === "" ||
+      email.trim() === ""
+    ) {
+      setValidateError({
+        name: name.trim() === "",
+        phoneNumber: phoneNumber.trim() === "",
+        email: email.trim() === "",
+      });
+      errorRef.current.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setEmailValid(true);
+      return;
+    }
+    setValidateError({
+      name: false,
+      phoneNumber: false,
+      email: false,
+    });
+
+    const userInfo = {
+      fullName: name,
+      email: email,
+      phone: phoneNumber,
+      note: value,
+    };
+
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userInfo),
+      });
+
+      if (response.ok) {
+        console.log("success", response.status);
+        router.push({
+          pathname: "/reservation/confirmation",
+        });
+      } else {
+        console.log("error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -229,21 +255,17 @@ const ReservationPage = () => {
                 value={phoneNumber}
                 onChange={(e) => {
                   let value = e.target.value;
-                  // Remove hyphens
                   value = value.replace(/-/g, "");
-                  // Convert double-byte numbers to single-byte
                   value = value.replace(/[０-９]/g, (match) => {
                     const code = match.charCodeAt(0) - 0xfee0;
                     return String.fromCharCode(code);
                   });
-                  // Restrict input to numbers 0-9
                   value = value.replace(/[^0-9]/g, "");
                   setPhoneNumber(value);
                 }}
                 onBlur={(e) => {
                   const length = e.target.value.length;
                   if (length < 8) {
-                    // Example usage
                     setValidateError((prevState) => ({
                       ...prevState,
                       phoneNumber: true,
