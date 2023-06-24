@@ -19,17 +19,17 @@ const ReservationPage = () => {
   });
   const router = useRouter();
   const {
-    counterValue,
-    selectedTime,
-    selectedDate,
+    numberOfPeople,
+    bookingTime,
+    bookingDate,
     selectedQuantity,
     selectedOfferTime,
     selectedOfferTiming,
     optionNote,
   } = router.query as {
-    counterValue: number | undefined;
-    selectedTime: string | undefined;
-    selectedDate: string;
+    numberOfPeople: number | undefined;
+    bookingTime: string | undefined;
+    bookingDate: string;
     selectedQuantity: string | undefined;
     selectedOfferTime: string | undefined;
     selectedOfferTiming: string | undefined;
@@ -118,9 +118,9 @@ const ReservationPage = () => {
         className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6"
       >
         <ReservationDetails
-          selectedTime={selectedTime}
-          counterValue={counterValue}
-          selectedDate={selectedDate}
+          bookingTime={bookingTime}
+          numberOfPeople={numberOfPeople}
+          bookingDate={bookingDate}
           selectedQuantity={selectedQuantity}
           selectedOfferTime={selectedOfferTime}
           selectedOfferTiming={selectedOfferTiming}

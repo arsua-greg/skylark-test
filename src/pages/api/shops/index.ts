@@ -6,8 +6,8 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const interactionId = "device123-screen456-20230622114030";
-      const userId = "no-authen";
+      const interactionId = generateInteractionId(req);
+      const userId = generateUserId(req);
       const apiKey = "text/plain";
       const shopData = await fetch(
         `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/199942/setting`,
@@ -28,4 +28,27 @@ export default async function handler(
   } else {
     res.status(405).json({ error: "Method Not Allowed" });
   }
+
+  if (req.method === "POST") {
+  }
+}
+
+//function to auto generate headers for API
+function generateInteractionId(req: NextApiRequest): string {
+  const deviceId = "";
+  const screenId = "";
+  const timestamp = new Date().toISOString().replace(/\D/g, "");
+  return `${deviceId}-${screenId}-${timestamp}`;
+}
+
+function generateUserId(req: NextApiRequest): string {
+  const basicAuth = req.headers.authorization;
+  if (basicAuth) {
+    const authValue = basicAuth.split(" ")[1];
+    const [user, pwd] = Buffer.from(authValue, "base64").toString().split(":");
+    if (user === "skyuser" && pwd === "sky0530") {
+      return "authenticated-user-id";
+    }
+  }
+  return "no-authen";
 }
