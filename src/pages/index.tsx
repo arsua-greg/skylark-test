@@ -11,11 +11,17 @@ const HomePage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const [count, setCount] = useState(2);
-  const [selectedTime, setSelectedTime] = useState("選択してください");
-  const [selectedQuantity, setSelectedQuantity] = useState("");
-  const [selectedOfferTime, setSelectedOfferTime] = useState("");
-  const [selectedOfferTiming, setSelectedOfferTiming] = useState("");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [bookingTime, setBookingTime] = useState("選択してください");
+  const [bookingDate, setBookingDate] = useState<Date | null>(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(
+    quantityOptions[0].value
+  );
+  const [selectedOfferTime, setSelectedOfferTime] = useState(
+    offerTimeOptions[0].value
+  );
+  const [selectedOfferTiming, setSelectedOfferTiming] = useState(
+    offerTimingOptions[0].value
+  );
   const [optionNote, setOptionNote] = useState("");
   const [shopData, setShopData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -52,14 +58,14 @@ const HomePage = () => {
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    setSelectedTime(selectedValue);
+    setBookingTime(selectedValue);
     updateButtonState(selectedValue, isCheckedBox);
   };
 
   const setCheckboxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
-    updateButtonState(selectedTime, newCheckboxState);
+    updateButtonState(bookingTime, newCheckboxState);
   };
 
   const updateButtonState = (option: string, checked: boolean) => {
@@ -71,32 +77,35 @@ const HomePage = () => {
   };
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
-  const handleSelectedQuantityChange = (quantity: string) => {
-    setSelectedQuantity(quantity);
-  };
-
-  const handleSelectedOfferChange = (offer: string) => {
-    setSelectedOfferTime(offer);
-  };
-
-  const handleOfferTiming = (offertiming: string) => {
-    setSelectedOfferTiming(offertiming);
+    setBookingDate(date);
   };
 
   const handleOptionNote = (note: string) => {
     setOptionNote(note);
   };
 
+  const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const quantity = e.target.value;
+    setSelectedQuantity(quantity);
+  };
+
+  const offerTimeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const offer = e.target.value;
+    setSelectedOfferTime(offer);
+  };
+
+  const offerTimingHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const offertiming = e.target.value;
+    setSelectedOfferTiming(offertiming);
+  };
+
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
     const formData = {
-      counterValue: count,
-      selectedTime: selectedTime,
-      selectedDate: selectedDate?.toString(),
+      numberOfPeople: count,
+      bookingDate: bookingDate?.toString(),
+      bookingTime: bookingTime,
       selectedQuantity: selectedQuantity,
       selectedOfferTime: selectedOfferTime,
       selectedOfferTiming: selectedOfferTiming,
@@ -173,10 +182,10 @@ const HomePage = () => {
                 </div>
                 <div className="md:flex hidden items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:ml-3 mt-5 md:mt-0">
                   <p className="font-xl">時間</p>
-                  {selectedDate ? (
+                  {bookingDate ? (
                     <SelectInput
                       options={timeOptions}
-                      value={selectedTime}
+                      value={bookingTime}
                       onChange={handleTimeChange}
                     />
                   ) : (
@@ -198,10 +207,10 @@ const HomePage = () => {
             </div>
             <div className="md:hidden flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:px-0 px-5 md:ml-3 mt-5 md:mt-0">
               <p className="font-xl">時間</p>
-              {selectedDate ? (
+              {bookingDate ? (
                 <SelectInput
                   options={timeOptions}
-                  value={selectedTime}
+                  value={bookingTime}
                   onChange={handleTimeChange}
                 />
               ) : (
@@ -217,11 +226,17 @@ const HomePage = () => {
           <div id="advanced">
             <ProductList
               setIsCheckBox={setCheckboxValue}
-              onSelectedQuantityChange={handleSelectedQuantityChange}
-              onSelectedOfferChange={handleSelectedOfferChange}
-              onSelectedOfferTiming={handleOfferTiming}
-              isCheckedBox={isCheckedBox}
+              quantityOptions={quantityOptions}
+              quantityOptionsValue={selectedQuantity}
+              quantityOptionsHandler={quantityMethodsHandler}
+              offerTimeOptions={offerTimeOptions}
+              offerTimeValue={selectedOfferTime}
+              offerTimeHandler={offerTimeHandler}
+              offerTimingOptions={offerTimingOptions}
+              offerTimingValue={selectedOfferTiming}
+              offerTimingHandler={offerTimingHandler}
               optionNote={handleOptionNote}
+              isCheckedBox={isCheckedBox}
             />
           </div>
         </div>
@@ -235,6 +250,8 @@ const HomePage = () => {
   );
 };
 
+export default HomePage;
+
 const timeOptions = [
   { value: "選択してください", label: "選択してください" },
   { value: "11:00", label: "11:00" },
@@ -244,4 +261,22 @@ const timeOptions = [
   { value: "12:00", label: "12:00" },
 ];
 
-export default HomePage;
+const quantityOptions = [
+  { value: "1個", label: "1個" },
+  { value: "2個", label: "2個" },
+  { value: "3個", label: "3個" },
+  { value: "4個", label: "4個" },
+];
+
+const offerTimeOptions = [
+  { value: "15分後", label: "15分後" },
+  { value: "30分後", label: "30分後" },
+  { value: "45分後", label: "45分後" },
+  { value: "60分後", label: "60分後" },
+  { value: "その他", label: "その他" },
+];
+
+const offerTimingOptions = [
+  { value: "ネコロボ", label: "ネコロボ" },
+  { value: "従業員", label: "従業員" },
+];

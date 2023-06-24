@@ -4,9 +4,9 @@ import styles from "../../../styles/ReservationForm.module.css";
 import { useState } from "react";
 
 type ReservationDetailProps = {
-  counterValue?: number;
-  selectedTime?: string;
-  selectedDate: string;
+  numberOfPeople?: number;
+  bookingTime?: string;
+  bookingDate: string;
   selectedQuantity?: string;
   selectedOfferTime?: string;
   selectedOfferTiming?: string;
@@ -16,7 +16,7 @@ type ReservationDetailProps = {
 const ReservationDetails = (props: ReservationDetailProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const formattedDate = () => {
-    const dateObj = new Date(props.selectedDate);
+    const dateObj = new Date(props.bookingDate);
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const day = String(dateObj.getDate()).padStart(2, "0");
@@ -43,8 +43,8 @@ const ReservationDetails = (props: ReservationDetailProps) => {
             変更する
           </Link>
           <p className="text-base mt-4">{formattedDate()}</p>
-          <p className="text-base mt-1">{props.selectedTime}</p>
-          <p className="text-base mt-1">{`${props.counterValue} 名`}</p>
+          <p className="text-base mt-1">{props.bookingTime}</p>
+          <p className="text-base mt-1">{`${props.numberOfPeople} 名`}</p>
         </div>
       </div>
       <div className="md:w-1/2 w-full flex justify-between flex-wrap md:mt-0 mt-9">
