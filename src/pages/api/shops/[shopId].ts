@@ -13,7 +13,7 @@ export default async function handler(
       const interactionId = generateInteractionId(req);
       const userId = generateUserId(req);
       const apiKey = "text/plain";
-      const shopId = "610";
+      const { shopId } = req.query;
 
       const shopData = await fetch(
         `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/${shopId}/setting`,

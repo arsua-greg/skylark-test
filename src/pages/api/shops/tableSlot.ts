@@ -13,11 +13,12 @@ export default async function handler(
       const interactionId = generateInteractionId(req);
       const userId = generateUserId(req);
       const apiKey = "text/plain";
+      const shopId = 610;
 
       const requestBody = req.body;
 
       const tableSlot = await fetch(
-        "https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/610/table-slot",
+        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`,
         {
           method: "POST",
           headers: {

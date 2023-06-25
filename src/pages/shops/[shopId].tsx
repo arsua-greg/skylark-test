@@ -1,4 +1,4 @@
-import styles from "../styles/ReservationForm.module.css";
+import styles from "../../styles/ReservationForm.module.css";
 
 import React, {
   Fragment,
