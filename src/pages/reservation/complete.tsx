@@ -1,7 +1,44 @@
 import Image from "next/image";
 import Steps from "@/components/ui/Steps";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  bookingDateAtom,
+  bookingTimeAtom,
+  countAtom,
+  optionNoteAtom,
+  selectedOfferTimeAtom,
+  selectedOfferTimingAtom,
+  selectedQuantityAtom,
+  userEmail,
+  userName,
+  userNote,
+  userPhoneNumber,
+} from "@/globalState/globalState";
 
 const CompletePage = () => {
+  const numberOfPeople = useRecoilValue(countAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
+  const bookingTime = useRecoilValue(bookingTimeAtom);
+  const quantity = useRecoilValue(selectedQuantityAtom);
+  const offerTime = useRecoilValue(selectedOfferTimeAtom);
+  const methodOfProvision = useRecoilValue(selectedOfferTimingAtom);
+  const optionNote = useRecoilValue(optionNoteAtom);
+  const reserveNote = useRecoilValue(userNote);
+  const name = useRecoilValue(userName);
+  const phone = useRecoilValue(userPhoneNumber);
+  const email = useRecoilValue(userEmail);
+
+  const formattedDate = () => {
+    const dateObj = new Date(bookingDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][
+      dateObj.getDay()
+    ];
+    return `${year}年${month}月${day}日(${dayOfWeek})`;
+  };
+
   return (
     <div className="md:mt-16">
       <Steps active={3} />
@@ -72,7 +109,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          2023年03月17日(金)
+                          {formattedDate()}
                         </p>
                       </div>
                     </li>
@@ -84,7 +121,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          11:00
+                          {bookingTime}
                         </p>
                       </div>
                     </li>
@@ -96,7 +133,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          3名
+                          {`${numberOfPeople} 名`}
                         </p>
                       </div>
                     </li>
@@ -108,7 +145,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          予約　太郎
+                          {name}
                         </p>
                       </div>
                     </li>
@@ -120,7 +157,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          080-1234-5678
+                          {phone}
                         </p>
                       </div>
                     </li>
@@ -132,7 +169,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          skylark@skylark.co.jp
+                          {email}
                         </p>
                       </div>
                     </li>
@@ -162,7 +199,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          1個
+                          {quantity}
                         </p>
                       </div>
                     </li>
@@ -174,7 +211,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          ネコロボ
+                          {methodOfProvision}
                         </p>
                       </div>
                     </li>
@@ -186,13 +223,13 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          その他
+                          {offerTime}
                         </p>
                       </div>
                     </li>
                     <li className="flex flex-wrap md:mb-5 pl-3 md:pl-0">
                       <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px]">
-                        アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
+                        {optionNote}
                       </p>
                     </li>
                   </ul>
@@ -207,7 +244,7 @@ const CompletePage = () => {
                       </div>
                       <div className="pl-3 md:pl-0">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px]">
-                          アニバーサリーケーキを持ってくるタイミングはこちらが合図した時でお願いしたいのですが、可能でしょうか。
+                          {reserveNote}
                         </p>
                       </div>
                     </li>

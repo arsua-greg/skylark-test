@@ -21,8 +21,8 @@ import {
 const ConfirmPage = () => {
   const router = useRouter();
   const numberOfPeople = useRecoilValue(countAtom);
-  const bookingTime = useRecoilValue(bookingTimeAtom);
   const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
+  const bookingTime = useRecoilValue(bookingTimeAtom);
   const selectedQuantity = useRecoilValue(selectedQuantityAtom);
   const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
   const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);
@@ -31,6 +31,15 @@ const ConfirmPage = () => {
   const phone = useRecoilValue(userPhoneNumber);
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
+
+  const formatDateReqBody = () => {
+    const dateObj = new Date(bookingDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
 
   const formattedDate = () => {
     const dateObj = new Date(bookingDate);
@@ -51,8 +60,47 @@ const ConfirmPage = () => {
     router.push("/reservation?scrollTo=comments");
   };
 
-  const formSubmitHandler = (e: any) => {
+  const formSubmitHandler = async (e: any) => {
     e.preventDefault();
+
+    try {
+      const bookingInfo = {
+        numberOfPeople: numberOfPeople,
+        bookingDate: formatDateReqBody(),
+        bookingTime: bookingTime,
+        fullName: name,
+        telNum: phone,
+        email: email,
+        optionList: [
+          {
+            optionName:
+              "【記念日のお祝いに】アニバーサリーケーキ＋３３０円(税込)",
+            quantity: selectedQuantity,
+            methodOfProvision: selectedOfferTiming,
+            offerTime: selectedOfferTime,
+            optionNote: note,
+          },
+        ],
+        shopId: 610,
+        bookingType: 1,
+      };
+
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingInfo),
+      });
+
+      if (response.ok) {
+        console.log("Successfully Added Data", response.status);
+      } else {
+        console.log("Error", response.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

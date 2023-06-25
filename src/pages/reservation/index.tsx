@@ -18,10 +18,6 @@ import {
   userEmail,
   userNote,
 } from "@/globalState/globalState";
-import {
-  generateInteractionId,
-  generateUserId,
-} from "../../../helper/api-utils";
 
 const ReservationPage = () => {
   const targetSectionRef = useRef<HTMLDivElement>(null);
@@ -128,7 +124,9 @@ const ReservationPage = () => {
       });
 
       if (response.ok) {
-        console.log("Successfully Added Data", response.status);
+        router.push({
+          pathname: "/reservation/confirmation",
+        });
       } else {
         console.log("Error", response.status);
       }

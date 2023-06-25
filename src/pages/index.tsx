@@ -27,7 +27,6 @@ import {
   quantityOptions,
   offerTimeOptions,
   offerTimingOptions,
-  timeOptions,
 } from "@/utils/optionSelection";
 
 const HomePage = () => {
@@ -49,14 +48,16 @@ const HomePage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const [offDaysList, setOffDaysList] = useState([]);
+  const [holidayDates, setHolidayDates] = useState([]);
+  const [offDayList, setOffDayList] = useState([]);
 
   const fetchData = async () => {
     fetch("/api/shops")
       .then((res) => res.json())
       .then((data) => {
         setShopData(data);
-        setOffDaysList(data.offDaysList || []);
+        setHolidayDates(data.holidayList || []);
+        setOffDayList(data.offDaysList || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -204,7 +205,8 @@ const HomePage = () => {
             <div className="md:px-5 px-0">
               <CalendarDisplay
                 onChange={handleDateChange}
-                holidayDates={offDaysList}
+                holidayDates={holidayDates}
+                offDayList={offDayList}
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
                 ◎：予約可　△：残りわずか　 ×：予約不可
@@ -258,3 +260,12 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const timeOptions = [
+  { value: "選択してください", label: "選択してください" },
+  { value: "11:00", label: "11:00" },
+  { value: "11:15", label: "11:15" },
+  { value: "11:30", label: "11:30" },
+  { value: "11:45", label: "11:45" },
+  { value: "12:00", label: "12:00" },
+];
