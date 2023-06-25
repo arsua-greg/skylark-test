@@ -17,12 +17,3 @@ export const offerTimingOptions = [
   { value: "ネコロボ", label: "ネコロボ" },
   { value: "従業員", label: "従業員" },
 ];
-
-export const timeOptions = [
-  { value: "選択してください", label: "選択してください" },
-  { value: "11:00", label: "11:00" },
-  { value: "11:15", label: "11:15" },
-  { value: "11:30", label: "11:30" },
-  { value: "11:45", label: "11:45" },
-  { value: "12:00", label: "12:00" },
-];

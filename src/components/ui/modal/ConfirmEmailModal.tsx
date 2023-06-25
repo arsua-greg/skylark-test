@@ -1,11 +1,41 @@
 import { useRouter } from "next/router";
 import Button from "../Button";
 import { Fragment } from "react";
+import { useRecoilValue } from "recoil";
+import { userEmail, userName } from "@/globalState/globalState";
 
 const ConfirmEmailModal = () => {
   const router = useRouter();
-  const handleEmailConfirm = (e: any) => {
+  const email = useRecoilValue(userEmail);
+  const name = useRecoilValue(userName);
+
+  const handleEmailConfirm = async (e: any) => {
     e.preventDefault();
+
+    try {
+      const emailBody = {
+        to: email,
+        subject: "Testing Email",
+        body: "Test Email",
+        name: name,
+      };
+
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailBody),
+      });
+
+      if (response.ok) {
+        console.log("Email sent", response.status);
+      } else {
+        console.log("Error", response.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
     router.push("/reservation/email-confirmation");
   };
 
@@ -26,7 +56,7 @@ const ConfirmEmailModal = () => {
                 <p className="md:mb-10 mb-7 md:text-base text-sm">
                   下記メールアドレスに認証メールを送信します。
                 </p>
-                <p className="md:text-xl">skylark@skylark.co.jp</p>
+                <p className="md:text-xl">{email}</p>
               </div>
               <Button
                 text="認証メールを送信する"

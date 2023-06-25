@@ -13,8 +13,10 @@ export default async function handler(
       const interactionId = generateInteractionId(req);
       const userId = generateUserId(req);
       const apiKey = "text/plain";
+      const shopId = "610";
+
       const shopData = await fetch(
-        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/610/setting`,
+        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/${shopId}/setting`,
         {
           headers: {
             "X-Interaction-Id": interactionId,
@@ -25,7 +27,6 @@ export default async function handler(
       );
       const shops = await shopData.json();
       res.status(200).json(shops);
-      console.log(shops);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });

@@ -1,9 +1,15 @@
 import Steps from "@/components/ui/Steps";
+import { userEmail } from "@/globalState/globalState";
+import { useRecoilValue } from "recoil";
+import EmailLoadingPage from "./email-loading";
 
 const EmailConfirmationPage = () => {
+  const email = useRecoilValue(userEmail);
+
   return (
     <div className="md:mt-16">
       <Steps active={2} />
+      {/* <EmailLoadingPage /> */}
       <div className="md:max-w-[1150px] mx-auto">
         <div className="px-4">
           <p className="text-center text-[14px] md:text-[16px] leading-[16.94px] md:leading-[25px] my-7 md:my-10">
@@ -14,7 +20,7 @@ const EmailConfirmationPage = () => {
           <div className="alert border border-[#FFCD29] bg-[#FFCD291A] max-w-[787px] mx-auto rounded-none">
             <div className="w-full">
               <div className="text-center w-full py-3">
-                <h5 className="font-bold mb-5">skylark@skylark.co.jp</h5>
+                <h5 className="font-bold mb-5">{email}</h5>
                 <p className="text-left text-[14px] font-normal md:text-center">
                   上記のメールアドレスに認証URLを送信しました。
                   <br />

@@ -7,11 +7,13 @@ type CalendarProps = {
   children?: any;
   onChange: (date: Date | null) => void;
   holidayDates?: any;
+  offDayList?: any;
 };
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
   onChange,
   holidayDates,
+  offDayList,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
@@ -49,7 +51,8 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   }, [isNextButtonDisabled]);
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const dates = holidayDates.map((holiday: Date) => new Date(holiday));
+    const holidayDate = holidayDates.map((holiday: Date) => new Date(holiday));
+    const offDay = offDayList.map((holiday: Date) => new Date(holiday));
 
     if (view === "month" && isSunday(date)) {
       return "sunday-tile";
@@ -57,8 +60,11 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     if (view === "month" && isSaturday(date)) {
       return "saturday-tile";
     }
-    if (dates.some((holiday: Date) => isSameDay(date, holiday))) {
+    if (holidayDate.some((holiday: Date) => isSameDay(date, holiday))) {
       return "holiday-tile";
+    }
+    if (offDay.some((holiday: Date) => isSameDay(date, holiday))) {
+      return "offday-tile";
     }
     return null;
   };
