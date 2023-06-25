@@ -78,7 +78,7 @@ const ConfirmPage = () => {
             quantity: selectedQuantity,
             methodOfProvision: selectedOfferTiming,
             offerTime: selectedOfferTime,
-            optionNote: optionNote,
+            optionNote: note,
           },
         ],
         shopId: 610,
@@ -97,7 +97,6 @@ const ConfirmPage = () => {
         console.log("Successfully Added Data", response.status);
       } else {
         console.log("Error", response.status);
-        console.log(bookingInfo);
       }
     } catch (err) {
       console.log(err);
