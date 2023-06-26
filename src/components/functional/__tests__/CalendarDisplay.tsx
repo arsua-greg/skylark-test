@@ -6,8 +6,8 @@ import { format, isSunday, isSaturday, isSameDay } from "date-fns";
 type CalendarProps = {
   children?: any;
   onChange: (date: Date | null) => void;
-  holidayDates: any;
-  offDayList: any;
+  holidayDates?: any;
+  offDayList?: any;
 };
 
 const CalendarDisplay: React.FC<CalendarProps> = ({

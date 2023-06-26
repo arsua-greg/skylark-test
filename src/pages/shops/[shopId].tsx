@@ -30,6 +30,7 @@ import {
 } from "@/utils/optionSelection";
 
 const HomePage = () => {
+  const router = useRouter();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
@@ -46,28 +47,25 @@ const HomePage = () => {
   const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
   const [shopData, setShopData] = useState<any>([]);
   const [loading] = useState<boolean>(true);
-  const router = useRouter();
 
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [defaultBookingSlots, setDefaultBookingSlots] = useState<
-    Array<{ tableSlot: number }>
-  >([]);
+  const [, setDefaultBookingSlot] = useState<Array<{ tableSlot: number }>>([]);
 
   const { shopId } = router.query;
 
   const fetchData = async () => {
-    fetch(`/api/shops/${shopId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setShopData(data);
-        setHolidayDates(data.holidayList || []);
-        setOffDayList(data.offDaysList || []);
-        setDefaultBookingSlots(data.defaultBookingSlot);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await fetch(`/api/shops/${shopId}`);
+      const data = await res.json();
+      setShopData(data);
+      setHolidayDates(data.holidayList || []);
+      setOffDayList(data.offDaysList || []);
+      setDefaultBookingSlot(data.defaultBookingSlot);
+      console.log(holidayDates);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
