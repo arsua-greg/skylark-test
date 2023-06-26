@@ -54,7 +54,7 @@ const HomePage = () => {
     Array<{ tableSlot: number }>
   >([]);
 
-  const shopId = router.query;
+  const { shopId } = router.query;
 
   const fetchData = async () => {
     fetch(`/api/shops/${shopId}`)
@@ -159,6 +159,14 @@ const HomePage = () => {
     { value: "11:30", label: "11:30" },
     { value: "11:45", label: "11:45" },
     { value: "12:00", label: "12:00" },
+    { value: "12:15", label: "12:15" },
+    { value: "12:30", label: "12:30" },
+    { value: "12:45", label: "12:45" },
+    { value: "13:00", label: "13:00" },
+    { value: "13:15", label: "13:15" },
+    { value: "13:30", label: "13:30" },
+    { value: "13:45", label: "13:45" },
+    { value: "14:00", label: "14:00" },
   ];
 
   return (
