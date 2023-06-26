@@ -30,6 +30,7 @@ import {
 } from "@/utils/optionSelection";
 
 const HomePage = () => {
+  const router = useRouter();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
@@ -46,28 +47,25 @@ const HomePage = () => {
   const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
   const [shopData, setShopData] = useState<any>([]);
   const [loading] = useState<boolean>(true);
-  const router = useRouter();
 
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [defaultBookingSlots, setDefaultBookingSlots] = useState<
-    Array<{ tableSlot: number }>
-  >([]);
+  const [, setDefaultBookingSlot] = useState<Array<{ tableSlot: number }>>([]);
 
-  const shopId = router.query;
+  const { shopId } = router.query;
 
   const fetchData = async () => {
-    fetch(`/api/shops/${shopId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setShopData(data);
-        setHolidayDates(data.holidayList || []);
-        setOffDayList(data.offDaysList || []);
-        setDefaultBookingSlots(data.defaultBookingSlot);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await fetch(`/api/shops/${shopId}`);
+      const data = await res.json();
+      setShopData(data);
+      setHolidayDates(data.holidayList || []);
+      setOffDayList(data.offDaysList || []);
+      setDefaultBookingSlot(data.defaultBookingSlot);
+      console.log(holidayDates);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -159,6 +157,14 @@ const HomePage = () => {
     { value: "11:30", label: "11:30" },
     { value: "11:45", label: "11:45" },
     { value: "12:00", label: "12:00" },
+    { value: "12:15", label: "12:15" },
+    { value: "12:30", label: "12:30" },
+    { value: "12:45", label: "12:45" },
+    { value: "13:00", label: "13:00" },
+    { value: "13:15", label: "13:15" },
+    { value: "13:30", label: "13:30" },
+    { value: "13:45", label: "13:45" },
+    { value: "14:00", label: "14:00" },
   ];
 
   return (
