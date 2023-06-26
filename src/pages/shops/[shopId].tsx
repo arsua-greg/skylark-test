@@ -46,11 +46,9 @@ const HomePage = () => {
   );
   const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
   const [shopData, setShopData] = useState<any>([]);
-  const [loading] = useState<boolean>(true);
-
+  const [loading, setIsLoading] = useState<boolean>(true);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [, setDefaultBookingSlot] = useState<Array<{ tableSlot: number }>>([]);
 
   const { shopId } = router.query;
 
@@ -58,11 +56,10 @@ const HomePage = () => {
     try {
       const res = await fetch(`/api/shops/${shopId}`);
       const data = await res.json();
+      setIsLoading(false);
       setShopData(data);
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
-      setDefaultBookingSlot(data.defaultBookingSlot);
-      console.log(holidayDates);
     } catch (err) {
       console.log(err);
     }
@@ -70,7 +67,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchData();
-  }, [loading, shopId]);
+  }, [loading]);
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
