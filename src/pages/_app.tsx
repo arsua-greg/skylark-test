@@ -6,13 +6,7 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 import type { AppProps } from "next/app";
 import Layout from "@/components/ui/Layout";
 import Head from "next/head";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
