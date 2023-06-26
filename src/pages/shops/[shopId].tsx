@@ -60,6 +60,8 @@ const HomePage = () => {
       setShopData(data);
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
+      console.log(data.bookingBlockList[0].blockDate);
+      console.log(data.bookingBlockList[0].blockTime);
     } catch (err) {
       console.log(err);
     }
