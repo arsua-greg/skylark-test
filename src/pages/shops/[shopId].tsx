@@ -58,49 +58,12 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
   const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [tableSlot, setTableSlot] = useState<TableSlot[] | undefined>([]);
+  const [tableSlot, setTableSlot] = useState(initialTableSlot);
   const { shopId } = router.query;
 
-
-  const fetchTableSlotData = async () => {
-    try {
-      const startDate = "2023-06-01";
-      const endDate = "2023-06-30";
-      const bookingDateTimeList = ["2023-06-30 12:00"];
-      const interactionId = generateInteractionId();
-      const userId = "no-authen";
-      const apiKey = "x-api-key"
-      const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
-
-      const response = await fetch(apiEndpoint, {
-        method: "POST",
-        headers: {
-          "X-Interaction-Id": interactionId,
-          "X-User-Id": userId,
-          "x-api-key": apiKey,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          bookingDateTimeList,
-          startDate,
-          endDate,
-        }),
-      });
-
-      if (response.ok) {
-        const initialTableSlot = await response.json();
-        setTableSlot(initialTableSlot);
-        console.log(tableSlot)
-      } else {
-        console.error("Request Failed", response.status);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
-    fetchTableSlotData();
-  }, [shopId]);
+    console.log(tableSlot);
+  }, [])
 
   const fetchData = async () => {
     try {
@@ -326,27 +289,53 @@ export default HomePage;
 export const getServerSideProps = async (
   context: any
 ) => {
+  const { shopId } = context.query;
+
   try {
-    const { shopId } = context.query;
-    const apiUrl = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
-    const response = await fetch(apiUrl);
+    const startDate = "2023-06-01";
+    const endDate = "2023-06-30";
+    const bookingDateTimeList = ["2023-06-30 12:00"];
+    const interactionId = generateInteractionId();
+    const userId = "no-authen";
+    const apiKey = "x-api-key"
+    const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "X-Interaction-Id": interactionId,
+        "X-User-Id": userId,
+        "x-api-key": apiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bookingDateTimeList,
+        startDate,
+        endDate
+      })
+    })
 
     if (response.ok) {
       const initialTableSlot: TableSlot[] | undefined = await response.json();
       return {
         props: {
-          initialTableSlot: initialTableSlot || []
+          initialTableSlot
         },
       };
     } else {
       console.error("Request Failed", response.status)
+      return {
+        props: {
+          initialTableSlot: null,
+        }
+      }
     }
   } catch (err) {
     console.log(err)
-  }
-  return {
-    props: {
-      initialTableSlot: []
+    return {
+      props: {
+        initialTableSlot: null,
+      }
     }
   }
 };
