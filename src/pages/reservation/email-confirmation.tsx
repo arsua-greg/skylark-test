@@ -2,14 +2,25 @@ import Steps from "@/components/ui/Steps";
 import { userEmail } from "@/globalState/globalState";
 import { useRecoilValue } from "recoil";
 import EmailLoadingPage from "./email-loading";
+import { useState } from "react";
+import CompletePage from "./complete";
 
 const EmailConfirmationPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isValidated, setIsValidated] = useState(false);
   const email = useRecoilValue(userEmail);
+
+  if (isLoading) {
+    return <EmailLoadingPage />;
+  }
+
+  if (isValidated) {
+    return <CompletePage />;
+  }
 
   return (
     <div className="md:mt-16">
       <Steps active={2} />
-      {/* <EmailLoadingPage /> */}
       <div className="md:max-w-[1150px] mx-auto">
         <div className="px-4">
           <p className="text-center text-[14px] md:text-[16px] leading-[16.94px] md:leading-[25px] my-7 md:my-10">

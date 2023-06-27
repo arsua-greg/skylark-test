@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const interactionId = generateInteractionId(req);
+      const interactionId = generateInteractionId();
       const userId = generateUserId(req);
       const apiKey = "text/plain";
       const { shopId } = req.query;

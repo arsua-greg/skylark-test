@@ -3,11 +3,13 @@ import Button from "../Button";
 import { Fragment } from "react";
 import { useRecoilValue } from "recoil";
 import { userEmail, userName } from "@/globalState/globalState";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const ConfirmEmailModal = () => {
   const router = useRouter();
   const email = useRecoilValue(userEmail);
   const name = useRecoilValue(userName);
+  const { user } = useUser();
 
   const handleEmailConfirm = async (e: any) => {
     e.preventDefault();

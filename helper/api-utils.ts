@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 
 //function to auto generate headers for API
-export const generateInteractionId = (req: NextApiRequest): string => {
+export const generateInteractionId = (): string => {
   const deviceId = "";
   const screenId = "";
   const timestamp = new Date().toISOString().replace(/\D/g, "");
