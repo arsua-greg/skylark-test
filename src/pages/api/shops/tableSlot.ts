@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const interactionId = generateInteractionId(req);
+      const interactionId = generateInteractionId();
       const userId = generateUserId(req);
       const apiKey = "text/plain";
       const shopId = 610;
