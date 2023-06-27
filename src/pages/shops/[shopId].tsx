@@ -62,7 +62,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
   const { shopId } = router.query;
 
   useEffect(() => {
-    console.log(tableSlot);
+    console.log(tableSlot)
   }, [])
 
   const fetchData = async () => {
@@ -292,9 +292,9 @@ export const getServerSideProps = async (
   const { shopId } = context.query;
 
   try {
-    const startDate = "2023-06-01";
-    const endDate = "2023-06-30";
-    const bookingDateTimeList = ["2023-06-30 12:00"];
+    const startDate = "2023-05-01";
+    const endDate = "2023-05-30";
+    const bookingDateTimeList = ["2023-05-30 12:00"];
     const interactionId = generateInteractionId();
     const userId = "no-authen";
     const apiKey = "x-api-key"
