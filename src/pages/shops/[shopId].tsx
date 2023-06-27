@@ -1,5 +1,3 @@
-import styles from "../../styles/ReservationForm.module.css";
-
 import React, {
   Fragment,
   useState,
@@ -7,12 +5,16 @@ import React, {
   ChangeEvent,
   KeyboardEvent,
 } from "react";
+
+import styles from "../../styles/ReservationForm.module.css";
 import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import Button from "@/components/ui/Button";
+
 import { useRouter } from "next/dist/client/router";
 import { useRecoilState } from "recoil";
+import { generateInteractionId } from "../../../helper/api-utils";
 import {
   countAtom,
   bookingTimeAtom,
@@ -22,14 +24,22 @@ import {
   selectedOfferTimingAtom,
   optionNoteAtom,
 } from "@/globalState/globalState";
-
 import {
   quantityOptions,
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
 
-const HomePage = () => {
+type TableSlot = {
+  bookingDate: Date | null;
+  bookingTime: string;
+};
+
+type MyPageProps = {
+  initialTableSlot?: TableSlot[];
+};
+
+const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
   const router = useRouter();
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
@@ -45,31 +55,68 @@ const HomePage = () => {
     selectedOfferTimingAtom
   );
   const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
-  const [shopData, setShopData] = useState<any>([]);
-  const [loading, setIsLoading] = useState<boolean>(true);
+  const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-
+  const [tableSlot, setTableSlot] = useState<TableSlot[] | undefined>([]);
   const { shopId } = router.query;
+
+
+  const fetchTableSlotData = async () => {
+    try {
+      const startDate = "2023-06-01";
+      const endDate = "2023-06-30";
+      const bookingDateTimeList = ["2023-06-30 12:00"];
+      const interactionId = generateInteractionId();
+      const userId = "no-authen";
+      const apiKey = "x-api-key"
+      const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
+
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "X-Interaction-Id": interactionId,
+          "X-User-Id": userId,
+          "x-api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bookingDateTimeList,
+          startDate,
+          endDate,
+        }),
+      });
+
+      if (response.ok) {
+        const initialTableSlot = await response.json();
+        setTableSlot(initialTableSlot);
+        console.log(tableSlot)
+      } else {
+        console.error("Request Failed", response.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchTableSlotData();
+  }, [shopId]);
 
   const fetchData = async () => {
     try {
       const res = await fetch(`/api/shops/${shopId}`);
       const data = await res.json();
-      setIsLoading(false);
       setShopData(data);
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
-      console.log(data.bookingBlockList[0].blockDate);
-      console.log(data.bookingBlockList[0].blockTime);
     } catch (err) {
       console.log(err);
     }
   };
-
   useEffect(() => {
     fetchData();
-  }, [loading]);
+  }, [shopId]);
+
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -94,11 +141,7 @@ const HomePage = () => {
   };
 
   const updateButtonState = (option: string, checked: boolean) => {
-    if (option !== "選択してください") {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
+    setIsButtonDisabled(option === "選択してください");
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -279,3 +322,31 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+export const getServerSideProps = async (
+  context: any
+) => {
+  try {
+    const { shopId } = context.query;
+    const apiUrl = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
+    const response = await fetch(apiUrl);
+
+    if (response.ok) {
+      const initialTableSlot: TableSlot[] | undefined = await response.json();
+      return {
+        props: {
+          initialTableSlot: initialTableSlot || []
+        },
+      };
+    } else {
+      console.error("Request Failed", response.status)
+    }
+  } catch (err) {
+    console.log(err)
+  }
+  return {
+    props: {
+      initialTableSlot: []
+    }
+  }
+};
