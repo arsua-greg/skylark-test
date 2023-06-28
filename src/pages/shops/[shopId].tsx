@@ -30,17 +30,25 @@ import {
   offerTimingOptions,
 } from "@/utils/optionSelection";
 
-type TableSlot = {
-  bookingDate: Date | null;
-  bookingTime: string;
-};
+interface InitialBookedTableSlot {
+  total: number;
+  dataList: {
+    bookingDate: string;
+    blockTimeList: {
+      blockTime: string;
+      tableSlot: number;
+      externameTableSlot: number;
+    }[];
+  }[];
+}
 
 type MyPageProps = {
-  initialTableSlot?: TableSlot[];
+  initialBookedTableSlot: InitialBookedTableSlot;
 };
 
-const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
+const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const router = useRouter();
+  const { shopId } = router.query;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
@@ -58,13 +66,14 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
   const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [tableSlot, setTableSlot] = useState(initialTableSlot);
-  const { shopId } = router.query;
+  const [bookedTableSlot] = useState(initialBookedTableSlot);
+  const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
+  const [lunchFrom, setLunchFrom] = useState("");
+  const [lunchTo, setLunchTo] = useState("");
+  const [incomingReservationTableSlot, setIncomingReservationTableSlot] =
+    useState(Number);
 
-  useEffect(() => {
-    console.log(tableSlot)
-  }, [])
-
+  //fetch bookingblocklist
   const fetchData = async () => {
     try {
       const res = await fetch(`/api/shops/${shopId}`);
@@ -72,6 +81,21 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
       setShopData(data);
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
+
+      const incomingTableSlot = data?.bookingBlockList[0]?.tableSlot;
+      setIncomingReservationTableSlot(incomingTableSlot);
+
+      const defaultBookingSlots = data.defaultBookingSlot || [];
+      const extractDefaultBookingSlot = defaultBookingSlots.map(
+        (item: { tableSlot: number }) => item.tableSlot
+      );
+      setDefaultBookingSlot(extractDefaultBookingSlot);
+
+      const lunchFrom = data?.lunchFrom;
+      setLunchFrom(lunchFrom);
+
+      const lunchTo = data?.lunchTo;
+      setLunchTo(lunchTo);
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +103,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
   useEffect(() => {
     fetchData();
   }, [shopId]);
-
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -157,20 +180,20 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
 
   const timeOptions = [
     { value: "選択してください", label: "選択してください" },
-    { value: "11:00", label: "11:00" },
-    { value: "11:15", label: "11:15" },
-    { value: "11:30", label: "11:30" },
-    { value: "11:45", label: "11:45" },
-    { value: "12:00", label: "12:00" },
-    { value: "12:15", label: "12:15" },
-    { value: "12:30", label: "12:30" },
-    { value: "12:45", label: "12:45" },
-    { value: "13:00", label: "13:00" },
-    { value: "13:15", label: "13:15" },
-    { value: "13:30", label: "13:30" },
-    { value: "13:45", label: "13:45" },
-    { value: "14:00", label: "14:00" },
   ];
+  const startTime = new Date(`2000-01-01T${lunchFrom}`);
+  const endTime = new Date(`2000-01-01T${lunchTo}`);
+  const timeIncrement = 15;
+
+  let currentTime = startTime;
+  while (currentTime <= endTime) {
+    const hours = currentTime.getHours().toString().padStart(2, "0");
+    const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+    const timeValue = `${hours}:${minutes}`;
+
+    timeOptions.push({ value: timeValue, label: timeValue });
+    currentTime.setMinutes(currentTime.getMinutes() + timeIncrement);
+  }
 
   return (
     <Fragment>
@@ -181,11 +204,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
               <h1 className="font-bold md:text-3xl text-xl">
                 しゃぶ葉 渋谷駅前店
               </h1>
-              {/* <h1 className="font-bold md:text-3xl text-xl">
-                {Array.isArray(shopname)
-                  ? shopname[0]?.split("=")[1]
-                  : shopname?.split("=")[1]}
-              </h1> */}
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">
@@ -232,6 +250,11 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
                 onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
+                defaultBookingSlot={defaultBookingSlot}
+                incomingReservationTableSlot={incomingReservationTableSlot}
+                bookedTableSlot={
+                  bookedTableSlot.dataList[0].blockTimeList[0].tableSlot
+                }
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
                 ◎：予約可　△：残りわずか　 ×：予約不可
@@ -286,18 +309,16 @@ const HomePage: React.FC<MyPageProps> = ({ initialTableSlot }) => {
 
 export default HomePage;
 
-export const getServerSideProps = async (
-  context: any
-) => {
+export const getServerSideProps = async (context: any) => {
   const { shopId } = context.query;
 
   try {
-    const startDate = "2023-05-01";
-    const endDate = "2023-05-30";
-    const bookingDateTimeList = ["2023-05-30 12:00"];
+    const startDate = "2023-06-01";
+    const endDate = "2023-06-30";
+    const bookingDateTimeList = ["2023-06-30 12:00"];
     const interactionId = generateInteractionId();
     const userId = "no-authen";
-    const apiKey = "x-api-key"
+    const apiKey = "x-api-key";
     const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
 
     const response = await fetch(apiEndpoint, {
@@ -311,31 +332,31 @@ export const getServerSideProps = async (
       body: JSON.stringify({
         bookingDateTimeList,
         startDate,
-        endDate
-      })
-    })
+        endDate,
+      }),
+    });
 
     if (response.ok) {
-      const initialTableSlot: TableSlot[] | undefined = await response.json();
+      const initialBookedTableSlot = await response.json();
       return {
         props: {
-          initialTableSlot
+          initialBookedTableSlot,
         },
       };
     } else {
-      console.error("Request Failed", response.status)
+      console.error("Request Failed", response.status);
       return {
         props: {
-          initialTableSlot: null,
-        }
-      }
+          initialBookedTableSlot: null,
+        },
+      };
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
       props: {
-        initialTableSlot: null,
-      }
-    }
+        initialBookedTableSlot: null,
+      },
+    };
   }
 };

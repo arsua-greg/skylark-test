@@ -8,12 +8,18 @@ type CalendarProps = {
   onChange: (date: Date | null) => void;
   holidayDates?: any;
   offDayList?: any;
+  bookedTableSlot: number;
+  incomingReservationTableSlot: number;
+  defaultBookingSlot: any;
 };
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
   onChange,
   holidayDates,
   offDayList,
+  bookedTableSlot,
+  incomingReservationTableSlot,
+  defaultBookingSlot,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
@@ -88,18 +94,33 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     return date < currentDate;
   };
 
+  // console.log(defaultBookingSlot);
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
-
     if (isDisabled) {
       return null;
     }
 
     const renderSymbols = () => {
-      if (date.getDate() % 2 === 0) {
-        return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-      } else {
-        return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+      const testDefault = 1;
+      const testincoming = 5;
+      // const blocklistdiff = incomingReservationTableSlot - bookedTableSlot;
+      const blocklistdiff = testincoming - bookedTableSlot;
+      const defaultSlot = testDefault - bookedTableSlot;
+
+      switch (true) {
+        case blocklistdiff >= 4 || defaultSlot >= 4:
+          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+        case blocklistdiff >= 1 || blocklistdiff < 4:
+          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+        case defaultSlot === 0 || blocklistdiff === 0:
+          return (
+            <span className="text-[#949494] block md:mt-2 mt-1 pointer-events-none">
+              x
+            </span>
+          );
+        default:
+          return "";
       }
     };
 
