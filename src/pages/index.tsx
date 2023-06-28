@@ -1,5 +1,3 @@
-import styles from "../styles/ReservationForm.module.css";
-
 import React, {
   Fragment,
   useState,
@@ -7,12 +5,16 @@ import React, {
   ChangeEvent,
   KeyboardEvent,
 } from "react";
+
+import styles from "../../styles/ReservationForm.module.css";
 import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import Button from "@/components/ui/Button";
+
 import { useRouter } from "next/dist/client/router";
 import { useRecoilState } from "recoil";
+import { generateInteractionId } from "../../helper/api-utils";
 import {
   countAtom,
   bookingTimeAtom,
@@ -22,14 +24,31 @@ import {
   selectedOfferTimingAtom,
   optionNoteAtom,
 } from "@/globalState/globalState";
-
 import {
   quantityOptions,
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
 
-const HomePage = () => {
+interface InitialBookedTableSlot {
+  total: number;
+  dataList: {
+    bookingDate: string;
+    blockTimeList: {
+      blockTime: string;
+      tableSlot: number;
+      externameTableSlot: number;
+    }[];
+  }[];
+}
+
+type MyPageProps = {
+  initialBookedTableSlot: InitialBookedTableSlot;
+};
+
+const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
+  const router = useRouter();
+  const { shopId } = router.query;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCheckedBox, setCheckBox] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
@@ -44,35 +63,46 @@ const HomePage = () => {
     selectedOfferTimingAtom
   );
   const [optionNote, setOptionNote] = useRecoilState(optionNoteAtom);
-  const [shopData, setShopData] = useState<any>([]);
-  const [loading] = useState<boolean>(true);
-  const router = useRouter();
-
+  const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [defaultBookingSlots, setDefaultBookingSlots] = useState<
-    Array<{ tableSlot: number }>
-  >([]);
+  const [bookedTableSlot] = useState(initialBookedTableSlot);
+  const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
+  const [lunchFrom, setLunchFrom] = useState("");
+  const [lunchTo, setLunchTo] = useState("");
+  const [incomingReservationTableSlot, setIncomingReservationTableSlot] =
+    useState(Number);
 
-  const shopId = router.query;
-
+  //fetch bookingblocklist
   const fetchData = async () => {
-    fetch(`/api/shops/${shopId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setShopData(data);
-        setHolidayDates(data.holidayList || []);
-        setOffDayList(data.offDaysList || []);
-        setDefaultBookingSlots(data.defaultBookingSlot);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    try {
+      const res = await fetch(`/api/shops/${shopId}`);
+      const data = await res.json();
+      setShopData(data);
+      setHolidayDates(data.holidayList || []);
+      setOffDayList(data.offDaysList || []);
 
+      const incomingTableSlot = data?.bookingBlockList[0]?.tableSlot;
+      setIncomingReservationTableSlot(incomingTableSlot);
+
+      const defaultBookingSlots = data.defaultBookingSlot || [];
+      const extractDefaultBookingSlot = defaultBookingSlots.map(
+        (item: { tableSlot: number }) => item.tableSlot
+      );
+      setDefaultBookingSlot(extractDefaultBookingSlot);
+
+      const lunchFrom = data?.lunchFrom;
+      setLunchFrom(lunchFrom);
+
+      const lunchTo = data?.lunchTo;
+      setLunchTo(lunchTo);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchData();
-  }, [loading, shopId]);
+  }, [shopId]);
 
   const handleDecrement = (e: any) => {
     e.preventDefault();
@@ -97,11 +127,7 @@ const HomePage = () => {
   };
 
   const updateButtonState = (option: string, checked: boolean) => {
-    if (option !== "選択してください") {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
+    setIsButtonDisabled(option === "選択してください");
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -154,12 +180,20 @@ const HomePage = () => {
 
   const timeOptions = [
     { value: "選択してください", label: "選択してください" },
-    { value: "11:00", label: "11:00" },
-    { value: "11:15", label: "11:15" },
-    { value: "11:30", label: "11:30" },
-    { value: "11:45", label: "11:45" },
-    { value: "12:00", label: "12:00" },
   ];
+  const startTime = new Date(`2000-01-01T${lunchFrom}`);
+  const endTime = new Date(`2000-01-01T${lunchTo}`);
+  const timeIncrement = 15;
+
+  let currentTime = startTime;
+  while (currentTime <= endTime) {
+    const hours = currentTime.getHours().toString().padStart(2, "0");
+    const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+    const timeValue = `${hours}:${minutes}`;
+
+    timeOptions.push({ value: timeValue, label: timeValue });
+    currentTime.setMinutes(currentTime.getMinutes() + timeIncrement);
+  }
 
   return (
     <Fragment>
@@ -170,11 +204,6 @@ const HomePage = () => {
               <h1 className="font-bold md:text-3xl text-xl">
                 しゃぶ葉 渋谷駅前店
               </h1>
-              {/* <h1 className="font-bold md:text-3xl text-xl">
-                {Array.isArray(shopname)
-                  ? shopname[0]?.split("=")[1]
-                  : shopname?.split("=")[1]}
-              </h1> */}
               <div className="md:flex md:mt-12 mt-6">
                 <div className="flex items-center md:w-1/2 md:bg-[#EDEDED] justify-between md:p-5 p-0 md:mr-3">
                   <div className="w-1/2">
@@ -221,6 +250,11 @@ const HomePage = () => {
                 onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
+                defaultBookingSlot={defaultBookingSlot}
+                incomingReservationTableSlot={incomingReservationTableSlot}
+                bookedTableSlot={
+                  bookedTableSlot.dataList[0].blockTimeList[0].tableSlot
+                }
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
                 ◎：予約可　△：残りわずか　 ×：予約不可
@@ -274,3 +308,55 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+export const getServerSideProps = async (context: any) => {
+  const { shopId } = context.query;
+
+  try {
+    const startDate = "2023-06-01";
+    const endDate = "2023-06-30";
+    const bookingDateTimeList = ["2023-06-30 12:00"];
+    const interactionId = generateInteractionId();
+    const userId = "no-authen";
+    const apiKey = "x-api-key";
+    const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
+
+    const response = await fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "X-Interaction-Id": interactionId,
+        "X-User-Id": userId,
+        "x-api-key": apiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bookingDateTimeList,
+        startDate,
+        endDate,
+      }),
+    });
+
+    if (response.ok) {
+      const initialBookedTableSlot = await response.json();
+      return {
+        props: {
+          initialBookedTableSlot,
+        },
+      };
+    } else {
+      console.error("Request Failed", response.status);
+      return {
+        props: {
+          initialBookedTableSlot: null,
+        },
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      props: {
+        initialBookedTableSlot: null,
+      },
+    };
+  }
+};
