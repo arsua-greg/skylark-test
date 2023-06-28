@@ -3,15 +3,24 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format, isSunday, isSaturday, isSameDay } from "date-fns";
 
-type CalendarProps = {
+interface CalendarProps {
   children?: any;
   onChange: (date: Date | null) => void;
   holidayDates?: any;
   offDayList?: any;
-  bookedTableSlot: number;
+  bookedTableSlot: {
+    dataList: {
+      bookingDate: string;
+      blockTimeList: {
+        blockTime: string;
+        tableSlot: number;
+        externameTableSlot: number;
+      }[];
+    }[];
+  };
   incomingReservationTableSlot: number;
   defaultBookingSlot: any;
-};
+}
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
   onChange,
@@ -19,7 +28,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   offDayList,
   bookedTableSlot,
   incomingReservationTableSlot,
-  defaultBookingSlot,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
@@ -55,6 +63,58 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       nextButton.disabled = isNextButtonDisabled;
     }
   }, [isNextButtonDisabled]);
+
+  console.log(incomingReservationTableSlot);
+
+  const CustomDayCell = ({ date }: { date: Date }) => {
+    const isDisabled = isDateDisabled(date);
+    if (isDisabled) {
+      return null;
+    }
+
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    const renderSymbols = () => {
+      const { dataList } = bookedTableSlot;
+      const formattedDate = formatDate(date);
+      const bookingDateItem = dataList.find(
+        (item) => item.bookingDate === formattedDate
+      );
+
+      if (bookingDateItem) {
+        const { blockTimeList } = bookingDateItem;
+        const blocklistdiff =
+          incomingReservationTableSlot - blockTimeList[0].tableSlot;
+
+        switch (true) {
+          case blocklistdiff >= 4:
+            return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+          case blocklistdiff >= 1 && blocklistdiff < 4:
+            return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+          case blocklistdiff === 0:
+            return (
+              <span className="text-[#949494] block md:mt-2 mt-1 pointer-events-none">
+                x
+              </span>
+            );
+          default:
+            return null;
+        }
+      }
+      return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+    };
+
+    return (
+      <div className="day-cell">
+        <div className="symbols">{renderSymbols()}</div>
+      </div>
+    );
+  };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     const holidayDate = holidayDates.map((holiday: Date) => new Date(holiday));
@@ -92,43 +152,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
     return date < currentDate;
-  };
-
-  // console.log(defaultBookingSlot);
-  const CustomDayCell = ({ date }: { date: Date }) => {
-    const isDisabled = isDateDisabled(date);
-    if (isDisabled) {
-      return null;
-    }
-
-    const renderSymbols = () => {
-      const testDefault = 1;
-      const testincoming = 5;
-      // const blocklistdiff = incomingReservationTableSlot - bookedTableSlot;
-      const blocklistdiff = testincoming - bookedTableSlot;
-      const defaultSlot = testDefault - bookedTableSlot;
-
-      switch (true) {
-        case blocklistdiff >= 4 || defaultSlot >= 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-        case blocklistdiff >= 1 || blocklistdiff < 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-        case defaultSlot === 0 || blocklistdiff === 0:
-          return (
-            <span className="text-[#949494] block md:mt-2 mt-1 pointer-events-none">
-              x
-            </span>
-          );
-        default:
-          return "";
-      }
-    };
-
-    return (
-      <div className="day-cell">
-        <div className="symbols">{renderSymbols()}</div>
-      </div>
-    );
   };
 
   const handleActiveStartDateChange = ({ action, activeStartDate }: any) => {
