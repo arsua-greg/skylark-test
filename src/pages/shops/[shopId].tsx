@@ -29,6 +29,7 @@ import {
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
+import { addMonths, startOfMonth } from "date-fns";
 
 interface InitialBookedTableSlot {
   total: number;
@@ -66,7 +67,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [bookedTableSlot] = useState(initialBookedTableSlot);
+  const [bookedTableSlots] = useState(initialBookedTableSlot);
   const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
@@ -82,7 +83,8 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
 
-      const incomingTableSlot = data?.bookingBlockList[0]?.tableSlot;
+      // const incomingTableSlot = data?.bookingBlockList[0]?.tableSlot;
+      const incomingTableSlot = 2;
       setIncomingReservationTableSlot(incomingTableSlot);
 
       const defaultBookingSlots = data.defaultBookingSlot || [];
@@ -252,9 +254,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                 offDayList={offDayList}
                 defaultBookingSlot={defaultBookingSlot}
                 incomingReservationTableSlot={incomingReservationTableSlot}
-                bookedTableSlot={
-                  bookedTableSlot.dataList[0].blockTimeList[0].tableSlot
-                }
+                bookedTableSlot={bookedTableSlots}
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
                 ◎：予約可　△：残りわずか　 ×：予約不可
@@ -313,9 +313,11 @@ export const getServerSideProps = async (context: any) => {
   const { shopId } = context.query;
 
   try {
-    const startDate = "2023-06-01";
-    const endDate = "2023-06-30";
-    const bookingDateTimeList = ["2023-06-30 12:00"];
+    const today: Date = new Date();
+    const startDate = startOfMonth(today);
+    const endDate = addMonths(startDate, 2);
+    const startDateISOString = startDate.toISOString().split("T")[0];
+    const endDateISOString = endDate.toISOString().split("T")[0];
     const interactionId = generateInteractionId();
     const userId = "no-authen";
     const apiKey = "x-api-key";
@@ -330,9 +332,8 @@ export const getServerSideProps = async (context: any) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        bookingDateTimeList,
-        startDate,
-        endDate,
+        startDate: startDateISOString,
+        endDate: endDateISOString,
       }),
     });
 
