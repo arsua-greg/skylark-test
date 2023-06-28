@@ -6,7 +6,7 @@ import React, {
   KeyboardEvent,
 } from "react";
 
-import styles from "../../styles/ReservationForm.module.css";
+import styles from "../styles/ReservationForm.module.css";
 import SelectInput from "@/components/ui/input/SelectInput";
 import ProductList from "@/components/functional/__tests__/ProductList";
 import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
