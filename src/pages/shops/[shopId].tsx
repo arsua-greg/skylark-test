@@ -83,9 +83,13 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       setHolidayDates(data.holidayList || []);
       setOffDayList(data.offDaysList || []);
 
-      // const incomingTableSlot = data?.bookingBlockList[0]?.tableSlot;
-      const incomingTableSlot = 2;
-      setIncomingReservationTableSlot(incomingTableSlot);
+      const { defaultBookingSlot } = data;
+      const totalTableSlot = defaultBookingSlot.reduce(
+        (total: number, slot: any) => total + slot.tableSlot,
+        0
+      );
+      console.log(totalTableSlot);
+      setIncomingReservationTableSlot(totalTableSlot);
 
       const defaultBookingSlots = data.defaultBookingSlot || [];
       const extractDefaultBookingSlot = defaultBookingSlots.map(
@@ -252,7 +256,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                 onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
-                defaultBookingSlot={defaultBookingSlot}
                 incomingReservationTableSlot={incomingReservationTableSlot}
                 bookedTableSlot={bookedTableSlots}
               />
