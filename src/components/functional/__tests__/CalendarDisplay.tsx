@@ -64,8 +64,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
   }, [isNextButtonDisabled]);
 
-  console.log(incomingReservationTableSlot);
-
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
     if (isDisabled) {
