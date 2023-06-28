@@ -66,7 +66,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [, setShopData] = useState<any>([]);
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
-  const [bookedTableSlot] = useState(initialBookedTableSlot);
+  const [bookedTableSlots] = useState(initialBookedTableSlot);
   const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
@@ -252,9 +252,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                 offDayList={offDayList}
                 defaultBookingSlot={defaultBookingSlot}
                 incomingReservationTableSlot={incomingReservationTableSlot}
-                bookedTableSlot={
-                  bookedTableSlot.dataList[0].blockTimeList[0].tableSlot
-                }
+                bookedTableSlot={bookedTableSlots}
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
                 ◎：予約可　△：残りわずか　 ×：予約不可
