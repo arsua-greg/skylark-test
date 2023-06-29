@@ -18,7 +18,7 @@ interface CalendarProps {
       }[];
     }[];
   };
-  incomingReservationTableSlot: number;
+  defaultBookingSlot: number;
 }
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
@@ -26,7 +26,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   holidayDates,
   offDayList,
   bookedTableSlot,
-  incomingReservationTableSlot,
+  defaultBookingSlot,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectDate, setSelectDate] = useState<Date | null>(null);
@@ -89,8 +89,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           (total, blockTime) => total + blockTime.tableSlot,
           0
         );
-        const blocklistdiff =
-          incomingReservationTableSlot - totalBookedTableSlots;
+        const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
 
         switch (true) {
           case blocklistdiff >= 4:

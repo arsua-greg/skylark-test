@@ -68,11 +68,9 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
   const [bookedTableSlots] = useState(initialBookedTableSlot);
-  const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
+  const [defaultBookingSlot, setDefaultBookingSlot] = useState(0);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
-  const [incomingReservationTableSlot, setIncomingReservationTableSlot] =
-    useState(Number);
 
   //fetch bookingblocklist
   const fetchData = async () => {
@@ -88,14 +86,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
         (total: number, slot: any) => total + slot.tableSlot,
         0
       );
-      console.log(totalTableSlot);
-      setIncomingReservationTableSlot(totalTableSlot);
-
-      const defaultBookingSlots = data.defaultBookingSlot || [];
-      const extractDefaultBookingSlot = defaultBookingSlots.map(
-        (item: { tableSlot: number }) => item.tableSlot
-      );
-      setDefaultBookingSlot(extractDefaultBookingSlot);
+      setDefaultBookingSlot(totalTableSlot);
 
       const lunchFrom = data?.lunchFrom;
       setLunchFrom(lunchFrom);
@@ -256,7 +247,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                 onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
-                incomingReservationTableSlot={incomingReservationTableSlot}
+                defaultBookingSlot={defaultBookingSlot}
                 bookedTableSlot={bookedTableSlots}
               />
               <p className="md:mt-6 mt-2 md:text-sm text-[13px] md:ml-0 ml-2">
