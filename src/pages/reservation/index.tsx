@@ -125,7 +125,6 @@ const ReservationPage = () => {
       });
 
       if (response.ok) {
-        console.log("Data Submitted", response.status);
         router.push(`/reservation/confirmation/?shopId=${shopId}`);
       } else {
         console.log("Error", response.status);

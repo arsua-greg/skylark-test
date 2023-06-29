@@ -1,22 +1,10 @@
+import React from "react";
 import Steps from "@/components/ui/Steps";
 import { userEmail } from "@/globalState/globalState";
 import { useRecoilValue } from "recoil";
-import EmailLoadingPage from "./email-loading";
-import { useState } from "react";
-import CompletePage from "./complete";
 
 const EmailConfirmationPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isValidated, setIsValidated] = useState(false);
   const email = useRecoilValue(userEmail);
-
-  if (isLoading) {
-    return <EmailLoadingPage />;
-  }
-
-  if (isValidated) {
-    return <CompletePage />;
-  }
 
   return (
     <div className="md:mt-16">

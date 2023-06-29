@@ -31,16 +31,6 @@ const ConfirmPage = () => {
   const phone = useRecoilValue(userPhoneNumber);
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
-  const { shopId } = router.query;
-
-  const formatDateReqBody = () => {
-    const dateObj = new Date(bookingDate);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
-  };
 
   const formattedDate = () => {
     const dateObj = new Date(bookingDate);
@@ -61,58 +51,10 @@ const ConfirmPage = () => {
     router.push("/reservation?scrollTo=comments");
   };
 
-  console.log(shopId);
-
-  const formSubmitHandler = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      const bookingInfo = {
-        numberOfPeople: numberOfPeople,
-        bookingDate: formatDateReqBody(),
-        bookingTime: bookingTime,
-        fullName: name,
-        telNum: phone,
-        email: email,
-        optionList: [
-          {
-            optionName:
-              "【記念日のお祝いに】アニバーサリーケーキ＋３３０円(税込)",
-            quantity: selectedQuantity,
-            methodOfProvision: selectedOfferTiming,
-            offerTime: selectedOfferTime,
-            optionNote: note,
-          },
-        ],
-        shopId: shopId,
-        bookingType: 1,
-      };
-
-      const response = await fetch("/api/booking", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookingInfo),
-      });
-
-      if (response.ok) {
-        console.log("Successfully Added Data", response.status);
-      } else {
-        console.log("Error", response.status);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <div className="md:mt-16">
       <Steps active={1} />
-      <form
-        onSubmit={formSubmitHandler}
-        className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-16 pb-6"
-      >
+      <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-16 pb-6">
         <div className="md:flex border-b-2 gap-14 md:pb-12 pb-7">
           <div className="md:w-1/2 w-full flex justify-between">
             <div className="w-1/2">
@@ -230,7 +172,7 @@ const ConfirmPage = () => {
         <p className="mt-10 md:mt-16 text-center md:text-base text-sm">
           このページはSSL暗号モードで表示されています。
         </p>
-      </form>
+      </div>
     </div>
   );
 };
