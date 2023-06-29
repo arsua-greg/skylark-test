@@ -170,9 +170,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const submitFormHandler = (e: any) => {
     e.preventDefault();
 
-    router.push({
-      pathname: "/reservation",
-    });
+    router.push(`/reservation/?shopId=${shopId}`);
   };
 
   const timeOptions = [
