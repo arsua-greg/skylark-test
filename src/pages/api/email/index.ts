@@ -13,7 +13,6 @@ export default async function handler(
       const interactionId = generateInteractionId();
       const userId = generateUserId(req);
       const apiKey = "text/plain";
-
       const requestBody = req.body;
 
       const emailData = await fetch(
