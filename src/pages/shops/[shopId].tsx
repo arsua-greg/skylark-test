@@ -111,6 +111,10 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     setNumberOfPeople((prevCount) => prevCount + 1);
   };
 
+  const updateButtonState = (option: string, checked: boolean) => {
+    setIsButtonDisabled(option === "選択してください" && checked);
+  };
+
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setBookingTime(selectedValue);
@@ -121,10 +125,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
     updateButtonState(bookingTime, newCheckboxState);
-  };
-
-  const updateButtonState = (option: string, checked: boolean) => {
-    setIsButtonDisabled(option === "選択してください");
   };
 
   const handleDateChange = (date: Date | null) => {
