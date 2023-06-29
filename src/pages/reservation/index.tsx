@@ -39,6 +39,7 @@ const ReservationPage = () => {
     email: false,
   });
   const router = useRouter();
+  const { shopId } = router.query;
 
   //scroll into details & comments section
   useEffect(() => {
@@ -124,9 +125,8 @@ const ReservationPage = () => {
       });
 
       if (response.ok) {
-        router.push({
-          pathname: "/reservation/confirmation",
-        });
+        console.log("Data Submitted", response.status);
+        router.push(`/reservation/confirmation/?shopId=${shopId}`);
       } else {
         console.log("Error", response.status);
       }

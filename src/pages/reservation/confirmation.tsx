@@ -31,6 +31,7 @@ const ConfirmPage = () => {
   const phone = useRecoilValue(userPhoneNumber);
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
+  const { shopId } = router.query;
 
   const formatDateReqBody = () => {
     const dateObj = new Date(bookingDate);
@@ -60,6 +61,8 @@ const ConfirmPage = () => {
     router.push("/reservation?scrollTo=comments");
   };
 
+  console.log(shopId);
+
   const formSubmitHandler = async (e: any) => {
     e.preventDefault();
 
@@ -81,7 +84,7 @@ const ConfirmPage = () => {
             optionNote: note,
           },
         ],
-        shopId: 610,
+        shopId: shopId,
         bookingType: 1,
       };
 
