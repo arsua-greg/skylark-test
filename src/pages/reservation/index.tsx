@@ -28,7 +28,7 @@ const ReservationPage = () => {
   const [value, setValue] = useRecoilState(userNote);
   const numberOfPeople = useRecoilValue(countAtom);
   const bookingTime = useRecoilValue(bookingTimeAtom);
-  const bookingDate = useRecoilValue(bookingDateAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
   const selectedQuantity = useRecoilValue(selectedQuantityAtom);
   const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
   const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);

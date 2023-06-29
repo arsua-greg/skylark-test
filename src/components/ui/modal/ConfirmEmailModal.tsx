@@ -1,43 +1,48 @@
 import Button from "../Button";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { userEmail } from "@/globalState/globalState";
+import { userEmail, userName } from "@/globalState/globalState";
 import { useRouter } from "next/router";
 
 const ConfirmEmailModal = () => {
   const router = useRouter();
   const email = useRecoilValue(userEmail);
+  const name = useRecoilValue(userName);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailConfirm = async (e: any) => {
     e.preventDefault();
-    router.push("/api/auth/login");
-    // router.push("/reservation/email-confirmation");
+    setIsLoading(true);
+    // router.push("api/auth/login");
 
-    // try {
-    //   const emailBody = {
-    //     to: email,
-    //     subject: "Testing Email",
-    //     body: "Test Email",
-    //     name: name,
-    //   };
+    try {
+      const emailBody = {
+        to: email,
+        subject: "Skylark Reservation",
+        body: "Skylark Reservation Test Email",
+        name: name,
+      };
 
-    //   const response = await fetch("/api/email", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(emailBody),
-    //   });
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailBody),
+      });
 
-    //   if (response.ok) {
-    //     console.log("Email sent", response.status);
-    //   } else {
-    //     console.log("Error", response.status);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      if (response.ok) {
+        router.push("/reservation/email-confirmation");
+        console.log("Email sent", response.status);
+      } else {
+        console.log("Error", response.status);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

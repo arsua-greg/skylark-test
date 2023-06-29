@@ -10,7 +10,6 @@ import {
   selectedQuantityAtom,
   userEmail,
   userName,
-  userNote,
   userPhoneNumber,
 } from "@/globalState/globalState";
 
@@ -36,6 +35,7 @@ async function ReservationConfirmed() {
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
   };
+
   try {
     const bookingInfo = {
       numberOfPeople: numberOfPeople,
