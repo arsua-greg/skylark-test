@@ -205,7 +205,7 @@ const ReservationPage = () => {
                 }}
                 onBlur={(e) => {
                   const val = e.target.value;
-                  if (val.trim() === "" || val.length < 3) {
+                  if (val.trim() === "") {
                     setValidateError((prevState) => ({
                       ...prevState,
                       name: true,
