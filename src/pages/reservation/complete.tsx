@@ -21,7 +21,7 @@ import EmailError from "@/components/page/Reservation/EmailError";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 
-const CompletePage = async () => {
+const CompletePage = () => {
   const numberOfPeople = useRecoilValue(countAtom);
   const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
   const bookingTime = useRecoilValue(bookingTimeAtom);
@@ -60,15 +60,7 @@ const CompletePage = async () => {
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
-  if (isLoading) {
-    return <EmailLoadingPage />;
-  }
-
-  if (error) {
-    return <EmailError />;
-  }
-
-  if (user) {
+  async function postReservation() {
     try {
       const bookingInfo = {
         numberOfPeople: numberOfPeople,
@@ -90,7 +82,6 @@ const CompletePage = async () => {
         shopId: shopId,
         bookingType: 1,
       };
-
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
@@ -98,7 +89,6 @@ const CompletePage = async () => {
         },
         body: JSON.stringify(bookingInfo),
       });
-
       if (response.ok) {
         console.log("Successfully Added Data", response.status);
       } else {
@@ -107,7 +97,18 @@ const CompletePage = async () => {
     } catch (err) {
       console.log(err);
     }
+  }
 
+  if (isLoading) {
+    return <EmailLoadingPage />;
+  }
+
+  if (error) {
+    return <EmailError />;
+  }
+
+  if (user) {
+    postReservation();
     return (
       <div className="md:mt-16">
         <Steps active={3} />
