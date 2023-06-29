@@ -19,7 +19,6 @@ interface CalendarProps {
     }[];
   };
   incomingReservationTableSlot: number;
-  defaultBookingSlot: any;
 }
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
@@ -86,8 +85,12 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
 
       if (bookingDateItem) {
         const { blockTimeList } = bookingDateItem;
+        const totalBookedTableSlots = blockTimeList.reduce(
+          (total, blockTime) => total + blockTime.tableSlot,
+          0
+        );
         const blocklistdiff =
-          incomingReservationTableSlot - blockTimeList[0].tableSlot;
+          incomingReservationTableSlot - totalBookedTableSlots;
 
         switch (true) {
           case blocklistdiff >= 4:
@@ -95,11 +98,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           case blocklistdiff >= 1 && blocklistdiff < 4:
             return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
           case blocklistdiff === 0:
-            return (
-              <span className="text-[#949494] block md:mt-2 mt-1 pointer-events-none">
-                x
-              </span>
-            );
+            return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
           default:
             return null;
         }
@@ -115,21 +114,27 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const holidayDate = holidayDates.map((holiday: Date) => new Date(holiday));
-    const offDay = offDayList.map((holiday: Date) => new Date(holiday));
+    const formattedHolidayDates = holidayDates.map(
+      (holiday: Date) => new Date(holiday)
+    );
+    const formattedOffDays = offDayList.map((offDay: Date) => new Date(offDay));
+    if (view === "month") {
+      if (isSunday(date)) {
+        return "sunday-tile";
+      }
+      if (isSaturday(date)) {
+        return "saturday-tile";
+      }
+      if (
+        formattedHolidayDates.some((holiday: Date) => isSameDay(date, holiday))
+      ) {
+        return "holiday-tile";
+      }
+      if (formattedOffDays.some((offDay: Date) => isSameDay(date, offDay))) {
+        return "offday-tile";
+      }
+    }
 
-    if (view === "month" && isSunday(date)) {
-      return "sunday-tile";
-    }
-    if (view === "month" && isSaturday(date)) {
-      return "saturday-tile";
-    }
-    if (holidayDate.some((holiday: Date) => isSameDay(date, holiday))) {
-      return "holiday-tile";
-    }
-    if (offDay.some((holiday: Date) => isSameDay(date, holiday))) {
-      return "offday-tile";
-    }
     return null;
   };
 
