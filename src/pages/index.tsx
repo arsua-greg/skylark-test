@@ -250,7 +250,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                 onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
-                defaultBookingSlot={defaultBookingSlot}
                 incomingReservationTableSlot={incomingReservationTableSlot}
                 bookedTableSlot={bookedTableSlots}
               />
