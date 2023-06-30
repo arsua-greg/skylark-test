@@ -31,6 +31,7 @@ const ConfirmPage = () => {
   const phone = useRecoilValue(userPhoneNumber);
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
+  const { shopId } = router.query;
 
   const formattedDate = () => {
     const dateObj = new Date(bookingDate);
@@ -168,7 +169,7 @@ const ConfirmPage = () => {
         >
           この内容で確定する
         </label>
-        <ConfirmEmailModal />
+        <ConfirmEmailModal shopId={shopId} />
         <p className="mt-10 md:mt-16 text-center md:text-base text-sm">
           このページはSSL暗号モードで表示されています。
         </p>

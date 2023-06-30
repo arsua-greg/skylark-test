@@ -23,14 +23,13 @@ type ConfirmDataType = {
   optionNote: string;
   phone: string;
   note: string;
+  shopId: any;
 };
 
 const CompletePage = () => {
   const reserveNote = useRecoilValue(userNote);
-
   const [confirmData, setConfirmData] = useState<null | ConfirmDataType>(null);
-  const router = useRouter();
-  const { shopId } = router.query;
+  const [errorPost, setErrorPost] = useState(false);
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
@@ -63,28 +62,25 @@ const CompletePage = () => {
   async function postReservation() {
     try {
       const bookingInfo = {
-        numberOfPeople: 3,
+        numberOfPeople: confirmData?.numberOfPeople,
         bookingDate: formatDateReqBody(),
-        bookingTime: "11:00",
-        fullName: "予約　太郎",
-        telNum: "09456147055",
-        email: "gregarsu@bpoc.co.jp",
+        bookingTime: confirmData?.bookingTime,
+        fullName: confirmData?.name,
+        telNum: confirmData?.phone,
+        email: confirmData?.email,
         optionList: [
           {
             optionName:
               "【記念日のお祝いに】アニバーサリーケーキ＋３３０円(税込)",
-            quantity: confirmData ? confirmData.selectedQuantity : "",
-            methodOfProvision: confirmData
-              ? confirmData.selectedOfferTiming
-              : "",
-            offerTime: confirmData ? confirmData.selectedOfferTime : "",
-            optionNote: "なし",
+            quantity: confirmData?.selectedQuantity,
+            methodOfProvision: confirmData?.selectedOfferTiming,
+            offerTime: confirmData?.selectedOfferTime,
+            optionNote: confirmData?.optionNote,
           },
         ],
-        shopId: 620,
+        shopId: +confirmData?.shopId,
         bookingType: 1,
       };
-      console.log(bookingInfo);
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
@@ -95,6 +91,7 @@ const CompletePage = () => {
       if (response.ok) {
         console.log("Successfully Added Data", response.status);
       } else {
+        setErrorPost(true);
         console.log("Error", response.status);
       }
     } catch (err) {
@@ -112,6 +109,10 @@ const CompletePage = () => {
 
   if (user) {
     postReservation();
+
+    if (errorPost) {
+      return <EmailError />;
+    }
 
     return (
       <>

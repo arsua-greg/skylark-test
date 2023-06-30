@@ -2,6 +2,7 @@ import Link from "next/dist/client/link";
 import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 type ReservationDetailProps = {
   numberOfPeople?: number;
@@ -15,6 +16,7 @@ type ReservationDetailProps = {
 
 const ReservationDetails = (props: ReservationDetailProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const router = useRouter();
   const formattedDate = () => {
     const dateObj = new Date(props.bookingDate);
     const year = dateObj.getFullYear();
@@ -24,6 +26,15 @@ const ReservationDetails = (props: ReservationDetailProps) => {
       dateObj.getDay()
     ];
     return `${year}年${month}月${day}日(${dayOfWeek})`;
+  };
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
+  const goToAdvanced = () => {
+    router.back();
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -36,12 +47,12 @@ const ReservationDetails = (props: ReservationDetailProps) => {
           <p className="text-base mt-1">人数</p>
         </div>
         <div className="w-1/2 text-right">
-          <Link
-            className="text-[#04512A] underline underline-offset-4"
-            href={"/"}
+          <label
+            className="text-[#04512A] underline underline-offset-4 hover:cursor-pointer"
+            onClick={handleGoBack}
           >
             変更する
-          </Link>
+          </label>
           <p className="text-base mt-4">{formattedDate()}</p>
           <p className="text-base mt-1">{props.bookingTime}</p>
           <p className="text-base mt-1">{`${props.numberOfPeople} 名`}</p>
@@ -52,13 +63,13 @@ const ReservationDetails = (props: ReservationDetailProps) => {
           <p className="text-lg font-bold">オプション選択</p>
         </div>
         <div className="w-1/2 text-right">
-          <Link
-            className="text-[#04512A] underline underline-offset-4"
-            href={"/#advanced"}
-            onClick={() => setIsChecked(!isChecked)}
+          <label
+            className="text-[#04512A] underline underline-offset-4 hover:cursor-pointer"
+            // href={"/#advanced"}
+            onClick={goToAdvanced}
           >
             変更する
-          </Link>
+          </label>
         </div>
         <div className="md:flex w-full gap-6 md:mt-3 mt-4">
           <div className="md:w-7/12 w-full flex">

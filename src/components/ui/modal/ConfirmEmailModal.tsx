@@ -18,7 +18,11 @@ import {
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
-const ConfirmEmailModal = () => {
+type Shop = {
+  shopId: any;
+};
+
+const ConfirmEmailModal = (props: Shop) => {
   const router = useRouter();
   const numberOfPeople = useRecoilValue(countAtom);
   const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
@@ -32,6 +36,7 @@ const ConfirmEmailModal = () => {
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
   const [isLoading, setIsLoading] = useState(false);
+  const shopId = props.shopId;
 
   const handleEmailConfirm = async (e: any) => {
     e.preventDefault();
@@ -52,6 +57,7 @@ const ConfirmEmailModal = () => {
           email,
           phone,
           note,
+          shopId,
         })
       );
 
