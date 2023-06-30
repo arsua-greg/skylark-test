@@ -10,15 +10,15 @@ type CheckboxProps = {
   quantityOptions: any;
   quantityOptionsValue: string;
   quantityOptionsHandler: (e: any) => void;
+  optionOnChange: (e: any) => void;
+  offerTimeHandler: (e: any) => void;
+  offerTimingHandler: (e: any) => void;
+  optionOnKeyDown: (e: any) => void;
   offerTimeOptions: any;
   offerTimeValue: any;
-  offerTimeHandler: (e: any) => void;
   offerTimingOptions: any;
   offerTimingValue: any;
-  offerTimingHandler: (e: any) => void;
   optionNote: string;
-  optionOnChange: (e: any) => void;
-  optionOnKeyDown: (e: any) => void;
 };
 
 const ProductList = (props: CheckboxProps) => {
