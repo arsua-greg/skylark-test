@@ -2,21 +2,59 @@ import Button from "../Button";
 
 import { Fragment, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { userEmail, userName } from "@/globalState/globalState";
+import {
+  bookingDateAtom,
+  bookingTimeAtom,
+  countAtom,
+  optionNoteAtom,
+  selectedOfferTimeAtom,
+  selectedOfferTimingAtom,
+  selectedQuantityAtom,
+  userEmail,
+  userName,
+  userNote,
+  userPhoneNumber,
+} from "@/globalState/globalState";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const ConfirmEmailModal = () => {
   const router = useRouter();
-  const email = useRecoilValue(userEmail);
+  const numberOfPeople = useRecoilValue(countAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
+  const bookingTime = useRecoilValue(bookingTimeAtom);
+  const selectedQuantity = useRecoilValue(selectedQuantityAtom);
+  const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
+  const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);
+  const optionNote = useRecoilValue(optionNoteAtom);
   const name = useRecoilValue(userName);
+  const phone = useRecoilValue(userPhoneNumber);
+  const email = useRecoilValue(userEmail);
+  const note = useRecoilValue(userNote);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailConfirm = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    // router.push("api/auth/login");
 
     try {
+      Cookies.set(
+        "confirmData",
+        JSON.stringify({
+          numberOfPeople,
+          bookingDate,
+          bookingTime,
+          selectedQuantity,
+          selectedOfferTime,
+          selectedOfferTiming,
+          optionNote,
+          name,
+          email,
+          phone,
+          note,
+        })
+      );
+
       const emailBody = {
         to: email,
         subject: "Skylark Reservation",
