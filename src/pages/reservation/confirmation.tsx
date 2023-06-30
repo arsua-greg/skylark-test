@@ -32,7 +32,6 @@ const ConfirmPage = () => {
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
   const { shopId } = router.query;
-  console.log(shopId);
 
   const formattedDate = () => {
     const dateObj = new Date(bookingDate);

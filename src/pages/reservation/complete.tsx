@@ -28,9 +28,8 @@ type ConfirmDataType = {
 
 const CompletePage = () => {
   const reserveNote = useRecoilValue(userNote);
-
   const [confirmData, setConfirmData] = useState<null | ConfirmDataType>(null);
-  const router = useRouter();
+  const [errorPost, setErrorPost] = useState(false);
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
@@ -82,7 +81,6 @@ const CompletePage = () => {
         shopId: +confirmData?.shopId,
         bookingType: 1,
       };
-      console.log(bookingInfo);
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
@@ -93,6 +91,7 @@ const CompletePage = () => {
       if (response.ok) {
         console.log("Successfully Added Data", response.status);
       } else {
+        setErrorPost(true);
         console.log("Error", response.status);
       }
     } catch (err) {
@@ -110,6 +109,10 @@ const CompletePage = () => {
 
   if (user) {
     postReservation();
+
+    if (errorPost) {
+      return <EmailError />;
+    }
 
     return (
       <>
