@@ -194,7 +194,7 @@ const ReservationPage = () => {
                 value={name}
                 onChange={(e) => {
                   const regex =
-                    /^[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFFa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
+                    /^[a-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]+$/;
                   if (regex.test(e.target.value)) {
                     setName(e.target.value);
                   } else {
