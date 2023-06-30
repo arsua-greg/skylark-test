@@ -41,6 +41,13 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   maxDate.setMonth(maxDate.getMonth() + 3);
   maxDate.setDate(0);
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -63,26 +70,19 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
   }, [isNextButtonDisabled]);
 
+  const { dataList } = bookedTableSlot;
+
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
     if (isDisabled) {
       return null;
     }
 
-    const formatDate = (date: Date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    };
-
     const renderSymbols = () => {
-      const { dataList } = bookedTableSlot;
       const formattedDate = formatDate(date);
       const bookingDateItem = dataList.find(
         (item) => item.bookingDate === formattedDate
       );
-
       if (bookingDateItem) {
         const { blockTimeList } = bookingDateItem;
         const totalBookedTableSlots = blockTimeList.reduce(
@@ -113,11 +113,35 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
+    const formattedOffDays = offDayList.map((offDay: Date) => new Date(offDay));
     const formattedHolidayDates = holidayDates.map(
       (holiday: Date) => new Date(holiday)
     );
-    const formattedOffDays = offDayList.map((offDay: Date) => new Date(offDay));
+    const { dataList } = bookedTableSlot;
+    const formattedDate = formatDate(date);
+    const bookingDateItem = dataList.find(
+      (item) => item.bookingDate === formattedDate
+    );
+
     if (view === "month") {
+      if (bookingDateItem) {
+        const { blockTimeList } = bookingDateItem;
+        const totalBookedTableSlots = blockTimeList.reduce(
+          (total, blockTime) => total + blockTime.tableSlot,
+          0
+        );
+        const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+        switch (true) {
+          case blocklistdiff >= 4:
+            return "";
+          case blocklistdiff >= 1 && blocklistdiff < 4:
+            return "";
+          case blocklistdiff === 0:
+            return "pointer-events-none";
+          default:
+            return null;
+        }
+      }
       if (isSunday(date)) {
         return "sunday-tile";
       }
