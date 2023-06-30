@@ -190,7 +190,6 @@ const ReservationPage = () => {
                 type="text"
                 name="name"
                 placeholder="予約　太郎"
-                minLength={3}
                 maxLength={50}
                 value={name}
                 onChange={(e) => {

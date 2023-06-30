@@ -63,12 +63,12 @@ const CompletePage = () => {
   async function postReservation() {
     try {
       const bookingInfo = {
-        numberOfPeople: numberOfPeople,
+        numberOfPeople: 3,
         bookingDate: formatDateReqBody(),
-        bookingTime: bookingTime,
-        fullName: name,
-        telNum: phone,
-        email: email,
+        bookingTime: "11:00",
+        fullName: "予約　太郎",
+        telNum: "09456147055",
+        email: "gregarsu@bpoc.co.jp",
         optionList: [
           {
             optionName:
@@ -76,12 +76,13 @@ const CompletePage = () => {
             quantity: selectedQuantity,
             methodOfProvision: selectedOfferTiming,
             offerTime: selectedOfferTime,
-            optionNote: optionNote,
+            optionNote: "なし",
           },
         ],
-        shopId: shopId,
+        shopId: 620,
         bookingType: 1,
       };
+      console.log(bookingInfo);
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
@@ -109,6 +110,7 @@ const CompletePage = () => {
 
   if (user) {
     postReservation();
+
     return (
       <div className="md:mt-16">
         <Steps active={3} />
