@@ -90,9 +90,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         );
         const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
 
-        console.log(`Total Booked Table Slot: ${totalBookedTableSlots}`);
-        console.log(`Default Booking Slot: ${defaultBookingSlot}`);
-
         switch (true) {
           case blocklistdiff >= 4:
             return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
@@ -132,13 +129,13 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           (total, blockTime) => total + blockTime.tableSlot,
           0
         );
-        const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+        const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
         switch (true) {
           case blocklistdiff >= 4:
             return "";
           case blocklistdiff >= 1 && blocklistdiff < 4:
             return "";
-          case blocklistdiff === 0:
+          case blocklistdiff <= 0:
             return "pointer-events-none";
           default:
             return null;

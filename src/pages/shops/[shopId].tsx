@@ -72,9 +72,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
 
-  useEffect(() => {
-    console.log(`Default Booking Slot: ${defaultBookingSlot}`);
-  }, []);
   //fetch bookingblocklist
   const fetchData = async () => {
     try {
