@@ -70,9 +70,8 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
   }, [isNextButtonDisabled]);
 
-  const { dataList } = bookedTableSlot;
-
   const CustomDayCell = ({ date }: { date: Date }) => {
+    const { dataList } = bookedTableSlot;
     const isDisabled = isDateDisabled(date);
     if (isDisabled) {
       return null;
@@ -89,14 +88,17 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           (total, blockTime) => total + blockTime.tableSlot,
           0
         );
-        const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+        const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+
+        console.log(`Total Booked Table Slot: ${totalBookedTableSlots}`);
+        console.log(`Default Booking Slot: ${defaultBookingSlot}`);
 
         switch (true) {
           case blocklistdiff >= 4:
             return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
           case blocklistdiff >= 1 && blocklistdiff < 4:
             return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-          case blocklistdiff === 0:
+          case blocklistdiff <= 0:
             return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
           default:
             return null;
