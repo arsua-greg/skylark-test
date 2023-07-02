@@ -101,16 +101,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     fetchData();
   }, [shopId]);
 
-  const handleDecrement = (e: any) => {
-    e.preventDefault();
-    setNumberOfPeople((prevCount) => prevCount - 1);
-  };
-
-  const handleIncrement = (e: any) => {
-    e.preventDefault();
-    setNumberOfPeople((prevCount) => prevCount + 1);
-  };
-
   const updateButtonState = (option: string, checked: boolean) => {
     // setIsButtonDisabled(option !== "選択してください");
 
@@ -175,7 +165,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
 
   const submitFormHandler = (e: any) => {
     e.preventDefault();
-
     router.push(`/reservation/?shopId=${shopId}`);
   };
 
@@ -214,16 +203,22 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
                     className={`${styles.psuedo} text-center relative flex items-center`}
                   >
                     <button
+                      type="button"
                       className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
-                      onClick={handleDecrement}
+                      onClick={() => {
+                        setNumberOfPeople((prevCount) => prevCount - 1);
+                      }}
                       disabled={numberOfPeople <= 1}
                     >
                       <p className="text-white text-xl leading-none">-</p>
                     </button>
                     <p className="bg-transparent text-center text-lg w-[94px] appearance-none outline-none">{`${numberOfPeople} 名`}</p>
                     <button
+                      type="button"
                       className="btn bg-[#04512A] border-0 p-0 text-sm min-h-0 h-6 w-6 rounded-[4px] items-start"
-                      onClick={handleIncrement}
+                      onClick={() => {
+                        setNumberOfPeople((prevCount) => prevCount + 1);
+                      }}
                       disabled={numberOfPeople >= 16}
                     >
                       <p className="text-white text-xl leading-none">+</p>
@@ -296,6 +291,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
           </div>
         </div>
         <Button
+          type="submit"
           text="入力・確認画面に進む"
           disabled={isButtonDisabled}
           className="text-xl"
