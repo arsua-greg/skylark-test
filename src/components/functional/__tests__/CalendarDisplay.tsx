@@ -120,24 +120,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     );
 
     if (view === "month") {
-      if (bookingDateItem) {
-        const { blockTimeList } = bookingDateItem;
-        const totalBookedTableSlots = blockTimeList.reduce(
-          (total, blockTime) => total + blockTime.tableSlot,
-          0
-        );
-        const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
-        switch (true) {
-          case blocklistdiff >= 4:
-            return "";
-          case blocklistdiff >= 1 && blocklistdiff < 4:
-            return "";
-          case blocklistdiff <= 0:
-            return "pointer-events-none";
-          default:
-            return null;
-        }
-      }
       if (isSunday(date)) {
         return "sunday-tile";
       }
@@ -151,6 +133,26 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       }
       if (formattedOffDays.some((offDay: Date) => isSameDay(date, offDay))) {
         return "offday-tile";
+      }
+    }
+
+    if (bookingDateItem) {
+      const { blockTimeList } = bookingDateItem;
+      const totalBookedTableSlots = blockTimeList.reduce(
+        (total, blockTime) => total + blockTime.tableSlot,
+        0
+      );
+      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+
+      switch (true) {
+        case blocklistdiff >= 4:
+          return "";
+        case blocklistdiff >= 1 && blocklistdiff < 4:
+          return "";
+        case blocklistdiff <= 0:
+          return "pointer-events-none";
+        default:
+          return null;
       }
     }
     return null;

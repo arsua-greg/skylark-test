@@ -71,28 +71,28 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [defaultBookingSlot, setDefaultBookingSlot] = useState(0);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
+  console.log(holidayDates);
 
   //fetch bookingblocklist
   const fetchData = async () => {
     try {
       const res = await fetch(`/api/shops/${shopId}`);
       const data = await res.json();
-      setShopData(data);
-      setHolidayDates(data.holidayList || []);
-      setOffDayList(data.offDaysList || []);
-
+      const holidays = data?.holidayList;
+      const offdays = data?.offDaysList;
+      const lunchFrom = data?.lunchFrom;
+      const lunchTo = data?.lunchTo;
       const { defaultBookingSlot } = data;
       const totalTableSlot = defaultBookingSlot.reduce(
         (total: number, slot: any) => total + slot.tableSlot,
         0
       );
-      setDefaultBookingSlot(totalTableSlot);
-
-      const lunchFrom = data?.lunchFrom;
+      setShopData(data);
       setLunchFrom(lunchFrom);
-
-      const lunchTo = data?.lunchTo;
       setLunchTo(lunchTo);
+      setDefaultBookingSlot(totalTableSlot);
+      setHolidayDates(holidays);
+      setOffDayList(offdays);
     } catch (err) {
       console.log(err);
     }
