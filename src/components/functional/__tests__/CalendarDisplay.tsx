@@ -73,42 +73,39 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   const CustomDayCell = ({ date }: { date: Date }) => {
     const { dataList } = bookedTableSlot;
     const isDisabled = isDateDisabled(date);
+    const formattedDate = formatDate(date);
+    const bookingDateItem = dataList.find(
+      (item) => item.bookingDate === formattedDate
+    );
+
     if (isDisabled) {
-      return null;
+      return (
+        <span className="text-[#949494] block md:mt-2 mt-1">
+          {bookingDateItem ? "x" : ""}
+        </span>
+      );
     }
 
-    const renderSymbols = () => {
-      const formattedDate = formatDate(date);
-      const bookingDateItem = dataList.find(
-        (item) => item.bookingDate === formattedDate
+    if (bookingDateItem) {
+      const { blockTimeList } = bookingDateItem;
+      const totalBookedTableSlots = blockTimeList.reduce(
+        (total, blockTime) => total + blockTime.tableSlot,
+        0
       );
-      if (bookingDateItem) {
-        const { blockTimeList } = bookingDateItem;
-        const totalBookedTableSlots = blockTimeList.reduce(
-          (total, blockTime) => total + blockTime.tableSlot,
-          0
-        );
-        const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
 
-        switch (true) {
-          case blocklistdiff >= 4:
-            return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-          case blocklistdiff >= 1 && blocklistdiff < 4:
-            return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-          case blocklistdiff <= 0:
-            return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
-          default:
-            return null;
-        }
+      switch (true) {
+        case blocklistdiff >= 4:
+          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+        case blocklistdiff >= 1 && blocklistdiff < 4:
+          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+        case blocklistdiff <= 0:
+          return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
+        default:
+          return null;
       }
-      return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-    };
-
-    return (
-      <div className="day-cell">
-        <div className="symbols">{renderSymbols()}</div>
-      </div>
-    );
+    }
+    return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -156,7 +153,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         return "offday-tile";
       }
     }
-
     return null;
   };
 
