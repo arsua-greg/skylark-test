@@ -2,7 +2,6 @@ import React from "react";
 import Steps from "@/components/ui/Steps";
 import ConfirmEmailModal from "@/components/ui/modal/ConfirmEmailModal";
 import Link from "next/link";
-import Cookies from "js-cookie";
 
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
@@ -55,24 +54,6 @@ const ConfirmPage = () => {
   };
 
   const handleModalClick = () => {
-    Cookies.set(
-      "confirmData",
-      JSON.stringify({
-        numberOfPeople,
-        bookingDate,
-        bookingTime,
-        selectedQuantity,
-        selectedOfferTime,
-        selectedOfferTiming,
-        optionNote,
-        name,
-        email,
-        phone,
-        note,
-        shopId,
-      })
-    );
-
     router.push("/api/auth/login");
   };
 

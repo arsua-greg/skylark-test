@@ -8,7 +8,6 @@ import EmailError from "@/components/page/Reservation/EmailError";
 import Cookies from "js-cookie";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 type ConfirmDataType = {
