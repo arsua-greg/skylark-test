@@ -26,7 +26,6 @@ type ConfirmDataType = {
 };
 
 const CompletePage = () => {
-  const reserveNote = useRecoilValue(userNote);
   const [confirmData, setConfirmData] = useState<null | ConfirmDataType>(null);
   const [errorPost, setErrorPost] = useState(false);
   const { user, error, isLoading } = useUser();
@@ -320,7 +319,7 @@ const CompletePage = () => {
                             </div>
                             <div className="pl-3 md:pl-0">
                               <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px]">
-                                {reserveNote}
+                                {confirmData.note}
                               </p>
                             </div>
                           </li>
