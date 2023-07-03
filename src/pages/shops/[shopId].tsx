@@ -71,7 +71,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [defaultBookingSlot, setDefaultBookingSlot] = useState(0);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
-  console.log(holidayDates);
 
   //fetch bookingblocklist
   const fetchData = async () => {
