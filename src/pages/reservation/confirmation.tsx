@@ -2,6 +2,8 @@ import React from "react";
 import Steps from "@/components/ui/Steps";
 import ConfirmEmailModal from "@/components/ui/modal/ConfirmEmailModal";
 import Link from "next/link";
+import Cookies from "js-cookie";
+
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import {
@@ -50,6 +52,28 @@ const ConfirmPage = () => {
 
   const handleComments = () => {
     router.push("/reservation?scrollTo=comments");
+  };
+
+  const handleModalClick = () => {
+    Cookies.set(
+      "confirmData",
+      JSON.stringify({
+        numberOfPeople,
+        bookingDate,
+        bookingTime,
+        selectedQuantity,
+        selectedOfferTime,
+        selectedOfferTiming,
+        optionNote,
+        name,
+        email,
+        phone,
+        note,
+        shopId,
+      })
+    );
+
+    router.push("/api/auth/login");
   };
 
   return (
@@ -164,8 +188,9 @@ const ConfirmPage = () => {
           </p>
         </div>
         <label
-          htmlFor="my-modal-4"
+          // htmlFor="my-modal-4"
           className="btn flex mx-auto rounded-md bg-[#04512A] border-none text-white text-xl sm:max-w-[612px] max-w-[280px] w-full font-normal md:py-5 h-auto"
+          onClick={handleModalClick}
         >
           この内容で確定する
         </label>

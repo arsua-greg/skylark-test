@@ -92,7 +92,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         (total, blockTime) => total + blockTime.tableSlot,
         0
       );
-      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+      const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
 
       switch (true) {
         case blocklistdiff >= 4:
@@ -142,7 +142,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         (total, blockTime) => total + blockTime.tableSlot,
         0
       );
-      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+      const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
 
       switch (true) {
         case blocklistdiff >= 4:
