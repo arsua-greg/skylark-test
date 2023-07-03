@@ -33,7 +33,8 @@
     "src/components/functional/__tests__/CalendarDisplay.jsx",
     "src/components/page/Footer.page.tsx",
     "server.js",
-    "src/middlewares/authMiddleware.tsx"
+    "src/middlewares/authMiddleware.tsx",
+    "src/pages/api/auth/callback.js"
   ],
   "exclude": ["node_modules"]
 }

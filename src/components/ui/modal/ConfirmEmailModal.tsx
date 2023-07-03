@@ -43,24 +43,6 @@ const ConfirmEmailModal = (props: Shop) => {
     setIsLoading(true);
 
     try {
-      Cookies.set(
-        "confirmData",
-        JSON.stringify({
-          numberOfPeople,
-          bookingDate,
-          bookingTime,
-          selectedQuantity,
-          selectedOfferTime,
-          selectedOfferTiming,
-          optionNote,
-          name,
-          email,
-          phone,
-          note,
-          shopId,
-        })
-      );
-
       const emailBody = {
         to: email,
         subject: "Skylark Reservation",

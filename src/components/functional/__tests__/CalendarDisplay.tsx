@@ -92,7 +92,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         (total, blockTime) => total + blockTime.tableSlot,
         0
       );
-      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+      const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+
+      console.log(`Default: ${defaultBookingSlot}`);
+      console.log(`Total: ${totalBookedTableSlots}`);
 
       switch (true) {
         case blocklistdiff >= 4:
@@ -136,25 +139,25 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       }
     }
 
-    if (bookingDateItem) {
-      const { blockTimeList } = bookingDateItem;
-      const totalBookedTableSlots = blockTimeList.reduce(
-        (total, blockTime) => total + blockTime.tableSlot,
-        0
-      );
-      const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
+    // if (bookingDateItem) {
+    //   const { blockTimeList } = bookingDateItem;
+    //   const totalBookedTableSlots = blockTimeList.reduce(
+    //     (total, blockTime) => total + blockTime.tableSlot,
+    //     0
+    //   );
+    //   const blocklistdiff = totalBookedTableSlots - defaultBookingSlot;
 
-      switch (true) {
-        case blocklistdiff >= 4:
-          return "";
-        case blocklistdiff >= 1 && blocklistdiff < 4:
-          return "";
-        case blocklistdiff <= 0:
-          return "pointer-events-none";
-        default:
-          return null;
-      }
-    }
+    //   switch (true) {
+    //     case blocklistdiff >= 4:
+    //       return "";
+    //     case blocklistdiff >= 1 && blocklistdiff < 4:
+    //       return "";
+    //     case blocklistdiff <= 0:
+    //       return "pointer-events-none";
+    //     default:
+    //       return null;
+    //   }
+    // }
     return null;
   };
 

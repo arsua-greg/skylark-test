@@ -417,7 +417,7 @@ const CompletePage = () => {
             </div>
           </div>
         ) : (
-          <p>no Data</p>
+          <></>
         )}
       </>
     );
