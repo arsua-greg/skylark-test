@@ -155,6 +155,10 @@ button.react-calendar__tile:disabled {
   background-color: #f4f4f4;
 }
 
+button.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day.react-calendar__month-view__days__day--neighboringMonth {
+  background: #f0f0f0 !important;
+}
+
 @media only screen and (max-width: 768px) {
   div.react-calendar {
     width: 100%;
