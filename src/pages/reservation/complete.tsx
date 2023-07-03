@@ -1,6 +1,3 @@
-import { useRecoilValue } from "recoil";
-import { userNote } from "@/globalState/globalState";
-
 import Image from "next/image";
 import Steps from "@/components/ui/Steps";
 import EmailLoadingPage from "@/components/page/Reservation/EmailLoading";
@@ -57,6 +54,14 @@ const CompletePage = () => {
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
+  if (error || errorPost) {
+    return <EmailError />;
+  }
+
+  if (isLoading) {
+    return <EmailLoadingPage />;
+  }
+
   async function postReservation() {
     try {
       const bookingInfo = {
@@ -97,20 +102,8 @@ const CompletePage = () => {
     }
   }
 
-  if (isLoading) {
-    return <EmailLoadingPage />;
-  }
-
-  if (error) {
-    return <EmailError />;
-  }
-
   if (user) {
     postReservation();
-
-    if (errorPost) {
-      return <EmailError />;
-    }
 
     return (
       <>
