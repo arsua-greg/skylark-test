@@ -1,6 +1,3 @@
-import { useRecoilValue } from "recoil";
-import { userNote } from "@/globalState/globalState";
-
 import Image from "next/image";
 import Steps from "@/components/ui/Steps";
 import EmailLoadingPage from "@/components/page/Reservation/EmailLoading";
@@ -8,7 +5,6 @@ import EmailError from "@/components/page/Reservation/EmailError";
 import Cookies from "js-cookie";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 type ConfirmDataType = {
@@ -27,7 +23,6 @@ type ConfirmDataType = {
 };
 
 const CompletePage = () => {
-  const reserveNote = useRecoilValue(userNote);
   const [confirmData, setConfirmData] = useState<null | ConfirmDataType>(null);
   const [errorPost, setErrorPost] = useState(false);
   const { user, error, isLoading } = useUser();
@@ -58,6 +53,14 @@ const CompletePage = () => {
     ];
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
+
+  if (error || errorPost) {
+    return <EmailError />;
+  }
+
+  if (isLoading) {
+    return <EmailLoadingPage />;
+  }
 
   async function postReservation() {
     try {
@@ -99,20 +102,8 @@ const CompletePage = () => {
     }
   }
 
-  if (isLoading) {
-    return <EmailLoadingPage />;
-  }
-
-  if (error) {
-    return <EmailError />;
-  }
-
   if (user) {
     postReservation();
-
-    if (errorPost) {
-      return <EmailError />;
-    }
 
     return (
       <>
@@ -321,7 +312,7 @@ const CompletePage = () => {
                             </div>
                             <div className="pl-3 md:pl-0">
                               <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px]">
-                                {reserveNote}
+                                {confirmData.note}
                               </p>
                             </div>
                           </li>
