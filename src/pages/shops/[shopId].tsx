@@ -101,13 +101,13 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   }, [shopId]);
 
   const updateButtonState = (option: string, checked: boolean) => {
-    // setIsButtonDisabled(option !== "選択してください");
+    setIsButtonDisabled(option === "選択してください");
 
-    if (option !== "選択してください" && checked) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
+    // if (option !== "選択してください" && checked) {
+    //   setIsButtonDisabled(false);
+    // } else {
+    //   setIsButtonDisabled(true);
+    // }
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
