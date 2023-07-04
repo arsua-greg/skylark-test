@@ -32,12 +32,12 @@ abbr:where([title]) {
 }
 
 /* Steps arrow css properties */
-.stepArrow::after{
+.stepArrow::after {
   content: "";
   display: block;
   width: 42px;
   height: 42px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-top: 4px solid #fff;
   border-right: 4px solid #fff;
   position: absolute;
@@ -46,16 +46,16 @@ abbr:where([title]) {
   z-index: 10;
   transform: rotate(45deg);
 }
-.isActive.stepArrow::after{
-  background-color: #04512A;
+.isActive.stepArrow::after {
+  background-color: #04512a;
 }
-.isActive{
-  background-color: #04512A;
+.isActive {
+  background-color: #04512a;
   color: #fff;
 }
 
 @media only screen and (max-width: 768px) {
-  .stepArrow::after{
+  .stepArrow::after {
     width: 37px;
     height: 37px;
     border-top: 3px solid #fff;
@@ -63,49 +63,54 @@ abbr:where([title]) {
     top: 5px;
     right: -5px;
   }
-  
-  .stepArrow01::after{
+
+  .stepArrow01::after {
     content: "";
     display: block;
     height: 100%;
     width: 25px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     position: absolute;
     top: 0;
     right: -10px;
     z-index: 5;
   }
-  .stepArrow02::before{
+  .stepArrow02::before {
     content: "";
     display: block;
     height: 100%;
     width: 25px;
-    background-color: #04512A;
+    background-color: #04512a;
     position: absolute;
     top: 0;
     left: -13px;
     z-index: 5;
   }
-  .stepArrow02::after{
+  .stepArrow02::after {
     content: "";
     display: block;
     height: 100%;
     width: 25px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     position: absolute;
     top: 0;
     right: -10px;
     z-index: 5;
   }
-  .stepArrow03::before{
+  .stepArrow03::before {
     content: "";
     display: block;
     height: 100%;
     width: 25px;
-    background-color: #04512A;
+    background-color: #04512a;
     position: absolute;
     top: 0;
     left: -13px;
     z-index: 5;
   }
+}
+
+.auth0-lock.auth0-lock .auth0-lock-widget {
+  width: 800px !important;
+  height: 400px !important;
 }
