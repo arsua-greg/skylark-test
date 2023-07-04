@@ -109,8 +109,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const formattedOffDays = offDayList.map((offDay: Date) => new Date(offDay));
-    const formattedHolidayDates = holidayDates.map(
+    const formattedOffDays = offDayList?.map(
+      (offDay: Date) => new Date(offDay)
+    );
+    const formattedHolidayDates = holidayDates?.map(
       (holiday: Date) => new Date(holiday)
     );
     const { dataList } = bookedTableSlot;
@@ -127,11 +129,11 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         return "saturday-tile";
       }
       if (
-        formattedHolidayDates.some((holiday: Date) => isSameDay(date, holiday))
+        formattedHolidayDates?.some((holiday: Date) => isSameDay(date, holiday))
       ) {
         return "holiday-tile";
       }
-      if (formattedOffDays.some((offDay: Date) => isSameDay(date, offDay))) {
+      if (formattedOffDays?.some((offDay: Date) => isSameDay(date, offDay))) {
         return "offday-tile";
       }
     }
