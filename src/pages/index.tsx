@@ -14,7 +14,7 @@ const HomePage = () => {
         <Link href="/shops/630">Shop 630</Link>
       </li>
       <li>
-        <Link href="/shops/630">Shop 199942</Link>
+        <Link href="/shops/199942">Shop 199942</Link>
       </li>
     </ul>
   );
