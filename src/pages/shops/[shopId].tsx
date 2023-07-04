@@ -102,12 +102,6 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
 
   const updateButtonState = (option: string, checked: boolean) => {
     setIsButtonDisabled(option === "選択してください");
-
-    // if (option !== "選択してください" && checked) {
-    //   setIsButtonDisabled(false);
-    // } else {
-    //   setIsButtonDisabled(true);
-    // }
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
