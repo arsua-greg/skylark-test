@@ -196,11 +196,14 @@ const ReservationPage = () => {
                 maxLength={50}
                 value={name}
                 onChange={(e) => {
-                  const regex =
-                    /^$|^[A-Za-z\x01-\x7E\uFF61-\uFF9Fぁ-んァ-ン一-龯]+$/;
-                  if (regex.test(e.target.value)) {
-                    setName(e.target.value);
-                  }
+                  // const regex = /^[^\x01-\x7E\uFF61-\uFF9F]+$/;
+                  // const inputValue = sanitizeInput(e.target.value);
+                  // if (e.target.value === "" || regex.test(e.target.value)) {
+                  //   setName(inputValue);
+                  // }
+
+                  const inputValue = sanitizeInput(e.target.value);
+                  setName(inputValue);
                 }}
                 onBlur={(e) => {
                   const val = e.target.value;
