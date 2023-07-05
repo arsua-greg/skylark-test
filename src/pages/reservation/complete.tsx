@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
+import QrCode from "@/components/functional/__tests__/QrCode";
 
 type ConfirmDataType = {
   email: string;
@@ -25,6 +26,7 @@ type ConfirmDataType = {
 const CompletePage = () => {
   const [confirmData, setConfirmData] = useState<null | ConfirmDataType>(null);
   const [isReservationPosted, setIsReservationPosted] = useState(false);
+  const [bookingCode, setBookingCode] = useState("");
   const [errorPost, setErrorPost] = useState(false);
   const { user, error, isLoading } = useUser();
 
@@ -67,6 +69,8 @@ const CompletePage = () => {
     return <EmailLoadingPage />;
   }
 
+  console.log(bookingCode);
+
   async function postReservation() {
     try {
       const bookingInfo = {
@@ -98,7 +102,10 @@ const CompletePage = () => {
         body: JSON.stringify(bookingInfo),
       });
       if (response.ok) {
+        const responseData = await response.json();
+        const bookingCode = responseData.bookingCode;
         setIsReservationPosted(true);
+        setBookingCode(bookingCode);
         console.log("Successfully Added Data", response.status);
       } else {
         setErrorPost(true);
@@ -129,15 +136,9 @@ const CompletePage = () => {
                   を店頭の端末にかざして、入店手続きを行ってください。
                 </p>
               </div>
-              <div className="my-5 md:hidden">
-                <figure>
-                  <Image
-                    className="mx-auto"
-                    src="/assets/qr_code.png"
-                    alt=""
-                    width={221}
-                    height={221}
-                  />
+              <div className="my-5 text-center">
+                <figure className="w-[221px] h-[221px] mx-auto">
+                  <QrCode bookingCode={bookingCode} />
                 </figure>
               </div>
               <div className="md:px-5 md:mt-14">
