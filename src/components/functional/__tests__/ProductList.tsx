@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import ProductItem from "./ProductItem";
 import NekeroboModal from "../../ui/modal/NekeroboModal";
 import SelectInput from "../../ui/input/SelectInput";
@@ -19,10 +19,12 @@ type CheckboxProps = {
   offerTimingOptions: any;
   offerTimingValue: any;
   optionNote: string;
+  productNameValue: string;
 };
 
 const ProductList = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const productNameRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setIsChecked(props.isCheckedBox);
@@ -100,7 +102,10 @@ const ProductList = (props: CheckboxProps) => {
             </span>
           </p>
           <p className="text-xs mt-3">※不要な場合はチェック無し。</p>
-          <ProductItem onChangeCheckbox={props.setIsCheckBox} />
+          <ProductItem
+            onChangeCheckbox={props.setIsCheckBox}
+            productNameRef={productNameRef}
+          />
         </div>
         {advancedOptions}
       </div>

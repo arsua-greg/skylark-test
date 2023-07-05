@@ -12,6 +12,7 @@ type ReservationDetailProps = {
   selectedOfferTime?: string;
   selectedOfferTiming?: string;
   optionNote?: string;
+  productNameValue: string;
 };
 
 const ReservationDetails = (props: ReservationDetailProps) => {

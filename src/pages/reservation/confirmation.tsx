@@ -11,6 +11,7 @@ import {
   bookingTimeAtom,
   countAtom,
   optionNoteAtom,
+  productNameRefState,
   selectedOfferTimeAtom,
   selectedOfferTimingAtom,
   selectedQuantityAtom,
@@ -33,6 +34,7 @@ const ConfirmPage = () => {
   const phone = useRecoilValue(userPhoneNumber);
   const email = useRecoilValue(userEmail);
   const note = useRecoilValue(userNote);
+  const productNameValue = useRecoilValue(productNameRefState);
   const { shopId } = router.query;
 
   const formattedDate = () => {
@@ -69,6 +71,7 @@ const ConfirmPage = () => {
         email,
         phone,
         note,
+        productNameValue,
         shopId,
       })
     );
@@ -116,11 +119,7 @@ const ConfirmPage = () => {
               <div className="flex mt-5"></div>
             </div>
             <div className="w-full">
-              <p className="text-base -indent-2">
-                【記念日のお祝いに】
-                <br className="md:hidden" />
-                アニバーサリーケーキ ＋330円(税込)
-              </p>
+              <p className="text-base -indent-2">{productNameValue}</p>
               <div className="flex justify-between md:mt-3 mt-4">
                 <div className="text-left">
                   <p className="text-sm">個数</p>

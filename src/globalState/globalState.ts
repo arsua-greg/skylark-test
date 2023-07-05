@@ -59,3 +59,8 @@ export const userNote = atom({
   key: "note",
   default: "",
 });
+
+export const productNameRefState = atom<string>({
+  key: "productNameRefState",
+  default: "",
+});
