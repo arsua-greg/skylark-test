@@ -22,17 +22,17 @@ export const bookingDateAtom = atom<Date | null>({
 
 export const selectedQuantityAtom = atom({
   key: "selectedQuantity",
-  default: quantityOptions[0].value,
+  default: "",
 });
 
 export const selectedOfferTimeAtom = atom({
   key: "selectedOfferTime",
-  default: offerTimeOptions[0].value,
+  default: "",
 });
 
 export const selectedOfferTimingAtom = atom({
   key: "selectedOfferTiming",
-  default: offerTimingOptions[0].value,
+  default: "",
 });
 
 export const optionNoteAtom = atom({

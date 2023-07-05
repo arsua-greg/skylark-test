@@ -31,8 +31,10 @@ export default async function handler(
       );
 
       if (bookingData.ok) {
+        const resData = await bookingData.json();
+        const bookingCode = resData.bookingCode;
         console.log("Successfully Added Data", bookingData.status);
-        res.status(200).json({ message: "Success" });
+        res.status(200).json({ message: "Success", bookingCode });
       } else {
         console.log("Error", bookingData.status);
         res.status(500).json({ error: "Error" });
