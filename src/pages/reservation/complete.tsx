@@ -69,8 +69,6 @@ const CompletePage = () => {
     return <EmailLoadingPage />;
   }
 
-  console.log(bookingCode);
-
   async function postReservation() {
     try {
       const bookingInfo = {
