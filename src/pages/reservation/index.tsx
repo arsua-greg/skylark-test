@@ -196,8 +196,9 @@ const ReservationPage = () => {
                 maxLength={50}
                 value={name}
                 onChange={(e) => {
-                  const regex = /^[^\x01-\x7E\uFF61-\uFF9F]+$/;
-                  if (e.target.value === "" || regex.test(e.target.value)) {
+                  const regex =
+                    /^$|^[A-Za-z\x01-\x7E\uFF61-\uFF9Fぁ-んァ-ン一-龯]+$/;
+                  if (regex.test(e.target.value)) {
                     setName(e.target.value);
                   }
                 }}
