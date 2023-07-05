@@ -87,6 +87,7 @@ const CompletePage = () => {
           },
         ],
         shopId: +confirmData?.shopId,
+        note: confirmData?.note,
         bookingType: 1,
       };
       const response = await fetch("/api/booking", {
