@@ -17,6 +17,7 @@ import {
   userPhoneNumber,
   userEmail,
   userNote,
+  productNameRefState,
 } from "@/globalState/globalState";
 
 const ReservationPage = () => {
@@ -33,6 +34,7 @@ const ReservationPage = () => {
   const selectedOfferTime = useRecoilValue(selectedOfferTimeAtom);
   const selectedOfferTiming = useRecoilValue(selectedOfferTimingAtom);
   const optionNote = useRecoilValue(optionNoteAtom);
+  const productNameValue = useRecoilValue(productNameRefState);
   const [validateError, setValidateError] = useState({
     name: false,
     phoneNumber: false,
@@ -149,6 +151,7 @@ const ReservationPage = () => {
           selectedOfferTime={selectedOfferTime}
           selectedOfferTiming={selectedOfferTiming}
           optionNote={optionNote}
+          productNameValue={productNameValue}
         />
         <div
           className={`border py-3 mt-7 md:mt-10 bg-[#F71B1B1A] ${

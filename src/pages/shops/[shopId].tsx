@@ -13,7 +13,7 @@ import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import Button from "@/components/ui/Button";
 
 import { useRouter } from "next/dist/client/router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { generateInteractionId } from "../../../helper/api-utils";
 import {
   countAtom,
@@ -23,6 +23,7 @@ import {
   selectedOfferTimeAtom,
   selectedOfferTimingAtom,
   optionNoteAtom,
+  productNameRefState,
 } from "@/globalState/globalState";
 import {
   quantityOptions,
@@ -47,7 +48,7 @@ type MyPageProps = {
   initialBookedTableSlot: InitialBookedTableSlot;
 };
 
-const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
+const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const router = useRouter();
   const { shopId } = router.query;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -71,6 +72,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [defaultBookingSlot, setDefaultBookingSlot] = useState(0);
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
+  const productNameValue = useRecoilValue(productNameRefState);
 
   //fetch bookingblocklist
   const fetchData = async () => {
@@ -280,6 +282,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
               optionOnChange={handleChange}
               optionOnKeyDown={handleKeyDown}
               isCheckedBox={isCheckedBox}
+              productNameValue={productNameValue}
             />
           </div>
         </div>
@@ -294,7 +297,7 @@ const HomePage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   );
 };
 
-export default HomePage;
+export default ShopIdPage;
 
 export const getServerSideProps = async (context: any) => {
   const { shopId } = context.query;

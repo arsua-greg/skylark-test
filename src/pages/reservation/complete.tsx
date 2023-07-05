@@ -20,6 +20,7 @@ type ConfirmDataType = {
   optionNote: string;
   phone: string;
   note: string;
+  productNameValue: string;
   shopId: any;
 };
 
@@ -80,8 +81,7 @@ const CompletePage = () => {
         email: confirmData?.email,
         optionList: [
           {
-            optionName:
-              "【記念日のお祝いに】アニバーサリーケーキ＋３３０円(税込)",
+            optionName: confirmData?.productNameValue,
             quantity: confirmData?.selectedQuantity,
             methodOfProvision: confirmData?.selectedOfferTiming,
             offerTime: confirmData?.selectedOfferTime,
@@ -257,9 +257,7 @@ const CompletePage = () => {
                           </div>
                           <div className="w-full pl-3 md:pl-0">
                             <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px]">
-                              【記念日のお祝いに】
-                              <br className="md:hidden" />
-                              アニバーサリーケーキ　＋330円(税込)
+                              {confirmData.productNameValue}
                             </p>
                           </div>
                         </li>
