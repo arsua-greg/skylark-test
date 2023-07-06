@@ -4,6 +4,7 @@ import React, {
   useEffect,
   ChangeEvent,
   KeyboardEvent,
+  useRef,
 } from "react";
 
 import styles from "../../styles/ReservationForm.module.css";
@@ -13,6 +14,7 @@ import CalendarDisplay from "@/components/functional/__tests__/CalendarDisplay";
 import Button from "@/components/ui/Button";
 
 import { useRouter } from "next/dist/client/router";
+import { addMonths, startOfMonth } from "date-fns";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { generateInteractionId } from "../../../helper/api-utils";
 import {
@@ -31,7 +33,6 @@ import {
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
-import { addMonths, startOfMonth } from "date-fns";
 
 interface InitialBookedTableSlot {
   total: number;
@@ -74,6 +75,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [lunchFrom, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
   const productNameValue = useRecoilValue(productNameRefState);
+  const targetSectionRef = useRef<HTMLDivElement>(null);
 
   //fetch bookingblocklist
   const fetchData = async () => {
@@ -112,20 +114,32 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     }
   }, [isCheckedBox]);
 
-  const updateButtonState = (option: string, checked: boolean) => {
+  //scroll into details & comments section
+  useEffect(() => {
+    const scrollTo = router.query.scrollTo;
+    if (scrollTo === "advanced" && targetSectionRef.current) {
+      targetSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [router.query.scrollTo]);
+  //end
+
+  const updateButtonState = (option: string) => {
     setIsButtonDisabled(option === "選択してください");
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setBookingTime(selectedValue);
-    updateButtonState(selectedValue, isCheckedBox);
+    updateButtonState(selectedValue);
   };
 
   const setCheckboxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckboxState = e.target.checked;
     setCheckBox(newCheckboxState);
-    updateButtonState(bookingTime, newCheckboxState);
+    updateButtonState(bookingTime);
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -276,7 +290,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
               席のみのご予約となります。コースの選択については店舗にご来店後、各テーブルにてお伝えください。
             </p>
           </div>
-          <div id="advanced">
+          <div id="advanced" ref={targetSectionRef}>
             <ProductList
               quantityOptions={quantityOptions}
               quantityOptionsValue={selectedQuantity}

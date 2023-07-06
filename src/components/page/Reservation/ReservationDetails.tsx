@@ -1,6 +1,8 @@
 import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { optionCheckboxAtom } from "@/globalState/globalState";
 
 type ReservationDetailProps = {
   numberOfPeople?: number;
@@ -14,7 +16,9 @@ type ReservationDetailProps = {
 };
 
 const ReservationDetails = (props: ReservationDetailProps) => {
+  const [, setCheckCheckbox] = useRecoilState(optionCheckboxAtom);
   const router = useRouter();
+  const { shopId } = router.query;
   const formattedDate = () => {
     const dateObj = new Date(props.bookingDate);
     const year = dateObj.getFullYear();
@@ -30,8 +34,9 @@ const ReservationDetails = (props: ReservationDetailProps) => {
     router.back();
   };
 
-  const goToAdvanced = () => {
-    router.back();
+  const goToAdvanced = (e: any) => {
+    router.push(`/shops/${shopId}/?scrollTo=advanced`);
+    setCheckCheckbox(true);
   };
 
   return (

@@ -39,6 +39,7 @@ export default function ProductItem({
           type="checkbox"
           className="checkbox rounded border border-[#8E8E8E] w-6 h-6"
           onChange={handleCheckboxChange}
+          checked={isChecked}
         />
         <div className="flex items-center md:px-6 px-4">
           <div className="md:mr-7 mr-4 w-[78px]">
