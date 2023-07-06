@@ -24,6 +24,7 @@ import {
   selectedOfferTimingAtom,
   optionNoteAtom,
   productNameRefState,
+  optionCheckboxAtom,
 } from "@/globalState/globalState";
 import {
   quantityOptions,
@@ -52,7 +53,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const router = useRouter();
   const { shopId } = router.query;
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [isCheckedBox, setCheckBox] = useState(false);
+  const [isCheckedBox, setCheckBox] = useRecoilState(optionCheckboxAtom);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
   const [bookingTime, setBookingTime] = useRecoilState(bookingTimeAtom);
   const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
@@ -268,7 +269,6 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
           </div>
           <div id="advanced">
             <ProductList
-              setIsCheckBox={setCheckboxValue}
               quantityOptions={quantityOptions}
               quantityOptionsValue={selectedQuantity}
               quantityOptionsHandler={quantityMethodsHandler}
@@ -282,6 +282,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
               optionOnChange={handleChange}
               optionOnKeyDown={handleKeyDown}
               isCheckedBox={isCheckedBox}
+              setIsCheckBox={setCheckboxValue}
               productNameValue={productNameValue}
             />
           </div>

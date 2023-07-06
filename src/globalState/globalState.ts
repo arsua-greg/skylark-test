@@ -1,9 +1,4 @@
 import { atom } from "recoil";
-import {
-  quantityOptions,
-  offerTimeOptions,
-  offerTimingOptions,
-} from "@/utils/optionSelection";
 
 export const countAtom = atom({
   key: "numberOfPeople",
@@ -18,6 +13,11 @@ export const bookingTimeAtom = atom({
 export const bookingDateAtom = atom<Date | null>({
   key: "bookingDate",
   default: null,
+});
+
+export const optionCheckboxAtom = atom({
+  key: "optionCheckboxAtom",
+  default: false,
 });
 
 export const selectedQuantityAtom = atom({

@@ -1,8 +1,11 @@
 import Image from "next/image";
 import ProductModal from "@/components/ui/modal/ProductModal";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { productNameRefState } from "@/globalState/globalState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  optionCheckboxAtom,
+  productNameRefState,
+} from "@/globalState/globalState";
 
 type ProductItemProps = {
   onChangeCheckbox: (e: any) => void;
@@ -15,11 +18,10 @@ export default function ProductItem({
 }: ProductItemProps) {
   const [productNameRefValue, setProductNameRefValue] =
     useRecoilState(productNameRefState);
-  const [isChecked, setIsChecked] = useState(false);
+  const isChecked = useRecoilValue(optionCheckboxAtom);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeCheckbox(e);
-    setIsChecked(e.target.checked);
   };
 
   useEffect(() => {
