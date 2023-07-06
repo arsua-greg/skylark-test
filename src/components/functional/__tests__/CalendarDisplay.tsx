@@ -2,10 +2,11 @@ import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format, isSunday, isSaturday, isSameDay } from "date-fns";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { bookingDateAtom } from "@/globalState/globalState";
 
 interface CalendarProps {
   children?: any;
-  onChange: (date: Date | null) => void;
   holidayDates?: any;
   offDayList?: any;
   bookedTableSlot: {
@@ -22,7 +23,6 @@ interface CalendarProps {
 }
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
-  onChange,
   holidayDates,
   offDayList,
   bookedTableSlot,
@@ -33,6 +33,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
   const [isPCView, setIsPCView] = useState(false);
+  const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
@@ -162,7 +163,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
 
   const dateChangeHandler = (date: Date | null) => {
     setSelectDate(date);
-    onChange(date);
+    setBookingDate(date);
 
     if (date) {
       setCurrentMonth(date.getMonth());

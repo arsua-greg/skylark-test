@@ -57,7 +57,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [isCheckedBox, setCheckBox] = useRecoilState(optionCheckboxAtom);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
   const [bookingTime, setBookingTime] = useRecoilState(bookingTimeAtom);
-  const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
+  const bookingDate = useRecoilValue(bookingDateAtom);
   const [selectedQuantity, setSelectedQuantity] =
     useRecoilState(selectedQuantityAtom);
   const [selectedOfferTime, setSelectedOfferTime] = useRecoilState(
@@ -113,6 +113,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       setSelectedOfferTiming(offerTimingOptions[0].value);
     }
   }, [isCheckedBox]);
+  //end
 
   //scroll into details & comments section
   useEffect(() => {
@@ -127,7 +128,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   //end
 
   const updateButtonState = (option: string) => {
-    setIsButtonDisabled(option === "選択してください");
+    setIsButtonDisabled(option === "選択してください" && bookingDate === null);
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -142,9 +143,9 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     updateButtonState(bookingTime);
   };
 
-  const handleDateChange = (date: Date | null) => {
-    setBookingDate(date);
-  };
+  // const handleDateChange = (date: Date | null) => {
+  //   setBookingDate(date);
+  // };
 
   const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const quantity = e.target.value;
@@ -262,7 +263,6 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
             </div>
             <div className="md:px-5 px-0">
               <CalendarDisplay
-                onChange={handleDateChange}
                 holidayDates={holidayDates}
                 offDayList={offDayList}
                 defaultBookingSlot={defaultBookingSlot}
