@@ -2,6 +2,8 @@ import { Fragment, useState, useEffect, useRef } from "react";
 import ProductItem from "./ProductItem";
 import NekeroboModal from "../../ui/modal/NekeroboModal";
 import SelectInput from "../../ui/input/SelectInput";
+import { useRecoilValue } from "recoil";
+import { optionCheckboxAtom } from "@/globalState/globalState";
 
 type CheckboxProps = {
   onChangeCheckbox?: React.ChangeEventHandler<HTMLInputElement>;
@@ -23,12 +25,8 @@ type CheckboxProps = {
 };
 
 const ProductList = (props: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const isChecked = useRecoilValue(optionCheckboxAtom);
   const productNameRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    setIsChecked(props.isCheckedBox);
-  }, [props.isCheckedBox]);
 
   const advancedOptions = isChecked ? (
     <div id="advanced_options" className="lg:px-0 px-5">
