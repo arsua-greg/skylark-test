@@ -145,10 +145,6 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     updateButtonState(bookingTime);
   };
 
-  // const handleDateChange = (date: Date | null) => {
-  //   setBookingDate(date);
-  // };
-
   const quantityMethodsHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const quantity = e.target.value;
     setSelectedQuantity(quantity);
