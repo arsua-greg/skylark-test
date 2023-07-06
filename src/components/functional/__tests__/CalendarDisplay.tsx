@@ -29,11 +29,10 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   defaultBookingSlot,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
   const [today, setToday] = useState(new Date());
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
   const [isPCView, setIsPCView] = useState(false);
-  const [bookingDate, setBookingDate] = useRecoilState(bookingDateAtom);
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
@@ -162,7 +161,6 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   };
 
   const dateChangeHandler = (date: Date | null) => {
-    setSelectDate(date);
     setBookingDate(date);
 
     if (date) {
@@ -205,7 +203,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
         tileDisabled={({ date }) => isDateDisabled(date)}
         next2Label={null}
         prev2Label={null}
-        value={selectDate}
+        value={bookingDate}
         tileContent={CustomDayCell}
         maxDate={maxDate}
         minDate={minDate}

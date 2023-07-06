@@ -64,3 +64,8 @@ export const productNameRefState = atom<string>({
   key: "productNameRefState",
   default: "",
 });
+
+export const isButtonDisabledAtom = atom({
+  key: "isButtonDisabledAtom",
+  default: true,
+});

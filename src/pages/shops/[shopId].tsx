@@ -27,6 +27,7 @@ import {
   optionNoteAtom,
   productNameRefState,
   optionCheckboxAtom,
+  isButtonDisabledAtom,
 } from "@/globalState/globalState";
 import {
   quantityOptions,
@@ -53,7 +54,8 @@ type MyPageProps = {
 const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const router = useRouter();
   const { shopId } = router.query;
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] =
+    useRecoilState(isButtonDisabledAtom);
   const [isCheckedBox, setCheckBox] = useRecoilState(optionCheckboxAtom);
   const [numberOfPeople, setNumberOfPeople] = useRecoilState(countAtom);
   const [bookingTime, setBookingTime] = useRecoilState(bookingTimeAtom);
