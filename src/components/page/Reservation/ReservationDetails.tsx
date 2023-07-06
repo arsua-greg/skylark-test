@@ -1,7 +1,5 @@
-import Link from "next/dist/client/link";
 import Image from "next/image";
 import styles from "../../../styles/ReservationForm.module.css";
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 type ReservationDetailProps = {
@@ -16,7 +14,6 @@ type ReservationDetailProps = {
 };
 
 const ReservationDetails = (props: ReservationDetailProps) => {
-  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const formattedDate = () => {
     const dateObj = new Date(props.bookingDate);
@@ -35,7 +32,6 @@ const ReservationDetails = (props: ReservationDetailProps) => {
 
   const goToAdvanced = () => {
     router.back();
-    setIsChecked(!isChecked);
   };
 
   return (
@@ -66,7 +62,6 @@ const ReservationDetails = (props: ReservationDetailProps) => {
         <div className="w-1/2 text-right">
           <label
             className="text-[#04512A] underline underline-offset-4 hover:cursor-pointer"
-            // href={"/#advanced"}
             onClick={goToAdvanced}
           >
             変更する

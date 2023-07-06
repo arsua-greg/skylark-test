@@ -103,6 +103,15 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
     fetchData();
   }, [shopId]);
 
+  //set the default value if checkbox is checked
+  useEffect(() => {
+    if (isCheckedBox) {
+      setSelectedQuantity(quantityOptions[0].value);
+      setSelectedOfferTime(offerTimeOptions[0].value);
+      setSelectedOfferTiming(offerTimingOptions[0].value);
+    }
+  }, [isCheckedBox]);
+
   const updateButtonState = (option: string, checked: boolean) => {
     setIsButtonDisabled(option === "選択してください");
   };
