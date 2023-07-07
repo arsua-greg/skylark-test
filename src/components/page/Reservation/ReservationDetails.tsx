@@ -31,7 +31,7 @@ const ReservationDetails = (props: ReservationDetailProps) => {
   };
 
   const handleGoBack = () => {
-    router.back();
+    router.push(`/shops/${shopId}`);
   };
 
   const goToAdvanced = (e: any) => {
