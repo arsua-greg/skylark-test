@@ -60,7 +60,6 @@ const ConfirmEmailModal = (props: Shop) => {
 
       if (response.ok) {
         // router.push("/reservation/email-confirmation");
-        router.push("/api/auth/login");
         console.log("Email sent", response.status);
       } else {
         console.log("Error", response.status);
