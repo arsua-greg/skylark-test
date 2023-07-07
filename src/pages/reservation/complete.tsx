@@ -196,7 +196,7 @@ const CompletePage = () => {
                       </div>
                       <div className="w-3/5">
                         <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                          しゃぶ葉 渋谷駅前店
+                          しゃぶ葉 調布南口店
                         </p>
                       </div>
                     </li>
