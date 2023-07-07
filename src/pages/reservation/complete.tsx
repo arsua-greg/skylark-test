@@ -4,8 +4,9 @@ import EmailError from "@/components/page/Reservation/EmailError";
 import Cookies from "js-cookie";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
-import QrCode from "@/components/functional/__tests__/QrCode";
+import { useCallback, useEffect, useState } from "react";
+import userEmailTemplateBody from "./userEmailTemplateContent";
+import QRCode from "qrcode.react";
 
 type ConfirmDataType = {
   email: string;
@@ -50,23 +51,59 @@ const CompletePage = () => {
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
+  const sendConfirmationEmail = useCallback(async () => {
+    try {
+      const emailBody = {
+        to: confirmData?.email,
+        subject: "ご予約の受付が完了しました",
+        body: userEmailTemplateBody(
+          confirmData?.email,
+          confirmData?.name,
+          confirmData?.numberOfPeople,
+          confirmData?.bookingDate,
+          confirmData?.bookingTime,
+          confirmData?.selectedQuantity,
+          confirmData?.selectedOfferTime,
+          confirmData?.selectedOfferTiming,
+          confirmData?.optionNote,
+          confirmData?.phone,
+          confirmData?.note,
+          confirmData?.productNameValue,
+          bookingCode
+        ),
+        name: confirmData?.name,
+      };
+
+      const emailRes = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailBody),
+      });
+
+      if (emailRes.ok) {
+        console.log(emailRes.status);
+      } else {
+        console.log(emailRes.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [confirmData]);
+
   useEffect(() => {
     const storedData = Cookies.get("confirmData");
     if (storedData) {
       setConfirmData(JSON.parse(storedData));
     }
-    if (user && !isReservationPosted) {
+  }, [user, isReservationPosted]);
+
+  useEffect(() => {
+    if (user) {
       postReservation();
     }
-  }, [isReservationPosted]);
-
-  if (error || errorPost) {
-    return <EmailError />;
-  }
-
-  if (isLoading || !isReservationPosted) {
-    return <EmailLoadingPage />;
-  }
+  }, [user]);
 
   async function postReservation() {
     try {
@@ -104,7 +141,7 @@ const CompletePage = () => {
         const bookingCode = responseData.bookingCode;
         setIsReservationPosted(true);
         setBookingCode(bookingCode);
-        sendConfirmationEmail();
+        await sendConfirmationEmail();
       } else {
         setErrorPost(true);
         console.log("Error", response.status);
@@ -115,31 +152,12 @@ const CompletePage = () => {
     }
   }
 
-  async function sendConfirmationEmail() {
-    try {
-      const emailBody = {
-        to: confirmData?.email,
-        subject: "Skylark Reservation",
-        body: "Skylark Reservation Test Email",
-        name: confirmData?.name,
-      };
+  if (error || errorPost) {
+    return <EmailError />;
+  }
 
-      const emailRes = await fetch("/api/email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailBody),
-      });
-
-      if (emailRes.ok) {
-        console.log("Email Status:", emailRes.status);
-      } else {
-        console.log("Email Status:", emailRes.status);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  if (isLoading || !isReservationPosted) {
+    return <EmailLoadingPage />;
   }
 
   return (
@@ -163,7 +181,7 @@ const CompletePage = () => {
               </div>
               <div className="my-5 text-center">
                 <figure className="w-[221px] h-[221px] mx-auto">
-                  <QrCode bookingCode={bookingCode} />
+                  <QRCode value={bookingCode} size={221}></QRCode>
                 </figure>
               </div>
               <div className="md:px-5 md:mt-14">
