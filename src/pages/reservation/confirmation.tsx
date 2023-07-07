@@ -10,6 +10,7 @@ import {
   bookingDateAtom,
   bookingTimeAtom,
   countAtom,
+  optionCheckboxAtom,
   optionNoteAtom,
   productNameRefState,
   selectedOfferTimeAtom,
@@ -23,6 +24,7 @@ import {
 
 const ConfirmPage = () => {
   const router = useRouter();
+  const isChecked = useRecoilValue(optionCheckboxAtom);
   const numberOfPeople = useRecoilValue(countAtom);
   const bookingDate = useRecoilValue(bookingDateAtom) || new Date();
   const bookingTime = useRecoilValue(bookingTimeAtom);
@@ -79,6 +81,15 @@ const ConfirmPage = () => {
     router.push("/api/auth/login");
   };
 
+  const goBackReservation = () => {
+    router.push(`/shops/${shopId}`);
+  };
+
+  const goToAdvanced = (e: any) => {
+    router.push(`/shops/${shopId}/?scrollTo=advanced`);
+    isChecked;
+  };
+
   return (
     <div className="md:mt-16">
       <Steps active={1} />
@@ -92,12 +103,12 @@ const ConfirmPage = () => {
               <p className="md:text-base text-sm mt-2">人数</p>
             </div>
             <div className="w-1/2 text-right">
-              <Link
-                className="text-[#04512A] underline underline-offset-4"
-                href={"/#advanced"}
+              <label
+                className="text-[#04512A] underline underline-offset-4 cursor-pointer"
+                onClick={goBackReservation}
               >
                 変更する
-              </Link>
+              </label>
               <p className="md:text-base text-sm mt-[19px]">
                 {formattedDate()}
               </p>
@@ -110,12 +121,12 @@ const ConfirmPage = () => {
               <p className="text-lg font-bold">オプション選択</p>
             </div>
             <div className="w-1/2 text-right">
-              <Link
-                className="text-[#04512A] underline underline-offset-4"
-                href={"/"}
+              <label
+                className="text-[#04512A] underline underline-offset-4 cursor-pointer"
+                onClick={goToAdvanced}
               >
                 変更する
-              </Link>
+              </label>
               <div className="flex mt-5"></div>
             </div>
             <div className="w-full">
