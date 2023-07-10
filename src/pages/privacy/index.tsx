@@ -58,7 +58,7 @@ const PrivacyPage = () => {
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-[13px]">2023年7月〇日　制定</p>
+        <p className="text-[13px]">2023年7月20日　制定</p>
       </div>
     </div>
   );
