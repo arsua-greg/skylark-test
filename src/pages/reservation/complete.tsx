@@ -51,59 +51,16 @@ const CompletePage = () => {
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
-  const sendConfirmationEmail = useCallback(async () => {
-    try {
-      const emailBody = {
-        to: confirmData?.email,
-        subject: "ご予約の受付が完了しました",
-        body: userEmailTemplateBody(
-          confirmData?.email,
-          confirmData?.name,
-          confirmData?.numberOfPeople,
-          confirmData?.bookingDate,
-          confirmData?.bookingTime,
-          confirmData?.selectedQuantity,
-          confirmData?.selectedOfferTime,
-          confirmData?.selectedOfferTiming,
-          confirmData?.optionNote,
-          confirmData?.phone,
-          confirmData?.note,
-          confirmData?.productNameValue,
-          bookingCode
-        ),
-        name: confirmData?.name,
-      };
-
-      const emailRes = await fetch("/api/email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailBody),
-      });
-
-      if (emailRes.ok) {
-        console.log(emailRes.status);
-      } else {
-        console.log(emailRes.status);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, [confirmData]);
-
   useEffect(() => {
     const storedData = Cookies.get("confirmData");
     if (storedData) {
       setConfirmData(JSON.parse(storedData));
     }
-  }, [user, isReservationPosted]);
-
-  useEffect(() => {
-    if (user) {
-      postReservation();
-    }
   }, [user]);
+
+  if (user) {
+    postReservation();
+  }
 
   async function postReservation() {
     try {
@@ -139,9 +96,44 @@ const CompletePage = () => {
       if (response.ok) {
         const responseData = await response.json();
         const bookingCode = responseData.bookingCode;
-        setIsReservationPosted(true);
         setBookingCode(bookingCode);
-        await sendConfirmationEmail();
+
+        const emailBody = {
+          to: confirmData?.email,
+          subject: "ご予約の受付が完了しました",
+          body: userEmailTemplateBody(
+            confirmData?.email,
+            confirmData?.name,
+            confirmData?.numberOfPeople,
+            confirmData?.bookingDate,
+            confirmData?.bookingTime,
+            confirmData?.selectedQuantity,
+            confirmData?.selectedOfferTime,
+            confirmData?.selectedOfferTiming,
+            confirmData?.optionNote,
+            confirmData?.phone,
+            confirmData?.note,
+            confirmData?.productNameValue,
+            bookingCode
+          ),
+          name: confirmData?.name,
+        };
+
+        const emailRes = await fetch("/api/email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailBody),
+        });
+
+        if (emailRes.ok) {
+          console.log(emailRes.status);
+        } else {
+          console.log("Email Error");
+        }
+
+        setIsReservationPosted(true);
       } else {
         setErrorPost(true);
         console.log("Error", response.status);

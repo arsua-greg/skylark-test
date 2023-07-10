@@ -89,7 +89,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       const lunchFrom = data?.lunchFrom;
       const lunchTo = data?.lunchTo;
       const { defaultBookingSlot } = data;
-      const totalTableSlot = defaultBookingSlot.reduce(
+      const totalTableSlot = defaultBookingSlot?.reduce(
         (total: number, slot: any) => total + slot.tableSlot,
         0
       );
@@ -117,7 +117,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   }, [isCheckedBox]);
   //end
 
-  //scroll into details & comments section
+  //scroll into options div
   useEffect(() => {
     const scrollTo = router.query.scrollTo;
     if (scrollTo === "advanced" && targetSectionRef.current) {
