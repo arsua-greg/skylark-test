@@ -34,6 +34,7 @@ import {
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
+import { NextApiRequest, NextApiResponse } from "next";
 
 interface InitialBookedTableSlot {
   total: number;
@@ -103,6 +104,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [shopId]);
@@ -319,53 +321,54 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   );
 };
 
-export default ShopIdPage;
-
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps = async (
+  context: any,
+  res: NextApiResponse
+) => {
   const { shopId } = context.query;
 
-  try {
-    const today: Date = new Date();
-    const startDate = startOfMonth(today);
-    const endDate = addMonths(startDate, 2);
-    const startDateISOString = startDate.toISOString().split("T")[0];
-    const endDateISOString = endDate.toISOString().split("T")[0];
-    const interactionId = generateInteractionId();
-    const userId = "no-authen";
-    const apiKey = "x-api-key";
-    const apiEndpoint = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/bookings/${shopId}/table-slot`;
+  const today: Date = new Date();
+  const startDate = startOfMonth(today);
+  const endDate = addMonths(startDate, 2);
+  const startDateISOString = startDate.toISOString().split("T")[0];
+  const endDateISOString = endDate.toISOString().split("T")[0];
+  const interactionId = generateInteractionId();
+  const userId = "no-authen";
+  const apiKey = "x-api-key";
+  const url = process.env.YUYAKO_SHOP_TABLESLOT_API?.replace(
+    ":shopId",
+    shopId as string
+  );
 
-    const response = await fetch(apiEndpoint, {
-      method: "POST",
-      headers: {
-        "X-Interaction-Id": interactionId,
-        "X-User-Id": userId,
-        "x-api-key": apiKey,
-        "Content-Type": "application/json",
+  if (!url) {
+    res.status(500).json({ error: "YUYAKO_SHOP_TABLESLOT_API is not defined" });
+    return;
+  }
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "X-Interaction-Id": interactionId,
+      "X-User-Id": userId,
+      "x-api-key": apiKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      startDate: startDateISOString,
+      endDate: endDateISOString,
+    }),
+  });
+
+  if (response.ok) {
+    const initialBookedTableSlot = await response.json();
+    context.res.setHeader("Cache-Control", "no-store");
+    return {
+      props: {
+        initialBookedTableSlot,
       },
-      body: JSON.stringify({
-        startDate: startDateISOString,
-        endDate: endDateISOString,
-      }),
-    });
-
-    if (response.ok) {
-      const initialBookedTableSlot = await response.json();
-      return {
-        props: {
-          initialBookedTableSlot,
-        },
-      };
-    } else {
-      console.error("Request Failed", response.status);
-      return {
-        props: {
-          initialBookedTableSlot: null,
-        },
-      };
-    }
-  } catch (err) {
-    console.log(err);
+    };
+  } else {
+    console.error("Request Failed", response.status);
     return {
       props: {
         initialBookedTableSlot: null,
@@ -373,3 +376,5 @@ export const getServerSideProps = async (context: any) => {
     };
   }
 };
+
+export default ShopIdPage;

@@ -14,17 +14,31 @@ export default async function handler(
       const userId = generateUserId(req);
       const apiKey = "text/plain";
       const { shopId } = req.query;
-
-      const shopData = await fetch(
-        `https://yoyaku-api-tdxnqxuzba-an.a.run.app/shops/${shopId}/setting`,
-        {
-          headers: {
-            "X-Interaction-Id": interactionId,
-            "X-User-Id": userId,
-            "x-api-key": apiKey,
-          },
-        }
+      const url = process.env.YUYAKO_SHOP_SETTING_API?.replace(
+        ":shopId",
+        shopId as string
       );
+
+      if (!url) {
+        res
+          .status(500)
+          .json({ error: "YUYAKO_SHOP_SETTING_API is not defined" });
+        return;
+      }
+
+      const shopData = await fetch(url, {
+        headers: {
+          "X-Interaction-Id": interactionId,
+          "X-User-Id": userId,
+          "x-api-key": apiKey,
+        },
+      });
+
+      if (!shopData.ok) {
+        res.status(500).json({ error: "Failed to fetch shop data" });
+        return;
+      }
+
       const shops = await shopData.json();
       res.status(200).json(shops);
     } catch (error) {

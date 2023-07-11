@@ -71,12 +71,16 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
   }, [isNextButtonDisabled]);
 
   const CustomDayCell = ({ date }: { date: Date }) => {
-    const { dataList } = bookedTableSlot;
+    const { dataList } = bookedTableSlot || {};
     const isDisabled = isDateDisabled(date);
     const formattedDate = formatDate(date);
     const bookingDateItem = dataList.find(
       (item) => item.bookingDate === formattedDate
     );
+
+    if (!bookedTableSlot) {
+      return null;
+    }
 
     if (isDisabled) {
       return (
@@ -87,7 +91,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
 
     if (bookingDateItem) {
-      const { blockTimeList } = bookingDateItem;
+      const { blockTimeList } = bookingDateItem || {};
       const totalBookedTableSlots = blockTimeList.reduce(
         (total, blockTime) => total + blockTime.tableSlot,
         0
@@ -115,11 +119,15 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     const formattedHolidayDates = holidayDates?.map(
       (holiday: Date) => new Date(holiday)
     );
-    const { dataList } = bookedTableSlot;
+    const { dataList } = bookedTableSlot || {};
     const formattedDate = formatDate(date);
     const bookingDateItem = dataList.find(
       (item) => item.bookingDate === formattedDate
     );
+
+    if (!bookedTableSlot) {
+      return "";
+    }
 
     if (view === "month") {
       if (isSunday(date)) {
@@ -157,7 +165,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           return null;
       }
     }
-    return null;
+    return "";
   };
 
   const dateChangeHandler = (date: Date | null) => {
