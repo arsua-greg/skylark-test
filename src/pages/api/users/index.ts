@@ -15,20 +15,18 @@ export default async function handler(
       const apiKey = "text/plain";
 
       const requestBody = req.body;
+      const apiURL = process.env.YUYAKO_BOOKING_API || "";
 
-      const userInfoResponse = await fetch(
-        "https://yoyaku-api-tdxnqxuzba-an.a.run.app/userinfo",
-        {
-          method: "POST",
-          headers: {
-            "X-Interaction-Id": interactionId,
-            "X-User-Id": userId,
-            "x-api-key": apiKey,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
+      const userInfoResponse = await fetch(apiURL, {
+        method: "POST",
+        headers: {
+          "X-Interaction-Id": interactionId,
+          "X-User-Id": userId,
+          "x-api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
 
       if (userInfoResponse.ok) {
         console.log("Successfully Added Data", userInfoResponse.status);
