@@ -191,7 +191,7 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const timeOptions = [
     { value: "選択してください", label: "選択してください" },
   ];
-  const startTime = new Date(`2000-01-01T${lunchFrom}`);
+  const startTime = new Date(`2000-01-01T11:00`);
   const endTime = new Date(`2000-01-01T${lunchTo}`);
   const timeIncrement = 15;
 
