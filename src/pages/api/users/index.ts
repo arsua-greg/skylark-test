@@ -15,7 +15,11 @@ export default async function handler(
       const apiKey = "text/plain";
 
       const requestBody = req.body;
-      const apiURL = `https://yoyaku-api-tdxnqxuzba-an.a.run.app/userinfo`;
+      const apiURL = process.env.YUYAKO_USER_API;
+
+      if (!apiURL) {
+        throw new Error("API URL is not defined.");
+      }
 
       const userInfoResponse = await fetch(apiURL, {
         method: "POST",

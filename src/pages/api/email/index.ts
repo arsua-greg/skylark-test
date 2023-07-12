@@ -14,7 +14,11 @@ export default async function handler(
       const userId = generateUserId(req);
       const apiKey = "text/plain";
       const requestBody = req.body;
-      const apiURL = process.env.YUYAKO_EMAIL_API || "";
+      const apiURL = process.env.YUYAKO_EMAIL_API;
+
+      if (!apiURL) {
+        throw new Error("API URL is not defined.");
+      }
 
       const emailData = await fetch(apiURL, {
         method: "POST",
