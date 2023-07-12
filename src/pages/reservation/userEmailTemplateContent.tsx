@@ -24,9 +24,11 @@ const userEmailTemplateBody = (
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
-  const baseUrl = process.env.YUYAKO_BASE_URL || "http://localhost:3000";
-
-  const url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
+  let url = "";
+  if (typeof window !== "undefined") {
+    const baseUrl = window.location.origin;
+    url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
+  }
 
   return `
 ご予約いただき誠にありがとうございます。<br/>
