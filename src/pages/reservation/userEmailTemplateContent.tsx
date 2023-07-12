@@ -1,13 +1,3 @@
-import { renderToStaticMarkup } from "react-dom/server";
-import QRCode from "qrcode.react";
-
-const generateQRCodeMarkup = (qrCodeValue: any, size = 221) => {
-  const qrCodeComponent = (
-    <QRCode value={qrCodeValue} size={size} renderAs="svg" />
-  );
-  return renderToStaticMarkup(qrCodeComponent);
-};
-
 const userEmailTemplateBody = (
   email: string | undefined,
   name: string | undefined,
@@ -34,8 +24,9 @@ const userEmailTemplateBody = (
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
-  const qrCodeValue = bookingCode;
-  const qrCodeMarkup = generateQRCodeMarkup(qrCodeValue);
+  const baseUrl = process.env.YUYAKO_BASE_URL || "http://localhost:3000";
+
+  const url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
 
   return `
 ご予約いただき誠にありがとうございます。<br/>
@@ -88,7 +79,7 @@ https://reservation.skylark.co.jp/faq/<br/>
 配信元：株式会社すかいらーくホールディングス<br/>
 https://corp.skylark.co.jp/<br/>
 <br/>
-${qrCodeMarkup}`;
+${url}`;
 };
 
 export default userEmailTemplateBody;
