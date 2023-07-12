@@ -1,12 +1,12 @@
 import Steps from "@/components/ui/Steps";
 import EmailLoadingPage from "@/components/page/Reservation/EmailLoading";
 import EmailError from "@/components/page/Reservation/EmailError";
+import userEmailTemplateBody from "./userEmailTemplateContent";
 import Cookies from "js-cookie";
-import QRCode from "qrcode.react";
 
+import { QRCodeSVG } from "qrcode.react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Fragment, useEffect, useState } from "react";
-import userEmailTemplateBody from "./userEmailTemplateContent";
 
 type ConfirmDataType = {
   email: string;
@@ -174,7 +174,7 @@ const CompletePage = () => {
                 </div>
                 <div className="my-5 text-center">
                   <figure className="w-[221px] h-[221px] mx-auto">
-                    <QRCode value={bookingCode} size={221}></QRCode>
+                    <QRCodeSVG value={bookingCode} size={221}></QRCodeSVG>
                   </figure>
                 </div>
                 <div className="md:px-5 md:mt-14">

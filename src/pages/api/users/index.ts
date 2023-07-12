@@ -15,7 +15,7 @@ export default async function handler(
       const apiKey = "text/plain";
 
       const requestBody = req.body;
-      const apiURL = process.env.YUYAKO_BOOKING_API || "";
+      const apiURL = process.env.YUYAKO_USER_API || "";
 
       const userInfoResponse = await fetch(apiURL, {
         method: "POST",
