@@ -82,12 +82,8 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       return null;
     }
 
-    if (isDisabled) {
-      return (
-        <span className="text-[#949494] block md:mt-2 mt-1">
-          {bookingDateItem ? "x" : ""}
-        </span>
-      );
+    if (isDisabled && bookingDateItem) {
+      return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
     }
 
     if (bookingDateItem) {
