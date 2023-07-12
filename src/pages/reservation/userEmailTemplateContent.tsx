@@ -24,8 +24,11 @@ const userEmailTemplateBody = (
     return `${year}年${month}月${day}日(${dayOfWeek})`;
   };
 
-  const baseUrl = window.location.origin;
-  const url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
+  let url = "";
+  if (typeof window !== "undefined") {
+    const baseUrl = window.location.origin;
+    url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
+  }
 
   return `
 ご予約いただき誠にありがとうございます。<br/>
