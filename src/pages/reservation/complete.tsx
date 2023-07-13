@@ -201,7 +201,7 @@ const CompletePage = () => {
                         </div>
                         <div className="w-3/5">
                           <p className="font-normal text-[14px] md:text-[16px] leading-[17px] md:leading-[19px] text-right">
-                            03-5428-6350
+                            042-440-9710
                           </p>
                         </div>
                       </li>
@@ -373,7 +373,7 @@ const CompletePage = () => {
                         </li>
                         <li>
                           <p className="text-[13px] md:text-[14px] leading-[17px] md:leading-[18px]">
-                            ※変更・キャンセル期限は2023年4月8日00時00分です。
+                            ※変更・キャンセル期限は30分です。
                           </p>
                         </li>
                         <li>
@@ -406,10 +406,10 @@ const CompletePage = () => {
                         <li>
                           <p className="text-[14px] leading-[19px]">
                             <a
-                              href="tel:01-1234-6789"
+                              href="tel:042-440-9710"
                               className="c text-[#0085FF] underline"
                             >
-                              01-1234-6789
+                              042-440-9710
                             </a>
                             （予約キャンセル・お問い合わせ）
                           </p>
