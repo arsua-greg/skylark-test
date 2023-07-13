@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    TagManager.initialize({ gtmId: "5ZWXRRQ" });
+    TagManager.initialize({ gtmId: "GTM-5ZWXRRQ" });
   }, []);
 
   return (
