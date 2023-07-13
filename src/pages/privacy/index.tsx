@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 const PrivacyPage = () => {
   const breadCrumbSp = "<戻る";
@@ -12,17 +11,12 @@ const PrivacyPage = () => {
 
   return (
     <div className="mx-auto max-w-[1120px] px-5 mt-16 pb-72">
-      <Link
-        href="/terms"
-        className="text-[#04512A] text-lg mb-5 block"
+      <p
+        className="text-[#04512A] text-lg mb-5 block cursor-pointer"
         onClick={handleGoBack}
       >
-        <p className="md:hidden block">{breadCrumbSp}</p>
-        <p className="text-xl md:block hidden text-black">
-          <span className="text-[#04512A]">来店予約</span>
-          　/　プライバシーポリシー
-        </p>
-      </Link>
+        {breadCrumbSp}
+      </p>
       <h1 className="text-3xl font-bold text-center">
         「すかいらーくの予約サイト」
         <br />
@@ -34,47 +28,41 @@ const PrivacyPage = () => {
       <div className="mt-7">
         <p className="text-lg font-bold">第１条（⽤語の定義）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          １．「利⽤者」とは、本サービスを利⽤するすべての者をいいま す。
+          １．「利⽤者」とは、本サービスを利⽤するすべての者をいいます。
           <br />
           <span className="block md:-indent-9 md:ml-9">
-            ２．「利⽤者情報」とは、個⼈情報（個⼈情報の保護に関する
-            法第２条第１項により定義された「個⼈情報」をいい、以下同様と
-            します。）、利⽤者の通信サービス上の⾏動履歴その他利⽤者の情
-            報端末において⽣成⼜は蓄積された情報であって、本ポリシーに基
-            づき当社が収集するものをいいます。
+            ２．「利⽤者情報」とは、個⼈情報（個⼈情報の保護に関する法第２条第１項により定義された「個⼈情報」をいい、以下同様とします。）、利⽤者の通信サービス上の⾏動履歴その他利⽤者の情報端末において⽣成⼜は蓄積された情報であって、本ポリシーに基づき当社が収集するものをいいます。
           </span>
         </p>
       </div>
       <div className="mt-7">
         <p className="text-lg font-bold">
-          第2条（本サービスで収集す る利⽤者情報）
+          第2条（本サービスで収集する利⽤者情報）
         </p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          1. 当社は、利⽤者から、本サービスを利⽤するために、⽒名、メー
-          ルアドレス、電話番号等の利⽤者情報を⼊⼒フォームへの⼊⼒を通
-          じて提供していただきます。
+          1.
+          当社は、利⽤者から、本サービスを利⽤するために、⽒名、メールアドレス、電話番号等の利⽤者情報を⼊⼒フォームへの⼊⼒を通じて提供していただきます。
           <br />
           <span className="block md:-indent-4 md:ml-4">
-            2.
-            当社は、本サービスにおいて、利⽤者のアクセス状況や本サービスの利⽤⽅法に関する情報その他の利⽤端末に蓄積される情報を収集する場合があります。この情報には、以下の情報が含まれます。
+            2.当社は、本サービスにおいて、利⽤者のアクセス状況や本サービスの利⽤⽅法に関する情報その他の利⽤端末に蓄積される情報を収集する場合があります。この情報には、以下の情報が含まれます。
             <br />
             <br />
           </span>
           <span>
             ・端末情報（端末ID、IPアドレス等利⽤者属性情報）
             <br />
-            ・ログ情報及びタグ情報 ・位置情報 ・クッキー（Cookie）情報
+            ・ログ情報及びタグ情報・位置情報・クッキー（Cookie）情報
             <br />
             ・その他本サービス利⽤に関する情報
           </span>
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-lg font-bold">第3条（個⼈情報の利⽤⽬ 的）</p>
+        <p className="text-lg font-bold">第3条（個⼈情報の利⽤⽬的）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           1.当社は、個⼈情報を、利⽤者本⼈の同意がない限り、利⽤⽬的の達成に必要な範囲を超えて利⽤しません。
           <br />
-          2. 当社は、個⼈情報を下記の⽬的の範囲内で適正に取り扱います。
+          2.当社は、個⼈情報を下記の⽬的の範囲内で適正に取り扱います。
           <br />
           <br />
           ・本サービスの提供、維持、保護、および改善のための動作の精度調査のため
@@ -102,7 +90,7 @@ const PrivacyPage = () => {
       <div className="mt-7">
         <p className="text-lg font-bold">第5条（法令の遵守）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          当社は、個⼈情報保護法その他の法令を遵守して個⼈情報を取り扱 います。
+          当社は、個⼈情報保護法その他の法令を遵守して個⼈情報を取り扱います。
         </p>
       </div>
       <div className="mt-7">
@@ -116,7 +104,7 @@ const PrivacyPage = () => {
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-lg font-bold"> 第7条（Cookieその他の技術 の利⽤）</p>
+        <p className="text-lg font-bold"> 第7条（Cookieその他の技術の利⽤）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           <span className="block md:-indent-3 md:ml-3">
             1.当社は、本サービスのウェブサイトにおいて、「Cookie（クッキー）」と呼ばれる技術を使⽤しているページがあります。Cookieとは、利⽤者の利⽤端末を識別する技術です。Cookieの技術により、表⽰すべき事項を利⽤者の利⽤端末毎に変えたり、利⽤者の⼊⼒事項を保存できたりするため、利⽤者は、カスタマイズされたサービスの提供を受けることができます。当社は、お客様のサービス利便性向上、サービスの改善、適切な広告の提供、及び統計データの取得を⽬的としてcookieを使⽤したお客様の利⽤状況及び属性情報、利⽤端末等の情報の収集を⾏うことがあります。
@@ -125,11 +113,10 @@ const PrivacyPage = () => {
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-lg font-bold">第8条（情報収集モジュー ル）</p>
+        <p className="text-lg font-bold">第8条（情報収集モジュール）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           <span className="block md:-indent-3 md:ml-3">
-            1.
-            本サービスには、利⽤者情報を解析するため、以下の情報収集モジュールが組み込まれています。
+            1.本サービスには、利⽤者情報を解析するため、以下の情報収集モジュールが組み込まれています。
             <br />
             (1)情報収集モジュールの名称GoogleAnalytics、Google Tag Manager
             <br />
@@ -153,21 +140,28 @@ const PrivacyPage = () => {
           <br />
           （３）合併その他の事由による事業の承継に伴って個⼈情報が提供される場合
           <span className="block md:-indent-10 md:ml-10">
-            （４）国の機関もしくは地⽅公共団体またはその委託を受けた者が法令の定める事務を遂⾏することに対して協⼒する必要がある場合であって、利⽤者の同意を得ることによって当該事務の遂⾏に⽀障を及ぼすおそれがあ
-            る場合
+            （４）国の機関もしくは地⽅公共団体またはその委託を受けた者が法令の定める事務を遂⾏することに対して協⼒する必要がある場合であって、利⽤者の同意を得ることによって当該事務の遂⾏に⽀障を及ぼすおそれがある場合
           </span>
-          （５）その他、個⼈情報保護法その他の法令で認められる場 合
+          （５）その他、個⼈情報保護法その他の法令で認められる場合
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-lg font-bold">第10条（個⼈情報の開⽰の 請求）</p>
+        <p className="text-lg font-bold">第10条（個⼈情報の開⽰の請求）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          当社は、利⽤者から、個⼈情報保護法の定めに基づき個⼈情報の照会等開⽰（以下「開⽰」といいます）を請求されたときは、利⽤者ご本⼈からのご請求であることを確認のうえで、利⽤者に対し、遅滞なく開⽰を⾏います（当該個⼈情報が存在しないときにはその旨を通知いたします）。ただし、個⼈情報保護法その他の法令により、当社が開⽰等の義務を負わない場合は、この限りではありません。なお、個⼈情報の開⽰につきましては、⼿数料を頂戴しておりますので、予めご了承ください。個⼈情報の開⽰を請求する⼿続はこちら
+          当社は、利⽤者から、個⼈情報保護法の定めに基づき個⼈情報の照会等開⽰（以下「開⽰」といいます）を請求されたときは、利⽤者ご本⼈からのご請求であることを確認のうえで、利⽤者に対し、遅滞なく開⽰を⾏います（当該個⼈情報が存在しないときにはその旨を通知いたします）。ただし、個⼈情報保護法その他の法令により、当社が開⽰等の義務を負わない場合は、この限りではありません。なお、個⼈情報の開⽰につきましては、⼿数料を頂戴しておりますので、予めご了承ください。個⼈情報の開⽰を請求する⼿続は
+          <a
+            className="underline underline-offset-2"
+            href="https://corp.skylark.co.jp/privacy/announced.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            こちら
+          </a>
         </p>
       </div>
       <div className="mt-7">
         <p className="text-lg font-bold">
-          第11条（個⼈情報の訂正、 消去の請求）
+          第11条（個⼈情報の訂正、消去の請求）
         </p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           <span className="block md:-indent-7 md:ml-7">
@@ -183,34 +177,57 @@ const PrivacyPage = () => {
             <br />
           </span>
           <span className="block md:-indent-6 md:ml-6">
-            ３．個⼈情報保護法その他の法令により、当社が訂正等または利⽤停⽌等の義務を負わない場合は、前⼆項の規定は適⽤されません。
-            個⼈情報の訂正・利⽤停⽌等を請求する⼿続はこちら
+            ３．個⼈情報保護法その他の法令により、当社が訂正等または利⽤停⽌等の義務を負わない場合は、前⼆項の規定は適⽤されません。個⼈情報の訂正・利⽤停⽌等を請求する⼿続は
+            <a
+              className="underline underline-offset-2"
+              href="https://corp.skylark.co.jp/privacy/announced.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              こちら
+            </a>
           </span>
         </p>
       </div>
       <div className="mt-7">
         <p className="text-lg font-bold">第12条（お問い合わせ）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          ご意⾒、ご質問、苦情のお申し出その他本ポリシーに定める情報の取扱いに関するお問合せは、下記の窓⼝までお願い致します。株式会社すかいらーくレストランツお客様相談室・お⼿紙〒１８０−８５８０東京都武蔵野市⻄久保１−２５−８・メールお問合せフォームはこちら
+          ご意⾒、ご質問、苦情のお申し出その他本ポリシーに定める情報の取扱いに関するお問合せは、下記の窓⼝までお願い致します。株式会社すかいらーくレストランツお客様相談室・お⼿紙〒１８０−８５８０東京都武蔵野市⻄久保１−２５−８・メールお問合せフォームは
+          <a
+            className="underline underline-offset-2"
+            href="https://www2.skylark.co.jp/question/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            こちら
+          </a>
         </p>
       </div>
       <div className="mt-7">
         <p className="text-lg font-bold">
-          第13条（個⼈情報の安全管 理措置・体制）
+          第13条（個⼈情報の安全管理措置・体制）
         </p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
-          当社は、個⼈情報管理責任者を設置し、個⼈情報保護法および関連法令に基づく社内規程に従って、ご提供いただいた利⽤者情報も含めた個⼈情報を厳重に保管・管理し、第三者の不正なアクセスによる個⼈情報の漏洩・流⽤・改ざん等を防⽌するため、万全のセキュリティ対策を講じるものとします。詳しくは、「個⼈情報の保護に関する法律に基づく公表事項」をお読みください。
+          当社は、個⼈情報管理責任者を設置し、個⼈情報保護法および関連法令に基づく社内規程に従って、ご提供いただいた利⽤者情報も含めた個⼈情報を厳重に保管・管理し、第三者の不正なアクセスによる個⼈情報の漏洩・流⽤・改ざん等を防⽌するため、万全のセキュリティ対策を講じるものとします。詳しくは、
+          <a
+            className="underline underline-offset-2"
+            href="https://corp.skylark.co.jp/privacy/announced.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            「個⼈情報の保護に関する法律に基づく公表事項」をお読みください。
+          </a>
         </p>
       </div>
       <div className="mt-7">
-        <p className="text-lg font-bold">第14条（本ポリシーの変 更）</p>
+        <p className="text-lg font-bold">第14条（本ポリシーの変更）</p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           当社は、利⽤者情報および本サービスに関する運⽤状況を適宜⾒直し、継続的な改善に努めるものとし、必要に応じて、本ポリシーを変更することがあります。変更した場合には、⾃社ホームページ内での掲載により利⽤者に通知または公表いたします。ただし、法令上利⽤者の同意が必要となるような内容の変更の場合は、当社所定の⽅法で利⽤者の同意を得るものとします。
         </p>
       </div>
       <div className="mt-7">
         <p className="text-lg font-bold">
-          第15条（リンク先における 個⼈情報の保護）
+          第15条（リンク先における個⼈情報の保護）
         </p>
         <p className="md:text-sm text-[13px] md:mt-4 mt-5">
           本サービスからリンクするウェブサイトにおける個⼈情報の安全確保については責任を負うことはできません。リンク先の個⼈情報保護につきましては、当該リンク先におけるプライバシーポリシー等を利⽤者ご⾃⾝でご確認いただきますようお願い致します。
