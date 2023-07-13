@@ -215,8 +215,9 @@ const PrivacyPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            「個⼈情報の保護に関する法律に基づく公表事項」をお読みください。
+            「個⼈情報の保護に関する法律に基づく公表事項」
           </a>
+          をお読みください。
         </p>
       </div>
       <div className="mt-7">
