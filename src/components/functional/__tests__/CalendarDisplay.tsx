@@ -82,12 +82,8 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       return null;
     }
 
-    if (isDisabled) {
-      return (
-        <span className="text-[#949494] block md:mt-2 mt-1">
-          {bookingDateItem ? "x" : ""}
-        </span>
-      );
+    if (isDisabled && bookingDateItem) {
+      return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
     }
 
     if (bookingDateItem) {
@@ -109,7 +105,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           return null;
       }
     }
-    return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+    return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -165,7 +161,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
           return null;
       }
     }
-    return "";
+    return "pointer-events-none";
   };
 
   const dateChangeHandler = (date: Date | null) => {
