@@ -12,16 +12,12 @@ function TermsPage() {
 
   return (
     <div className="mx-auto max-w-[1120px] px-5 mt-16 pb-72">
-      <Link
-        href="/terms"
-        className="text-[#04512A] text-lg mb-5 block"
+      <p
+        className="text-[#04512A] text-lg mb-5 block cursor-pointer"
         onClick={handleGoBack}
       >
-        <p className="md:hidden block">{breadCrumbSp}</p>
-        <p className="text-xl md:block hidden text-black">
-          <span className="text-[#04512A]">来店予約</span>　/　サイト利用規約
-        </p>
-      </Link>
+        {breadCrumbSp}
+      </p>
       <h1 className="text-3xl font-bold text-center mt-14">サイト利用規約</h1>
       <p className="md:text-base text-[13px] mt-5">
         すかいらーくグループ（以下「当社」といいます）は、当社が運営するWebサイト「すかいらーくの予約サイト」（以下「当サイト」）といいます）を利用して当社の店舗の来店予約を行うサービス（以下「本サービス」といいます）の利用規約（以下「本規約」といいます）を以下のとおり定めます。
