@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
+    "@types/react-gtm-module": "^2.0.1",
     "@types/uuid": "^9.0.2"
   }
 }
