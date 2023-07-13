@@ -7,8 +7,14 @@ import type { AppProps } from "next/app";
 import Layout from "@/components/ui/Layout";
 import Head from "next/head";
 import { RecoilRoot } from "recoil";
+import TagManager from "react-gtm-module";
+import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    TagManager.initialize({ gtmId: "GTM-5ZWXRRQ" });
+  }, []);
+
   return (
     <RecoilRoot>
       <UserProvider>
