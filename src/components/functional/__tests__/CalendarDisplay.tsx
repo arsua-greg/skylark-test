@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { bookingDateAtom } from "@/globalState/globalState";
 
 interface CalendarProps {
-  children?: any;
   holidayDates?: any;
   offDayList?: any;
   bookedTableSlot: {
@@ -19,7 +18,10 @@ interface CalendarProps {
       }[];
     }[];
   };
-  defaultBookingSlot: number;
+  defaultBookingSlot: {
+    blockTime: string;
+    tableSlot: number;
+  }[];
 }
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
@@ -70,6 +72,29 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
   }, [isNextButtonDisabled]);
 
+  const differences = defaultBookingSlot.map((defaultSlot) => {
+    const { dataList } = bookedTableSlot;
+    let tableSlotDifference = null;
+
+    if (dataList) {
+      for (const data of dataList) {
+        const matchingBlockTime = data.blockTimeList.find(
+          (block) => block.blockTime === defaultSlot.blockTime
+        );
+
+        if (matchingBlockTime) {
+          tableSlotDifference =
+            defaultSlot.tableSlot - matchingBlockTime.tableSlot;
+          break;
+        }
+      }
+    }
+
+    // return tableSlotDifference;
+  });
+
+  console.log(differences);
+
   const CustomDayCell = ({ date }: { date: Date }) => {
     const { dataList } = bookedTableSlot || {};
     const isDisabled = isDateDisabled(date);
@@ -82,30 +107,30 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       return null;
     }
 
-    if (isDisabled && bookingDateItem) {
+    if (isDisabled) {
       return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
     }
 
-    if (bookingDateItem) {
-      const { blockTimeList } = bookingDateItem || {};
-      const totalBookedTableSlots = blockTimeList.reduce(
-        (total, blockTime) => total + blockTime.tableSlot,
-        0
-      );
-      const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+    // if (bookingDateItem) {
+    //   const { blockTimeList } = bookingDateItem || {};
+    //   const totalBookedTableSlots = blockTimeList.reduce(
+    //     (total, blockTime) => total + blockTime.tableSlot,
+    //     0
+    //   );
+    //   const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
 
-      switch (true) {
-        case blocklistdiff >= 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-        case blocklistdiff >= 1 && blocklistdiff < 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-        case blocklistdiff <= 0:
-          return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
-        default:
-          return null;
-      }
-    }
-    return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
+    //   switch (true) {
+    //     case blocklistdiff >= 4:
+    //       return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
+    //     case blocklistdiff >= 1 && blocklistdiff < 4:
+    //       return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
+    //     case blocklistdiff <= 0:
+    //       return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
+    //     default:
+    //       return null;
+    //   }
+    // }
+    // return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
@@ -129,6 +154,7 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       if (isSunday(date)) {
         return "sunday-tile";
       }
+
       if (isSaturday(date)) {
         return "saturday-tile";
       }
@@ -142,26 +168,26 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       }
     }
 
-    if (bookingDateItem) {
-      const { blockTimeList } = bookingDateItem;
-      const totalBookedTableSlots = blockTimeList.reduce(
-        (total, blockTime) => total + blockTime.tableSlot,
-        0
-      );
-      const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
+    // if (bookingDateItem) {
+    //   const { blockTimeList } = bookingDateItem;
+    //   const totalBookedTableSlots = blockTimeList.reduce(
+    //     (total, blockTime) => total + blockTime.tableSlot,
+    //     0
+    //   );
+    //   const blocklistdiff = defaultBookingSlot - totalBookedTableSlots;
 
-      switch (true) {
-        case blocklistdiff >= 4:
-          return "";
-        case blocklistdiff >= 1 && blocklistdiff < 4:
-          return "";
-        case blocklistdiff <= 0:
-          return "pointer-events-none";
-        default:
-          return null;
-      }
-    }
-    return "pointer-events-none";
+    //   switch (true) {
+    //     case blocklistdiff >= 4:
+    //       return "";
+    //     case blocklistdiff >= 1 && blocklistdiff < 4:
+    //       return "";
+    //     case blocklistdiff <= 0:
+    //       return "pointer-events-none";
+    //     default:
+    //       return null;
+    //   }
+    // }
+    // return "pointer-events-none";
   };
 
   const dateChangeHandler = (date: Date | null) => {
