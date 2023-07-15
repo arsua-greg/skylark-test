@@ -34,7 +34,7 @@ import {
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 
 interface InitialBookedTableSlot {
   total: number;
@@ -90,10 +90,6 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       const lunchFrom = data?.lunchFrom;
       const lunchTo = data?.lunchTo;
       const { defaultBookingSlot } = data;
-      // const totalTableSlot = defaultBookingSlot?.reduce(
-      //   (total: number, slot: any) => total + slot.tableSlot,
-      //   0
-      // );
       setShopData(data);
       setLunchFrom(lunchFrom);
       setLunchTo(lunchTo);
