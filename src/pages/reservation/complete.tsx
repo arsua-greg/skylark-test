@@ -423,18 +423,15 @@ const CompletePage = () => {
                       <ul className="pl-2">
                         <li className="mb-5">
                           <p className="text-[14px] leading-[19px]">
-                            予約サイトに関する質問は下記のページをご参照ください。
-                          </p>
-                        </li>
-                        <li>
-                          <p className="text-[14px] leading-[19px]">
+                            予約サイトに関する質問は
                             <a
-                              href="https://reservation.skylark.co.jp/faq/"
+                              href="/faq"
+                              className="text-[#0085FF] underline"
                               target="_blank"
-                              className="c text-[#0085FF] underline"
                             >
-                              https://reservation.skylark.co.jp/faq/
+                              こちら
                             </a>
+                            のページをご参照ください。
                           </p>
                         </li>
                       </ul>

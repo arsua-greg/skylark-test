@@ -41,12 +41,12 @@ const FaqPage = () => {
 
   return (
     <div className="max-w-[1120px] mx-auto md:mt-16 mt-8 lg:px-5 px-5 md:pb-24 pb-6">
-      <p
+      <label
         className="text-[#04512A] text-lg mb-5 block cursor-pointer"
         onClick={handleGoBack}
       >
         {breadCrumbSp}
-      </p>
+      </label>
       <h1 className="md:text-3xl text-lg font-bold text-center">
         よくある質問
       </h1>

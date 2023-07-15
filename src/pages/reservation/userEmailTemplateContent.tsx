@@ -25,9 +25,11 @@ const userEmailTemplateBody = (
   };
 
   let url = "";
+  let baseFaq = "";
   if (typeof window !== "undefined") {
     const baseUrl = window.location.origin;
     url = `${baseUrl}/reservation/qrCode?bookingCode=${bookingCode}`;
+    baseFaq = `${baseUrl}/faq`;
   }
 
   return `
@@ -65,9 +67,7 @@ ${optionNote}<br/>
 下記の番号にお問い合わせください。<br/>
 042-440-9710（予約キャンセル・お問い合わせ）<br/>
 <br/>
-また、下記のよくある質問ページもご参照ください。<br/>
-https://reservation.skylark.co.jp/faq/<br/>
-<br/>
+<p>また、<a href="${baseFaq}">こちら</a>のよくある質問ページもご参照ください。</p><br/>
 【ご注意】<br/>
 ※変更・キャンセル期限はご来店予約時間までです。<br/>
 ※予約完了後に内容に変更があった場合には、お早めに店舗までご連絡ください。<br/>
@@ -81,7 +81,7 @@ https://reservation.skylark.co.jp/faq/<br/>
 配信元：株式会社すかいらーくホールディングス<br/>
 https://corp.skylark.co.jp/<br/>
 <br/>
-${url}`;
+<p>QRコードは<a href="${url}">こちら</a></p>`;
 };
 
 export default userEmailTemplateBody;

@@ -11,12 +11,13 @@ const PrivacyPage = () => {
 
   return (
     <div className="mx-auto max-w-[1120px] px-5 mt-16 pb-72">
-      <p
+      <button
+        type="button"
         className="text-[#04512A] text-lg mb-5 block cursor-pointer"
         onClick={handleGoBack}
       >
         {breadCrumbSp}
-      </p>
+      </button>
       <h1 className="text-3xl font-bold text-center">
         「すかいらーくの予約サイト」
         <br />

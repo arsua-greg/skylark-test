@@ -2,7 +2,7 @@ import "react-calendar/dist/Calendar.css";
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { format, isSunday, isSaturday, isSameDay } from "date-fns";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { bookingDateAtom } from "@/globalState/globalState";
 
 interface CalendarProps {
@@ -14,7 +14,6 @@ interface CalendarProps {
       blockTimeList: {
         blockTime: string;
         tableSlot: number;
-        externameTableSlot: number;
       }[];
     }[];
   };
@@ -22,12 +21,6 @@ interface CalendarProps {
     blockTime: string;
     tableSlot: number;
   }[];
-}
-
-interface TableSlotDifference {
-  bookingDate: string;
-  blockTime: string;
-  tableSlotDifference: number;
 }
 
 const CalendarDisplay: React.FC<CalendarProps> = ({
@@ -78,6 +71,9 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
     }
   }, [isNextButtonDisabled]);
 
+  console.log(defaultBookingSlot);
+  console.log(bookedTableSlot);
+
   //function to show icons on calendar
   const CustomDayCell = ({ date }: { date: Date }) => {
     const isDisabled = isDateDisabled(date);
@@ -90,50 +86,56 @@ const CalendarDisplay: React.FC<CalendarProps> = ({
       return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
     }
 
-    const differences: TableSlotDifference[] = [];
+    const matchingData = bookedTableSlot.dataList.find((data) =>
+      isSameDay(date, new Date(data.bookingDate))
+    );
 
-    for (const data of bookedTableSlot.dataList) {
-      const { bookingDate, blockTimeList } = data;
+    if (matchingData) {
+      const { blockTimeList } = matchingData;
 
-      for (const defaultSlot of defaultBookingSlot) {
-        const matchingBlockTime = blockTimeList.find(
-          (block) => block.blockTime === defaultSlot.blockTime
+      const differences = blockTimeList.map((blockTime) => {
+        const matchingDefaultSlot = defaultBookingSlot.find(
+          (defaultSlot) => defaultSlot.blockTime === blockTime.blockTime
         );
 
-        if (matchingBlockTime) {
-          const tableSlotDifference =
-            defaultSlot.tableSlot - matchingBlockTime.tableSlot;
-
-          differences.push({
-            bookingDate: bookingDate,
-            blockTime: defaultSlot.blockTime,
-            tableSlotDifference: tableSlotDifference,
-          });
+        if (matchingDefaultSlot) {
+          return matchingDefaultSlot.tableSlot - blockTime.tableSlot;
         }
-      }
-    }
 
-    for (const diff of differences) {
+        return 0;
+      });
+
+      const largestDifference = Math.max(...differences);
+
       let icon: string;
 
       switch (true) {
-        case diff.tableSlotDifference >= 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">◎</span>;
-        case diff.tableSlotDifference >= 1 && diff.tableSlotDifference < 4:
-          return <span className="text-[#008EFF] block md:mt-2 mt-1">△</span>;
-        case diff.tableSlotDifference <= 0:
-          return <span className="text-[#949494] block md:mt-2 mt-1">x</span>;
+        case largestDifference >= 4:
+          icon = "◎";
+          break;
+        case largestDifference >= 1 && largestDifference < 4:
+          icon = "△";
+          break;
+        case largestDifference <= 0:
+          icon = "x";
+          break;
         default:
           icon = "";
           break;
       }
 
-      if (icon) {
-        console.log(
-          `Date: ${diff.bookingDate}, Difference: ${diff.tableSlotDifference}`
-        );
-      }
+      // console.log(
+      //   "Date:",
+      //   date.toISOString().split("T")[0],
+      //   "Largest Difference:",
+      //   largestDifference,
+      //   "Icon:",
+      //   icon
+      // );
+      return <span className="text-[#008EFF] block md:mt-2 mt-1">{icon}</span>;
     }
+
+    return null;
   };
   //end function to show icons on calendar
 
