@@ -34,7 +34,7 @@ import {
   offerTimeOptions,
   offerTimingOptions,
 } from "@/utils/optionSelection";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 
 interface InitialBookedTableSlot {
   total: number;
@@ -74,8 +74,8 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
   const [holidayDates, setHolidayDates] = useState([]);
   const [offDayList, setOffDayList] = useState([]);
   const [bookedTableSlots] = useState(initialBookedTableSlot);
-  const [defaultBookingSlot, setDefaultBookingSlot] = useState(0);
-  const [lunchFrom, setLunchFrom] = useState("");
+  const [defaultBookingSlot, setDefaultBookingSlot] = useState([]);
+  const [, setLunchFrom] = useState("");
   const [lunchTo, setLunchTo] = useState("");
   const productNameValue = useRecoilValue(productNameRefState);
   const targetSectionRef = useRef<HTMLDivElement>(null);
@@ -90,14 +90,10 @@ const ShopIdPage: React.FC<MyPageProps> = ({ initialBookedTableSlot }) => {
       const lunchFrom = data?.lunchFrom;
       const lunchTo = data?.lunchTo;
       const { defaultBookingSlot } = data;
-      const totalTableSlot = defaultBookingSlot?.reduce(
-        (total: number, slot: any) => total + slot.tableSlot,
-        0
-      );
       setShopData(data);
       setLunchFrom(lunchFrom);
       setLunchTo(lunchTo);
-      setDefaultBookingSlot(totalTableSlot);
+      setDefaultBookingSlot(defaultBookingSlot);
       setHolidayDates(holidays);
       setOffDayList(offdays);
     } catch (err) {
@@ -341,7 +337,9 @@ export const getServerSideProps = async (
   );
 
   if (!url) {
-    res.status(500).json({ error: "YUYAKO_SHOP_TABLESLOT_API is not defined" });
+    res
+      ?.status(500)
+      .json({ error: "YUYAKO_SHOP_TABLESLOT_API is not defined" });
     return;
   }
 
